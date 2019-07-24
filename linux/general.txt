@@ -1,0 +1,60 @@
+General:
+
+Q: What are three main types of I/O?
+
+
+binary I/O
+raw I/O
+text I/O
+
+
+Q: What is a KERNEL?
+
+     Software on the server that handles
+Inter-process Communication,
+I/O,
+Memory Management,
+Networking,
+Process and Thread Management,
+Security
+
+
+Q: What is lost+found used for?
+
+   A: fsck puts files from damaged filesystems there.
+
+
+
+Q: What is the /proc file system?
+
+   a virtual file system that provides detailed information about Linux kernel, hardware and running processes.
+CPU
+ -/proc/cpuinfo
+ -/proc/interrupts
+ -/proc/version
+
+MEMORY
+ -/proc/meminfo
+ -/proc/swaps
+ +/proc/sys/vm/drop_caches
+
+DISK
+ +/proc/filesystems
+ -/proc/mdstat
+ -/proc/mounts
+ -/proc/partitions
+
+NETWORKING
+ +/proc/net/bonding/bond0
+
+
+Q: Tell me something about ext2?
+
+    e2fsck
+
+
+Q: Tell me something about ext3?
+
+    Journaling
+
+

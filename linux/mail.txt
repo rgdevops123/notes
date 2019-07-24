@@ -1,0 +1,6 @@
+Mail:
+
+Q: Where is a user's mail file located?
+
+The webadmin's mail file is located:
+   /var/spool/mail/webadmin

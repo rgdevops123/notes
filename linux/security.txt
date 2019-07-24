@@ -1,0 +1,74 @@
+Security:
+
+Q: Where are the sudoers logs?
+
+*** RedHat ***
+/var/log/secure
+
+*** Debian/Ubuntu  ***
+/var/log/auth.log
+
+
+
+Q: How do you disable login to a user?
+
+/bin/false &  /bin/nologin
+
+
+Q: How do you restrict root login to console?
+
+# vim  /etc/ssh/sshd_config
++++
+#PermitRootLogin yes
+PermitRootLogin no
+AllowUsers
++++
+
+# systemctl restart ssh
+
+
+
+Q: What is pwconv?
+
+Creates /etc/shadow from /etc/passwd.
+
+
+
+Q: What is pwunconv?
+
+ Creates /etc/passwd from
+/etc/passwd and /etc/shadow and then removes /etc/shadow.
+
+
+
+Q: What is grpconv?
+
+ Creates /etc/gshadow from
+ /etc/group.
+
+
+
+Q: What is grpunconv?
+
+  Creates /etc/group from
+ /etc/group and /etc/gshadow and then removes /etc/gshadow.
+
+
+
+Q: What is gpasswd?
+
+Administers /etc/group and /etc/gshadow
+
+
+
+Q: What is umask?
+
+   'User file creation mask'
+
+
+
+Q: What is the umask default?
+
+    022 (Default)
+
+

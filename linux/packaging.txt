@@ -1,0 +1,18 @@
+Packaging:
+
+Q: What is Ubuntu's APT?
+
+Advanced Packaging Tool (APT)
+
+
+
+Q: What is RedHat's/Centos's YUM?
+
+Yellow dog Updater, Modified
+
+
+
+Q: What is RPM?
+
+RPM Package Manager
+Originally: Red-hat Package Manager

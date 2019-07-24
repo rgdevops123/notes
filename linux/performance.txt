@@ -1,0 +1,57 @@
+Performance:
+
+Q: What is System load/CPU Load?
+
+ A measurement of CPU over or under-utilization in a Linux system; the
+number of processes which are being executed by the CPU or in waiting
+state. Load average - is the average system load calculated over a
+given period of time of 1, 5 and 15 minutes.
+
+
+
+Q: What are some performance monitoring tools?
+
+free, iostat, netstat, sar, vmstat
+
+
+
+Q: What is vmstat?
+
+Virtual Memory Statistics
+
+
+
+Q: What is the format of the vmstat command?
+
+# vmstat 5 5
+  vmstat delay count
+
+
+
+Q: What is the output of the vmstat command?
+
+   procs    r b
+   memory   swap free buff/cache
+   swap     si so
+   io       bi bo
+   system   in cs
+   cpu      us sys id wa st
+
+
+
+Q: How do you check network port usage?
+
+   netstat
+          -a  (port usage)
+          -l   (listeningPorts)
+          -n  (I.P.'s)
+          -p  (processes)
+          -r   (routingTable)
+          -i   (interface~errors)
+          -s  (stats~packetsDropped)
+
+
+
+Q: How would you perform a Network Throughput Test?
+
+ftp> put "|dd if=/dev/zero bs=1024k count=1024" /dev/null

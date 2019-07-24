@@ -1,0 +1,33 @@
+Networking:
+
+Q: How do you show IP addresses assigned to all network interfaces?
+
+      $ ip addr show
+
+
+
+Q: How do you shows the current neighbor table in kernel?
+
+       $ ip neigh show
+
+
+
+Q: How do you bring up interface eth0.
+
+       $ ip link set eth0 up
+       $ ifup eth0
+
+
+
+Q: How do you bring down interface eth0?
+
+       $ ip link set eth0 down
+       $ ifdown eth0
+
+
+
+Q: How do you show table routes?
+
+       $ ip route show
+
+

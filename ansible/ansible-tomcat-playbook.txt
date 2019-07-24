@@ -1,0 +1,34 @@
+  *** Install Tomcat ***
+---
+- name: Install Tomcat.
+  become: true
+  hosts: webservers
+  tasks:
+    - name: Create /apps directory.
+      file:
+        path: /apps
+        state: directory
+        mode: 0755
+        owner: webadmin
+        group: webadmin
+    - name: Download Tomcat.
+      get_url:
+        url: http://apache.mirrors.ionfish.org/tomcat/tomcat-9/v9.0.14/bin/apache-tomcat-9.0.14.tar.gz
+        dest: /tmp/apache-tomcat-9.0.14.tar.gz
+    - name: Extract Tomcat.
+      command: tar xvf /tmp/apache-tomcat-9.0.14.tar.gz -C /apps
+    - name: Rename Tomcat Directory.
+      command: mv /apps/apache-tomcat-9.0.14 /apps/tomcat
+    - name: Change Ownership of Tomcat Directory.
+      file:
+        path: /apps/tomcat
+        owner: webadmin
+        group: webadmin
+        mode: 0775
+        state: directory
+        recurse: yes
+    - name: Start Tomcat
+      command: runuser -l webadmin -c 'nohup /apps/tomcat/bin/startup.sh'
+...
+
+

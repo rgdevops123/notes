@@ -1,0 +1,178 @@
+Ansible Testing:
+---------------------
+ansible1server - Ansible Server (Control machine).
+ansible2node   - Ansible Node for testing Ad-Hoc commands and modules.
+ansible3node   - Ansible Node for testing Playbooks.
+
+    *** AWS ***
+ansible1awsserver - Ansible Server (Control machine).
+ansible2node         - Ansible Node for testing Ad-Hoc commands and modules.
+ansible3node         - Ansible Node for testing Playbooks.
+
+
+ansible1server - Ansible Server (Control machine).
+--------------------------------------------------------------------
+# useradd ansible
+# passwd ansible
+
+# vim /etc/ssh/sshd_config
++++  Uncomment the below lines.
+PasswordAuthentication
+PermitRootLogin
++++
+
+# visudo
++++  Confirm that the wheel group can execute commands with no password.
+%wheel  ALL=(ALL)       NOPASSWD: ALL
++++
+
+# vim /etc/group
++++ Add ansible user to the wheel group to give sudoers permissions/access.
+wheel:ansible
++++
+
+# su -  ansible
+$ ssh-keygen
+$ ssh-copy-id <IP>
+      This will be the IP of the Target Node.
+
+Test that you can log in to the target machine as ansible without a password.
+$ ssh <IP>
+      This will be the IP of the Target Node.
+
+   ***
+
+Install EPEL:
+$ sudo yum -y install epel-release
+
+Update System:
+$ sudo yum -y update
+
+Install Ansible:
+$ sudo yum -y install ansible
+
+Verify Ansible Installation:
+$ ansible --version
+
+   ***
+
+$ sudo vim /etc/ansible/ansible.cfg
++++
+inventory      = /etc/ansible/hosts
++++
+
+
+$ sudo vim /etc/ansible/hosts
++++
+[webservers]
+172.16.91.182
++++
+
+
+
+
+
+ansible2node   - Ansible Node for testing Ad-Hoc commands and modules.
+----------------------------------------------------------------------------------------------------
+# useradd ansible
+# passwd ansible
+
+# vim /etc/ssh/sshd_config
++++  Uncomment the below lines.
+PasswordAuthentication
+PermitRootLogin
++++
+
+# visudo
++++  Confirm that the wheel group can execute commands with no password.
+%wheel  ALL=(ALL)       NOPASSWD: ALL
++++
+
+# vim /etc/group
++++ Add ansible user to the wheel group to give sudoers permissions/access.
+wheel:ansible
++++
+
+# su -  ansible
+$ ssh-keygen
+$ ssh-copy-id <IP>
+      This will be the IP of the Ansible Server (Control machine).
+
+Test that you can log in to the Ansible Server (Control machine) as ansible without a password.
+$ ssh <IP>
+      This will be the IP of the Ansible Server (Control machine).
+
+   ***
+
+Install EPEL:
+$ sudo yum -y install epel-release
+
+Update System:
+$ sudo yum -y update
+
+
+   ***
+
+
+
+
+
+
+
+
+
+
+ansible3node   - Ansible Node for testing Playbooks.
+----------------------------------------------------------------------
+# useradd ansible
+# passwd ansible
+
+# vim /etc/ssh/sshd_config
++++  Uncomment the below lines.
+PasswordAuthentication
+PermitRootLogin
++++
+
+# visudo
++++  Confirm that the wheel group can execute commands with no password.
+%wheel  ALL=(ALL)       NOPASSWD: ALL
++++
+
+# vim /etc/group
++++ Add ansible user to the wheel group to give sudoers permissions/access.
+wheel:ansible
++++
+
+# su -  ansible
+$ ssh-keygen
+$ ssh-copy-id <IP>
+      This will be the IP of the Ansible Server (Control machine).
+
+Test that you can log in to the Ansible Server (Control machine) as ansible without a password.
+$ ssh <IP>
+      This will be the IP of the Ansible Server (Control machine).
+
+   *** Log on to the Ansible Server (Control machine). ***
+$ ssh-copy-id <IP>
+      This will be the IP of the Target Node.
+
+Test that you can log in to the target machine as ansible without a password.
+$ ssh <IP>
+      This will be the IP of the Target Node.
+
+   ***
+
+Install EPEL:
+$ sudo yum -y install epel-release
+
+Update System:
+$ sudo yum -y update
+
+   ***
+
+
+
+
+
+
+

@@ -1,0 +1,152 @@
+Q) What is Ansible?
+
+Ansible is Free and Open Source and Maintained by Redhat.
+
+Can handle IT orchestration where tasks are run in sequence in several different machines or servers.
+
+Ansible does this by connecting to multiple machines through SSH and runs the tasks which have been configured into playbooks and uses a simple language called YAML (Yet Another Markup Language).
+
+Ansible does not use an agent to automate tasks on different machines.
+
+
+Q) What are Ansible's three main components?
+
+Control Machine
+Inventory
+Playbook
+
+
+Q) What does the Control Machine do?
+
+ The Control Machine manages the execution of the Playbook.
+
+
+Q) What is the main Ansible configuration File?
+
+/etc/ansible/ansible.cfg
+
+
+Q) What is the purpose of the Inventory file?
+
+The Inventory file provides a complete list of all the target machines on which various modules are run by doing an ssh connection and installing the necessary software.
+
+Ansible uses the concept of Inventory to manage and track the target machines.
+
+
+Q) What is the Ansible Server Inventory File?
+
+/etc/ansible/hosts
+
+
+Q) What does the Ansible Server Inventory File look like?  What is the format?
+
+A host file consists of groups for better classification and multiple machines under the group.
+All the required machines can be added to those groups.
+
+Every group is denoted by a square bracket and a group name within.
+A server can actually exist in multiple groups.
+
+
+Q) What is the purpose of the Playbook?
+
+The Playbook consists of steps that the control mechanism will perform on the servers defined in the inventory file.
+Playbooks define variables, configurations, deployment steps, assign roles, perform multiple tasks.
+
+    Every playbook starts with 3 hyphens '---'
+1) Host section – Defines the target machines on which the playbook should run. This is based on the Ansible inventory file.
+2) Variable section – This is optional and can declare all the variables needed in the playbook. We will look at some examples as well.
+3) Tasks section – This section lists out all the tasks that should be executed on the target machine. It specifies the use of Modules. Every task has a name which is a small description of what the task will do and will be listed while the playbook is run.
+
+
+Q) How do you run a Playbook?
+
+$ ansible-playbook <playbook.yml>
+
+
+Q) How do yo check a Playbook for syntax Errors?
+
+$ ansible-playbook <playbook.yml> --syntax-check
+
+
+Q) How do you list the hosts in for a Playbook?
+
+$ ansible-playbook <playbook.yml> --list-hosts
+
+
+Q) How does Ansible interact with all the servers defined in the inventory?
+
+Ansible interacts with all the servers defined in the inventory through the SSH protocol which is a secure method of remote login. Every operation is done and file transfer is encrypted.
+
+Ansible does not use any kind of database for installation
+
+
+Q) What are Ansible Modules?
+
+Modules are the main building blocks of Ansible and are basically reusable scripts that are used by Ansible playbooks. Ansible comes with a number of reusable modules. These include functionality for controlling services, software package installation, working with files and directories etc.
+
+
+Q) What is the syntax for running ad-hoc Ansible commands?
+
+$ ansible hostORgroup   -m module_name     -a "arguments"     -u username      --become
+
+
+Q) How do you test Connectivity of the servers under the webserver’s group?
+$ ansible webservers –m ping
+
+
+Q) How do you list the hosts in the inventory file?
+$ ansible webservers --list-hosts
+
+
+Q) What are Ansible playbooks?
+
+ They are used to execute multiple tasks and get all the target machines or servers to a particular desired state.
+
+
+Q) What are Ansible roles?
+
+They can group your variables, tasks, handlers, configuration files and templates.  This increase reusability and reduces syntax errors. It helps to de-clutter the whole code.
+
+
+Q) What are Ansible roles similar to in Puppet and Chef?
+
+Modules in Puppet.
+Cookbooks in Chef.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Archive:
+-----------
+https://codingbee.net/tutorials/ansible/ansible-a-playbook-for-setting-up-an-apache-webserver
+
+https://github.com/bertvv/ansible-role-httpd
+https://github.com/ansible/ansible-examples/blob/master/lamp_simple_rhel7/roles/web/tasks/install_httpd.yml
+
+   GIT
+https://docs.ansible.com/ansible/latest/modules/git_module.html
+
+
+
+
+     *** Full Document ***
+https://www.softwaretestinghelp.com/ansible-tutorial-1/
+https://www.softwaretestinghelp.com/ansible-playbooks-ansible-vaults/
+
+   *** List of Modules ***
+
+https://docs.ansible.com/ansible/latest/modules/list_of_all_modules.html

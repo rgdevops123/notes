@@ -1,0 +1,43 @@
+  *** Install Maven ***
+---
+- name: Install Maven.
+  become: true
+  hosts: webservers
+  tasks:
+    - name: Create /apps directory.
+      file:
+        path: /apps
+        state: directory
+        mode: 0755
+        owner: webadmin
+        group: webadmin
+    - name: Download Maven.
+      get_url:
+        url: http://ftp.wayne.edu/apache/maven/maven-3/3.6.0/binaries/apache-maven-3.6.0-bin.tar.gz
+        dest: /tmp/apache-maven-3.6.0-bin.tar.gz
+    - name: Extract Maven.
+      command: tar xvf /tmp/apache-maven-3.6.0-bin.tar.gz -C /apps
+    - name: Rename Maven Directory.
+      command: mv /apps/apache-maven-3.6.0 /apps/maven
+    - name: Change Ownership of Maven Directory.
+      file:
+        path: /apps/maven
+        owner: webadmin
+        group: webadmin
+        mode: 0775
+        state: directory
+        recurse: yes
+    - name: Create Maven Profile.
+      copy:
+        content: "export MAVEN_HOME=/apps/maven \n"
+        dest: /etc/profile.d/maven.sh
+    - name: Update Maven Profile.
+      lineinfile:
+        path: /etc/profile.d/maven.sh
+        line: 'export PATH=${MAVEN_HOME}/bin:${PATH}'
+    - name: Source profile
+      shell: source /etc/profile.d/maven.sh
+...
+
+
+   NOTE:   lineinfile is used to add additional or append lines to existing files.

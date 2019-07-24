@@ -1,0 +1,251 @@
+$ vim create_files.yml
++++
+---
+- name: Create files on Servers.
+  become: true
+  hosts: webservers
+  tasks:
+    - name: Create data1.txt on Server.
+      file:
+        dest: /home/webadmin/data1.txt
+        state: touch
+        mode: 0600
+        owner: webadmin
+        group: webadmin
+...
++++
+
+
+$ vim create_dirs.yml
++++
+---
+- name: Create Directories on Servers.
+  become: true
+  hosts: webservers
+  tasks:
+    - name: Create Directories incoming on Server.
+      file:
+        dest: /home/webadmin/incoming
+        state: directory
+        mode: 0755
+        owner: webadmin
+        group: webadmin
+...
++++
+
+
+$ vim create_multi_dirs.yml
++++
+---
+- name: Create Multiple Directories on Servers.
+  become: true
+  hosts: webservers
+  tasks:
+    - name: Create Directories incoming[1..3] on Server.
+      file:
+        dest: "{{ item }}"
+        state: directory
+        mode: 0755
+        owner: webadmin
+        group: webadmin
+      with_items:
+        - /home/webadmin/incoming1
+        - /home/webadmin/incoming2
+        - /home/webadmin/incoming3
+...
++++
+
+
+$ vim create_users.yml
++++
+---
+- name: Create Users on Servers.
+  become: true
+  hosts: webservers
+  tasks:
+    - name: Create User web1 on Server.
+      user:
+        name: web1
+        password: !@#$%^
+        uid: 3011
+        groups: ansible, webadmin
+        comment: "Web User 1"
+        shell: /bin/bash
+...
++++
+
+
+$ vim remove_users.yml
++++remove=yes will remove the home directory       &        force=yes will remove the files in the directory.
+---
+- name: Remove Users on Servers.
+  become: true
+  hosts: webservers
+  tasks:
+    - name: Remove User web1 on Server.
+      user:
+        name: web1
+        state: absent
+        remove: yes
+        force: yes
+...
++++
+
+
+$ vim copy_content.yml
++++
+---
+- name: Copy content and files.
+  become: true
+  hosts: webservers
+  tasks:
+    - name: Copy content to a file using the copy module.
+      copy:
+        content: "Testing 1 2 3 \n"
+        dest: /home/webadmin/test1.txt
+        owner: webadmin
+        group: webadmin
+        mode: 0644
+
+    - name: Copy over a file using the copy module.
+      copy:
+        src: /tmp/test2.txt
+        dest: /home/webadmin/test2.txt
+        owner: webadmin
+        group: webadmin
+        mode: 0644
+...
++++
+
+
+   *** Replace all instances of a string ***
+        NOTE: Can also use >>>    regexp: '\w+admin'    <<<
+---
+- name: Replace with Regex.
+  become: true
+  hosts: webservers
+  tasks:
+    - name: Replace User appadmin with webadmin in /home/webadmin/user.txt.
+      replace:
+        path: /home/webadmin/user.txt
+          regexp: 'appadmin'
+          replace: "webadmin"
+...
+
+
+   *** Archive files and Folders ***
+Formats =  ‘bz2’, ‘gz’ or ‘zip’.
+---
+- name: Compress Files.
+  become: true
+  hosts: webservers
+  tasks:
+    - name: Zip a File.
+      archive:
+        path: /home/webadmin/data1.txt
+        dest: /home/webadmin/data1.zip
+        format: zip
+    - name: Gzip a File.
+      archive:
+        path: /home/webadmin/data1.txt
+        dest: /home/webadmin/data1.gz
+        format: gz
+    - name: Bzip a File.
+      archive:
+        path: /home/webadmin/data1.txt
+        dest: /home/webadmin/data1.bz2
+        format: bz2
+    - name: Zip Files.
+      archive:
+        path:
+          - /home/webadmin/data1.txt
+          - /home/webadmin/data2.txt
+          - /home/webadmin/data3.txt
+        dest: /home/webadmin/data123.zip
+        format: zip
+    - name: Zip all Files in a Directory.
+      archive:
+        path:
+          - /home/webadmin/datadir
+        dest: /home/webadmin/datadir.zip
+        format: zip
+...
+
+
+   *** Date and Timestamp ***
+---
+- name: Debug - Date and Timestamp.
+  become: true
+  hosts: webservers
+  tasks:
+    - name: Date and Time.
+      debug:
+        var: ansible_date_time.date, ansible_date_time.time
+...
+
+Create a logfile named with the current date.
+   File is placed in /home/ansible on all servers.
+---
+- name: Ansible Log File of Run with Debug entries.
+  become: true
+  hosts: all
+  tasks:
+    - name: Ansible Log File with timestamp.
+      command: touch ansible_run_{{ansible_date_time.date}}.log
+...
+
+
+   *** Variables ***
+   Note: In the debug module.
+             To display values – use the msg attribute.
+             To capture value  – use the var attribute.
+---
+- name: Variables.
+  become: true
+  hosts: webservers
+  vars:
+    webserver: web1
+    dbs:
+      - db1
+      - db2
+      - db3
+  tasks:
+    - name: Testing Single Variable.
+      debug:
+        msg: "{{ webserver }}"
+    - name: Testing Array of Variables.
+      debug:
+        msg: "{{ dbs[2] }}"
+    - name: Register Variable Test.
+      shell: "find *.bz2"
+      args:
+       chdir: "/home/webadmin"
+      register: reg_output
+    - debug:
+       var: reg_output
+...
+
+
+   *** Install Packages ***
+---
+- name: Install Packages.
+  become: true
+  hosts: webservers
+  tasks:
+    - name: Install git, tree and vim.
+      yum:
+        name:
+          - git
+          - tree
+          - vim
+        state: latest
+    - name: Install Apache Webserver.
+      yum:
+        name: httpd
+        state: present
+    - name: Start Apache Webserver.
+      service:
+        name: httpd
+        state: started
+...
+

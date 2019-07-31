@@ -1,0 +1,136 @@
+hm1:
+# systemctl status firewalld.service
+# sestatus
+# vim /etc/sysconfig/network-scripts/ifcfg-eth0
++++
+IPADDR="10.0.0.20
++++
+
+# vim /etc/hosts
++++
+10.0.0.20 node-master
+10.0.0.21 node1
+10.0.0.22 node2
++++
+
+# hostnamectl set-hostname node-master
+# exec bash
+# init 6
+
+
+hn1:
+# systemctl status firewalld.service
+# sestatus
+# vim /etc/sysconfig/network-scripts/ifcfg-eth0
++++
+IPADDR="10.0.0.21
++++
+
+# vim /etc/hosts
++++
+10.0.0.20 node-master
+10.0.0.21 node1
+10.0.0.22 node2
++++
+
+# hostnamectl set-hostname node1
+# exec bash
+# init 6
+
+
+
+hn2:
+# systemctl status firewalld.service
+# sestatus
+# vim /etc/sysconfig/network-scripts/ifcfg-eth0
++++
+IPADDR="10.0.0.22
++++
+
+# vim /etc/hosts
++++
+10.0.0.20 node-master
+10.0.0.21 node1
+10.0.0.22 node2
++++
+
+# hostnamectl set-hostname node12
+# exec bash
+# init 6
+
+hm1, hn1, hn2:
+$ ssh -D 8080 ansible@10.0.0.3 -N
+
+
+Ansible Server:
+$ ssh-copy-id ansible@10.0.0.20
+$ ssh-copy-id ansible@10.0.0.21
+$ ssh-copy-id ansible@10.0.0.22
+
+$ ssh-copy-id root@10.0.0.20
+$ ssh-copy-id root@10.0.0.21
+$ ssh-copy-id root@10.0.0.22
+
+   Test:
+$ ansible -i hosts all -m ping
+$ ansible -i hosts all -m ping --become-user=root
+
+$ git clone https://github.com/rgdevops123/ansible-hadoop
+$ cd ansible-hadoop
+$ ansible-playbook -i hosts master.yml
+$ ansible-playbook -i hosts workers.yml
+
+On node-master:
+hadoop $ hdfs namenode -format
+hadoop $ start-dfs.sh
+hadoop $ start-yarn.sh
+hadoop $ jps
+
+   *** Web User Interface ***
+http://10.0.0.20:9870
+
+   *** YARN Web User Interface ***
+http://10.0.0.20:8088
+
+   *** Put and Get Data to HDFS ***
+hadoop $ mkdir /home/hadoop/outgoing
+
+hadoop $ cd /home/hadoop/outgoing
+
+hadoop $ scp ansible@10.0.0.3:/home/ansible/hadoop/books.tgz .
+   NOTE: books.tgz are books from the Gutenberg Project.
+
+      wget -O alice.txt https://www.gutenberg.org/files/11/11-0.txt
+      wget -O holmes.txt https://www.gutenberg.org/files/1661/1661-0.txt
+      wget -O frankenstein.txt https://www.gutenberg.org/files/84/84-0.txt
+
+hadoop $ tar -zxvf books.tgz
+
+hadoop $ hdfs dfs -help
+
+hadoop $ hdfs dfs -mkdir -p /user/hadoop
+
+hadoop $ hdfs dfs -mkdir books
+
+hadoop $ hdfs dfs -put alice.txt holmes.txt frankenstein.txt books
+
+hadoop $ hdfs dfs -ls books
+
+hadoop $ mkdir /home/hadoop/incoming
+
+hadoop $ cd /home/hadoop/incoming
+
+hadoop $ hdfs dfs -get books/alice.txt
+
+hadoop $ ls -l
+
+hadoop $ hdfs dfs -cat books/alice.txt
+
+
+   *** Submit MapReduce Jobs to YARN ***
+hadoop $ yarn jar ~/hadoop/share/hadoop/mapreduce/hadoop-mapreduce-examples-3.0.3.jar wordcount "books/alice.txt" output
+
+hadoop $ hdfs dfs -ls output
+
+   *** Print the results ***
+hadoop $ hdfs dfs -cat output/part-r-00000

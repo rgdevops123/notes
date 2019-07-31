@@ -54,7 +54,7 @@ IPADDR="10.0.0.22
 10.0.0.22 node2
 +++
 
-# hostnamectl set-hostname node12
+# hostnamectl set-hostname node2
 # exec bash
 # init 6
 

@@ -1,0 +1,145 @@
+On Ansible Host:
+=============
+$ sudo vim /etc/hosts
++++
+18.220.63.26 km1
+18.188.178.151 kn1
+3.16.167.234 kn2
++++
+
+
+
+km1: $ ssh -i kube.pem centos@km1
+$ sudo yum -y update
+$ sudo yum -y install vim
+$ sudo systemctl status firewalld.service
+$ sudo sestatus
+$ sudo sed -i s/=enforcing/=disabled/ /etc/selinux/config
+$ sudo cat /etc/selinux/config
+
+$ sudo vim /etc/hosts
++++
+18.220.63.26 km1
+18.188.178.151 kn1
+3.16.167.234 kn2
++++
+
+$ sudo hostnamectl set-hostname km1
+$ exec bash
+$ sudo init 6
+$ sudo sestatus
+
+
+kn1: $ ssh -i kube.pem centos@kn1
+$ sudo yum -y update
+$ sudo yum -y install vim
+$ sudo systemctl status firewalld.service
+$ sudo sestatus
+$ sudo sed -i s/=enforcing/=disabled/ /etc/selinux/config
+$ sudo cat /etc/selinux/config
+
+$ sudo vim /etc/hosts
++++
+18.220.63.26 km1
+18.188.178.151 kn1
+3.16.167.234 kn2
++++
+
+$ sudo hostnamectl set-hostname kn1
+$ exec bash
+$ sudo init 6
+$ sudo sestatus
+
+
+
+kn2: $ ssh -i kube.pem centos@kn2
+$ sudo yum -y update
+$ sudo yum -y install vim
+$ sudo systemctl status firewalld.service
+$ sudo sestatus
+$ sudo sed -i s/=enforcing/=disabled/ /etc/selinux/config
+$ sudo cat /etc/selinux/config
+
+$ sudo vim /etc/hosts
++++
+18.220.63.26 km1
+18.188.178.151 kn1
+3.16.167.234 kn2
++++
+
+$ sudo hostnamectl set-hostname kn2
+$ exec bash
+$ sudo init 6
+$ sudo sestatus
+
+
+On Ansible Server:
+==============
+   Testing:
+$ ansible -i hosts masters --key-file "~/kube.pem" -u centos -m ping
+$ ansible -i hosts workers --key-file "~/kube.pem" -u centos -m ping
+$ ansible -i hosts all --key-file "~/kube.pem" -u centos -m ping
+
+   Production:
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos master.yml
+
+centos@km1 $ kubectl get nodes
+NAME   STATUS   ROLES    AGE    VERSION
+km1    Ready    master   7m9s   v1.15.1
+
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos workers.yml
+
+$ kubectl get nodes
+NAME   STATUS   ROLES    AGE     VERSION
+km1    Ready    master   95m     v1.15.1
+kn1    Ready    <none>   8m22s   v1.15.1
+kn2    Ready    <none>   10s     v1.15.1
+
+
+Deploying a Service:
+      Reference:
+$ kubectl create deployment nginx --image=nginx
+$ kubectl expose deploy nginx --port 80 --target-port 80 --type NodePort
+
+$ kubectl get services
+NAME         TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)        AGE
+kubernetes   ClusterIP   10.96.0.1        <none>        443/TCP        105m
+nginx        NodePort    10.101.210.209   <none>        80:31622/TCP   64s
+
+   GOTO: http://<kn1_PUBLIC_IP>:31622
+
+
+
+
+      Real:
+$ kubectl create deployment devopswebnl --image=rgdevops123/devopswebnl
+$ kubectl expose deploy devopswebnl --port 5000 --target-port 5000 --type NodePort
+
+$ kubectl get deployments.v1.apps
+$ kubectl get deployments.v1.apps -o json
+
+$ kubectl get services
+
+
+
+Removing a Service:
+$ kubectl delete service devopswebnl
+$ kubectl get services
+
+Removing a Deployment:
+$ kubectl delete deployment devopswebnl
+$ kubectl get deployments
+
+Confirm Pods/Containers are running:
+$ kubectl get pods
+NAME                           READY   STATUS              RESTARTS   AGE
+devopswebnl-7df7f95669-m5dn4   0/1     ContainerCreating   0          11m
+nginx-554b9c67f9-7fjqt         0/1     ContainerCreating   0          3m38s
+
+
+$ kubectl describe pods
+$ kubectl get pods -o wide
+NOTE: kubectl describe pods will list all the events associated with the pod, including pulling of images, starting of containers.
+
+Scaling:
+$ kubectl autoscale deployment devopswebnl --min=3 --max=9

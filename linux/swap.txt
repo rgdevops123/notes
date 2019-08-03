@@ -1,0 +1,28 @@
+Creating Swap Space:
+
+$ sudo swapon --show
+
+$ sudo dd if=/dev/zero of=/swapfile bs=1024k count=3072
+
+$ sudo chmod 600 /swapfile
+
+$ sudo mkswap /swapfile
+
+$ sudo swapon /swapfile
+
+$ sudo vim /etc/fstab
++++
+/swapfile swap swap defaults 0 0
++++
+
+$ sudo swapon --show
+
+$ free -h
+
+
+   Removing Swap:
+$ sudo swapoff -v /swapfile
+
+$ sudo rm /swapfile
+
+$ sudo vim /etc/fstab 

@@ -1,0 +1,391 @@
+
+What is Chef?
+  Chef is an automation platform that configures and manages your infrastruture. It transforms the infrastruture into code. It is a Ruby based configuration management tool. This automation platform consists of a Chef workstation, a Chef server and chef clients which are the nodes managed by the Chef server. All the chef configuration files, recipes, cookbooks, templates etc are created and tested on the Chef workstation and are uploaded to the Chef Server, then it distributes these across every possible nodes registered within the organisations.  It is an ideal automation framework for the Ceph and OpenStack.
+
+Chef Workstation (cw)   =>   Chef Server (cs)   => Chef Node (cn1)
+   Recipes &
+    Cookbooks
+
+
+What is ChefDK?
+   The Chef Development Kit contains everything to start with Chef, along with the tools essential for code managing.
+
+    It contains a new command-line tool, "chef"
+    The cookbook dependency manager Berkshelf
+    The Test Kitchen integration testing framework.
+    ChefSpec for testing the cookbook syntax
+    Foodcritic, a tool for doing static code analysis on cookbooks.
+    It also has all the Chef tools like Chef Client, Knife, Ohai and Chef Zero
+
+
+What are the cookbook main configuration files and directories?
+
+Berksfile, Chefignore, metadata.rb, 
+README.md, recipes, default.rb,
+templates, specs & test.
+
+Berksfile: It is the configuration file, which mainly tells BerkShelf what are the cookbook's dependencies, which can be specified directly inside this file or indirectly through metadata.rb. It also tells Berkshelf where it should look for those dependencies.
+
+Chefignore: It tells Chef which all files should be ignored while uploading a cookbook to the Chef server.
+
+metadata.rb: It contains meta information about your cookbook, such as name, contacts or description. It can also state the cookbook’s dependencies.
+
+README.md: It contains documentation entry point for the repo.
+
+recipes: Contains the cookbook's recipes. It starts with executing the file default.rb.
+
+default.rb: The default recipe format.
+
+templates: Template files.
+
+specs: It will be storing the unit test cases of your libraries.
+
+test: It will be storing the unit test cases of your recipes.
+
+
+
+What is Knife?
+
+Knife Configuration
+-------------------
+Knife is the [command line interface](https://docs.chef.io/knife.html) for Chef. The chef-repo contains a .chef directory (which is a hidden directory by default) in which the Knife configuration file (knife.rb) is located. This file contains configuration settings for the chef-repo.
+
+The knife.rb file is automatically created by the starter kit. This file can be customized to support configuration settings used by [cloud provider options](https://docs.chef.io/plugin_knife.html) and custom [knife plugins](https://docs.chef.io/plugin_knife_custom.html).
+
+
+
+
+What are some Chef commands?
+
+# chef-apply webserver.rb
+# chef generate cookbook httpd_deploy
+# chef generate template httpd_deploy index.html
+# chef-client --local-mode --runlist
+# chef-server-ctl reconfigure
+# chef-manage-ctl reconfigure
+# chef-server-ctl status
+
+# chef-server-ctl user-create chefadmin rob gadmin rob@gmail.com 'chef123' --filename /root/.chef/chefadmin.pem
+ 
+# chef-server-ctl org-create dmcc Chef DMCC --association_user chefadmin --filename /root/.chef/dmccvalidator.pem
+
+$ knife cookbook site download learn_chef_httpd
+$ knife ssl fetch
+$ knife ssl check
+$ knife client list
+$ knife user list
+$ knife cookbook upload learn_chef_httpd
+$ knife bootstrap 52.15.196.94 --ssh-user root --ssh-password 123 --node-name cn1
+$ knife node list
+$ knife node show cn1
+
+
+
+
+
+
+
+vim /etc/hosts
++++
+18.218.130.87 cw
+18.219.37.121 cs
+52.15.196.94 cn1
++++
+
+cw, cs, cn1: $ ssh -i kube.pem centos@<HOST>
+$ sudo yum -y update
+$ sudo yum -y install tree vim wget
+$ sudo systemctl status firewalld.service
+$ sudo systemctl disable firewalld.service
+$ sudo sestatus
+$ sudo sed -i s/=enforcing/=disabled/ /etc/selinux/config
+$ sudo cat /etc/selinux/config
+
+$ sudo vim /etc/hosts
++++
+18.218.130.87 cw
+18.221.122.123 cs
+52.15.196.94 cn1
++++
+
+$ sudo hostnamectl set-hostname <HOST>
+$ exec bash
+$ sudo init 6
+$ sudo sestatus
+
+   On Chef Workstation:  ssh -i kube.pem centos@cw
+# wget https://packages.chef.io/stable/el/7/chefdk-0.14.25-1.el7.x86_64.rpm
+# rpm -ivh chefdk-0.14.25-1.el7.x86_64.rpm
+
+# cd /root/
+# mkdir chef-repo
+# cd chef-repo
+
+# vim motd.rb
++++
+file '/etc/motd' do
+content 'Welcome to Chef'
+end
++++
+
+# chef-apply motd.rb
+
+# cat /etc/motd
+
+
+   Deleting the file:
+# vim motd.rb
++++
+file '/etc/motd' do
+action :delete
+end
++++
+
+# chef-apply motd.rb
+
+
+   Install Webserver:
+# vim webserver.rb
++++
+package 'httpd'
+service 'httpd' do
+action [:enable, :start] end
+
+file '/var/www/html/index.html' do
+content 'Welcome to Apache in Chef'
+end
++++
+
+# chef-apply webserver.rb
+
+
+   Cookbooks:
+# mkdir -p /root/chef-repo/cookbooks
+# cd /root/chef-repo/cookbooks
+# chef generate cookbook httpd_deploy
+# cd /root/chef-repo/cookbooks/httpd_deploy
+
+   Directory Structure:
+.
+├── Berksfile
+├── chefignore
+├── metadata.rb
+├── README.md
+├── recipes
+│   └── default.rb
+├── spec
+│   ├── spec_helper.rb
+│   └── unit
+│       └── recipes
+│           └── default_spec.rb
+└── test
+    └── integration
+        ├── default
+        │   └── serverspec
+        │       └── default_spec.rb
+        └── helpers
+            └── serverspec
+                └── spec_helper.rb
+
+10 directories, 9 files
+
+
+
+   Creating a Template:
+# cd /root/chef-repo/cookbooks
+# chef generate template httpd_deploy index.html
+
+.
+└── httpd_deploy
+    ├── Berksfile
+    ├── chefignore
+    ├── metadata.rb
+    ├── README.md
+    ├── recipes
+    │   └── default.rb
+    ├── spec
+    │   ├── spec_helper.rb
+    │   └── unit
+    │       └── recipes
+    │           └── default_spec.rb
+    ├── templates
+    │   └── default
+    │       └── index.html.erb
+    └── test
+        └── integration
+            ├── default
+            │   └── serverspec
+            │       └── default_spec.rb
+            └── helpers
+                └── serverspec
+                    └── spec_helper.rb
+
+13 directories, 10 files
+
+
+# cd /root/chef-repo/cookbooks/httpd_deploy/templates/default
+
+# vim index.html.erb
++++
+Welcome to Chef Apache Deployment
++++
+
+
+
+   Creating a recipe with a template:
+# cd /root/chef-repo/cookbooks/httpd_deploy/recipes
+# vim default.rb
++++
+package 'httpd'
+service 'httpd' do
+action [:enable, :start] end
+
+template '/var/www/html/index.html' do
+source 'index.html.erb'
+end
++++
+
+
+
+   Run/Test the recipe on the Workstation.
+# cd /root/chef-repo
+# chef-client --local-mode --runlist 'recipe[httpd_deploy]'
+
+
+
+
+
+
+
+
+
+   Chef Server Configuration: 
+$ ssh -i kube.pem centos@cs
+
+# wget https://packages.chef.io/stable/el/7/chef-server-core-12.6.0-1.el7.x86_64.rpm
+# rpm -ivh chef-server-core-12.6.0-1.el7.x86_64.rpm
+
+# chef-server-ctl reconfigure
+# chef-server-ctl status
+
+   Installing Management Console for Chef Server:
+# wget https://packages.chef.io/files/stable/chef-manage/2.4.5/el/7/chef-manage-2.4.5-1.el7.x86_64.rpm
+# rpm -Uvh chef-manage-2.4.5-1.el7.x86_64.rpm
+
+# chef-manage-ctl reconfigure
+# chef-server-ctl reconfigure
+
+
+   Creating Admin user/Organization:
+# mkdir /root/.chef/
+# chef-server-ctl user-create chefadmin rob gadmin rob@gmail.com 'chef123' --filename /root/.chef/chefadmin.pem
+ 
+# chef-server-ctl org-create dmcc Chef DMCC --association_user chefadmin --filename /root/.chef/dmccvalidator.pem
+
+
+   Copy Keys:
+# scp -i kube.pem /root/.chef/chefadmin.pem root@cw:/root/chef-repo/.chef/
+# scp -i kube.pem /root/.chef/dmccvalidator.pem root@cw:/root/chef-repo/.chef/
+
+
+
+Now login to our Management console for our Chef server with the user/password  "chefadmin" created.
+https://cs
+U: rob@gmail.com 
+P: chef123
+
+Go to the Administration Tab.
+Actions.
+Download Starter Kit.
+
+   chef-starter.zip contains chef-repo
+
+
+.
+├── .chef
+│   ├── chefadmin.pem
+│   └── knife.rb
+├── cookbooks
+│   ├── chefignore
+│   └── starter
+│       ├── attributes
+│       │   └── default.rb
+│       ├── files
+│       │   └── default
+│       │       └── sample.txt
+│       ├── metadata.rb
+│       ├── recipes
+│       │   └── default.rb
+│       └── templates
+│           └── default
+│               └── sample.erb
+├── .gitignore
+├── README.md
+├── .README.md.swp
+└── roles
+    └── starter.rb
+
+10 directories, 12 files
+
+$ vim /home/user1/chef/chef-repo/.chef/knife.rb
++++
+current_dir = File.dirname(__FILE__)
+log_level                :info
+log_location             STDOUT
+node_name                "chefadmin"
+client_key               "#{current_dir}/chefadmin.pem"
+chef_server_url          "https://cs/organizations/dmcc"
+cookbook_path            ["#{current_dir}/../cookbooks"]
++++
+
+
+On an Ubuntu Workstation:   
+    The below command installs the Chef Worksation & knife command.
+$ sudo apt install chef
+$ cd /home/ansible/chef/chef-repo/cookbooks
+$ knife cookbook site download learn_chef_httpd
+$ tar -zxvf learn_chef_httpd-0.2.0.tar.gz
+
+
+
+
+   Validating the Connection b/w Server and Workstation:
+$ knife ssl fetch
+$ knife ssl check
+$ knife client list
+$ knife user list
+
+
+
+   Uploading a Cookbook:
+$ knife cookbook upload learn_chef_httpd
+
+      Verify that the new cookbook has been uploaded
+     under the Policy Tab.
+
+
+   Adding a Node:
+$ knife bootstrap 52.15.196.94 --ssh-user root --ssh-password 123 --node-name cn1
+$ knife node list
+$ knife node show cn1
+
+      Verify that the new node has been added
+     under the Nodes Tab.
+
+
+
+   Managing Node Run List:
+Actions, Edit NodeRun List, 
+Drag Available Recipes over,
+Save Run List.
+
+   On Node:
+cn1 # chef-client
+
+   Then go to: http://cn1/
+
+
+
+   Cookbook SuperMarket:
+https://supermarket.chef.io/
+

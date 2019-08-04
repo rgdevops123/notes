@@ -39,6 +39,7 @@ On Ansible Server:
    Testing:
 $ ansible -i hosts all --key-file "~/kube.pem" -u centos -m ping
 $ ansible -i hosts all --key-file "~/kube.pem" -u centos -m ping --become-user=root
+$ ansible -i hosts all --key-file "~/kube.pem" -u centos -m command -a 'hostname'
 
 $ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos set_hostname.yml -e server_hostname=node1
 

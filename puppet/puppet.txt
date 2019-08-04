@@ -1,0 +1,245 @@
+Puppet Testing:
+
+On Ansible Host:
+=============
+$ cd /home/ansible/git-testing/ansible_prep_server
+
+$ sudo vim /etc/hosts
++++
+18.188.138.210 ps1
+3.17.182.34 pn1
+18.219.197.192 pn2
++++
+
+$ vim files/etc/hosts
++++
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+18.188.138.210 ps1
+3.17.182.34 pn1
+18.219.197.192 pn2
++++
+
+$ vim hosts
++++
+[servers]
+ps1
+pn1
+pn2
++++
+
+
+$ vim servers
++++
+ps1
+pn1
+pn2
++++
+
+
+
+On Ansible Server:
+==================
+   Testing:
+$ ansible -i hosts all --key-file "~/kube.pem" -u centos -m ping
+$ ansible -i hosts all --key-file "~/kube.pem" -u centos -m ping --become-user=root
+$ ansible -i hosts all --key-file "~/kube.pem" -u centos -m command -a 'hostname'
+
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos set_hostname.yml -e server_hostname=ps1
+
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos set_hostname.yml -e server_hostname=pn1
+
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos set_hostname.yml -e server_hostname=pn2
+
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos update_etc_hosts.yml
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos update_system.yml
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos install_packages.yml
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos disable_firewall.yml
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos disable_selinux.yml
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos ntp.yml
+
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos create_swap.yml -e server_hostname=ps1
+
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos reboot.yml -e wait_port=22
+   OR
+$ for server in `cat servers`;
+do ansible-playbook -i hosts --key-file "~/kube.pem" -u centos reboot_single.yml -e server_hostname=$server -e wait_port=22;
+done
+
+
+
+
+Confirm & Verify:
+=================
+$ ssh -i ~/kube.pem centos@ps1
+$ ssh -i ~/kube.pem centos@pn1
+$ ssh -i ~/kube.pem centos@pn2
+
+$ hostnamectl
+$ cat /etc/hosts
+$ sudo yum -y update
+$ git
+$ tree
+$ vim i
+$ sudo systemctl status firewalld.service
+$ sestatus
+$ uptime
+$ ntpq -p
+$ ntpstat
+
+
+
+   Configure Puppet:
+   =================
+      On SERVER:
+# rpm -Uvh https://yum.puppet.com/puppet6-release-el-7.noarch.rpm
+# reboot
+
+# yum -y install puppetserver
+
+# vim /etc/sysconfig/puppetserver
++++
+JAVA_ARGS="-Xms512m -Xmx512m ...."
++++
+
+# vim /etc/puppetlabs/puppet/puppet.conf
++++
+[master]
+dns_alt_names=ps1,puppet
+ 
+[main]
+certname = ps1
+server = ps1
+environment = production
+runinterval = 1h
++++
+
+# /opt/puppetlabs/bin/puppetserver ca setup
+
+# systemctl start puppetserver
+# systemctl enable puppetserver
+# systemctl status puppetserver
+
+# firewall-cmd --permanent --add-port=8140/tcp
+# firewall-cmd --reload
+
+
+
+      ON CLIENTS:
+# rpm -Uvh https://yum.puppet.com/puppet6-release-el-7.noarch.rpm
+# reboot
+
+# yum install -y puppet-agent
+
+# vim /etc/puppetlabs/puppet/puppet.conf
++++
+[main]
+certname = pn1
+server = ps1
+environment = production
+runinterval = 1h
++++
+
+   Start puppet agent on the node and make it start automatically on system boot:
+# /opt/puppetlabs/bin/puppet resource service puppet ensure=running enable=true
+
+
+
+      On SERVER:
+   Sign Agent Node Certificate on Master Server:
+# /opt/puppetlabs/bin/puppetserver ca list
+
+# /opt/puppetlabs/bin/puppetserver ca sign --certname pn1
+# /opt/puppetlabs/bin/puppetserver ca sign --certname pn2
+      OR
+# /opt/puppetlabs/bin/puppetserver ca sign --all
+
+
+   List all of the signed and unsigned requests.
+# /opt/puppetlabs/bin/puppetserver ca list --all
+
+
+         Revoking a certificate of a particular node
+      # /opt/puppetlabs/bin/puppetserver ca revoke --certname <AGENT_NAME>
+
+
+
+      ON CLIENTS:
+   Verify Puppet Client:
+# /opt/puppetlabs/bin/puppet agent --test
+
+
+
+      On SERVER:
+   Creating a Module:
+# cd /etc/puppetlabs/code/environments/production/modules
+
+# mkdir -p httpd_devopsweb/manifests
+# mkdir -p httpd_devopsweb/files
+
+# vim /etc/puppetlabs/code/environments/production/modules/httpd_devopsweb/manifests/init.pp
++++
+class httpd_devopsweb {
+    package { 'httpd':
+      ensure => present,
+    } ->
+    file { "/var/www/devopsweb":  # Creating Document Root
+      ensure => "directory",
+      owner  => "apache",
+      group  => "apache",
+      mode   => '750',
+    } ->
+ file { '/var/www/devopsweb/index.html': # Creating Index file
+     ensure  => file,
+     content => "Index HTML Is Managed By Puppet",
+     mode    => '0644',
+   } ->
+    file { '/etc/httpd/conf.d/custom_devopsweb.conf': # Path to the file on client machine 
+      ensure => file,
+      mode   => '0600',
+      source => 'puppet:///modules/httpd_devopsweb/custom_devopsweb.conf', # Path to the custom file on puppet server
+    } ~>
+    service { 'httpd':
+      ensure => running,
+      enable => true,
+    }
+}
++++
+
+   NOTE:
+~> (notification arrow) — Causes the resource on the left to be applied first, and sends a refresh event to the resource on the right if the left resource changes, meaning that the apache service is to be restarted and enabled to start automatically if there is any changes in the custom apache configuration file.
+
+Create a custom Apache configuration file, which is having an apache alias. This custom conf file should be created under files directory of the created module (httpd_devopsweb).
+
+# echo "alias /devopsweb /var/www/devopsweb" >  /etc/puppetlabs/code/environments/production/modules/httpd_devopsweb/files/custom_devopsweb.conf
+
+
+   NOTE:
+ If you see the above command, “custom_devopsweb.conf” file is created under the “/etc/puppetlabs/code/environments/production/modules/httpd_devopsweb/files“, but where in “init.pp” of the “httpd_devopsweb” module; the path to the source file does not have parent directory “files” in the puppet url, it is because the Puppet file server takes those “puppet:///” URL and inserts an implicit “files” directory [ so you don’t need to specify that in the url]
+
+URL like,
+   puppet:///modules/httpd_devopsweb/custom_devopsweb.conf
+      gets translated on the filesystem into,
+   /etc/puppetlabs/code/environments/production/modules/httpd_devopsweb/files/custom_devopsweb.conf
+
+
+# vim /etc/puppetlabs/code/environments/production/manifests/site.pp
++++
+node 'pn1',
+     'pn2'  {
+         include httpd_devopsweb # This should match with the name of module directory
+}
++++
+
+
+
+      ON CLIENTS:
+   Verify Puppet Client:
+# /opt/puppetlabs/bin/puppet agent --test
+
+   Then GOTO: http://pn1/devopsweb/
+              http://pn2/devopsweb/
+
+
+

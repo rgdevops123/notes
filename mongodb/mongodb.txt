@@ -1,0 +1,353 @@
+MongoDB Testing:
+
+MongoDB is a cross-platform, document oriented database that provides, high performance, high availability, and easy scalability. MongoDB works on concept of collection and document.
+
+   Database:
+Database is a physical container for collections. Each database gets its own set of files on the file system. A single MongoDB server typically has multiple databases.
+
+   Collection:
+Collection is a group of MongoDB documents. It is the equivalent of an RDBMS table. A collection exists within a single database. Collections do not enforce a schema. Documents within a collection can have different fields. Typically, all documents in a collection are of similar or related purpose.
+
+   Document:
+A document is a set of key-value pairs. Documents have dynamic schema. Dynamic schema means that documents in the same collection do not need to have the same set of fields or structure, and common fields in a collection's documents may hold different types of data.
+
+
+The following table shows the relationship of RDBMS terminology with MongoDB.
+
+RDBMS 	        MongoDB
+-----           -------
+Database 	Database
+Table 	        Collection
+Row     	Document
+column 	        Field
+Table Join 	Embedded Documents
+Primary Key 	Primary Key (Default key _id provided by mongodb itself)
+
+
+Database Server and Client:
+---------------------------
+Mysqld/Oracle 	mongod
+mysql/sqlplus 	mongo
+
+
+   Sample Document:
+{
+   _id: ObjectId(7df78ad8902c)
+   title: 'MongoDB Overview', 
+   description: 'MongoDB is no sql database',
+   by: 'tutorials point',
+   url: 'http://www.tutorialspoint.com',
+   tags: ['mongodb', 'database', 'NoSQL'],
+   likes: 100, 
+   comments: [	
+      {
+         user:'user1',
+         message: 'My first comment',
+         dateCreated: new Date(2011,1,20,2,15),
+         like: 0 
+      },
+      {
+         user:'user2',
+         message: 'My second comments',
+         dateCreated: new Date(2011,1,25,7,45),
+         like: 5
+      }
+   ]
+}
+
+   _id is a 12 bytes hexadecimal number which assures the uniqueness of every document. You can provide _id while inserting the document. If you don’t provide then MongoDB provides a unique id for every document. These 12 bytes first 4 bytes for the current timestamp, next 3 bytes for machine id, next 2 bytes for process id of MongoDB server and remaining 3 bytes are simple incremental VALUE.
+
+
+On Ansible Host:
+================
+$ cd /home/ansible/git-testing/ansible_prep_server
+
+$ sudo vim /etc/hosts
++++
+18.191.30.158 mongodb-server
++++
+
+$ vim files/etc/hosts
++++
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+18.191.30.158 mongodb-server
++++
+
+$ vim hosts
++++
+[servers]
+mongodb-server
++++
+
+
+$ vim servers
++++
+mongodb-server
++++
+
+
+On Ansible Server:
+==================
+   Testing:
+$ ansible -i hosts all --key-file "~/kube.pem" -u centos -m ping
+$ ansible -i hosts all --key-file "~/kube.pem" -u centos -m ping --become-user=root
+$ ansible -i hosts all --key-file "~/kube.pem" -u centos -m command -a 'hostname'
+
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos set_hostname.yml -e server_hostname=mongodb-server
+
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos update_etc_hosts.yml
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos update_system.yml
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos install_packages.yml
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos disable_firewall.yml
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos disable_selinux.yml
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos ntp.yml
+
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos create_swap.yml -e server_hostname=mongodb-server
+
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos reboot.yml -e wait_port=22
+   OR
+$ for server in `cat servers`;
+do ansible-playbook -i hosts --key-file "~/kube.pem" -u centos reboot_single.yml -e server_hostname=$server -e wait_port=22;
+done
+
+
+
+
+Confirm & Verify:
+=================
+$ ssh -i ~/kube.pem centos@mongodb-server
+
+
+$ hostnamectl
+$ cat /etc/hosts
+$ sudo yum -y update
+$ git
+$ tree
+$ vim i
+$ sudo systemctl status firewalld.service
+$ sestatus
+$ uptime
+$ ntpq -p
+$ ntpstat
+
+
+   Install MongoDB.
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos mongodb.yml
+
+
+   To use MongoDB run the following command.
+   This will connect you to running MongoDB instance.
+
+$ mongo
+
+   MongoDB Help:
+> db.help() 
+
+   MongoDB Statistics:
+      Shows database name, number of collection and documents in the database.
+> db.stats()
+
+
+   Create database:
+      Syntax: use DATABASE_NAME
+> use devopsweb
+switched to db devopsweb
+
+
+   Show your currently selected database:
+> db
+devopsweb
+
+
+   Show databases list:
+> show dbs
+local     0.78125GB
+test      0.23012GB
+
+
+   NOTE:
+In MongoDB default database is test. If you didn't create any database, then collections will be stored in test database.
+
+
+The created database (devopsweb) is not present in list. To display database, you need to insert at least one document into it.
+
+> db.doc1.insert({"name":"Python Overview"})
+
+
+>show dbs
+local      0.78125GB
+devopsweb  0.23012GB
+test       0.23012GB
+
+
+   Drop Database:  db.dropDatabase()
+>show dbs
+local      0.78125GB
+devopsweb  0.23012GB
+test       0.23012GB
+
+>use devopsweb
+switched to db devopsweb
+
+>db.dropDatabase()
+>{ "dropped" : "devopsweb", "ok" : 1 }
+
+
+>show dbs
+local      0.78125GB
+test       0.23012GB
+
+
+   Create Collection: db.createCollection(name, options)
+
+      Options:
+  Field   (Type) 	
+       Description
+
+- capped  (Boolean) 	
+      (Optional) If true, enables a capped collection. Capped collection is a fixed size collection that automatically overwrites its oldest entries when it reaches its maximum size. If you specify true, you need to specify size parameter also.
+
+- size   (number)
+      (Optional) Specifies a maximum size in bytes for a capped collection. If capped is true, then you need to specify this field also.
+
+- max   (number)
+      (Optional) Specifies the maximum number of documents allowed in the capped collection.
+
+
+> use devopsweb
+switched to db devopsweb
+
+> db.createCollection("mycollection")
+{ "ok" : 1 }
+
+
+> show collections
+mycollection
+
+> db.createCollection("mycol", { capped : true, size : 6142800, max : 10000 } )
+{ "ok" : 1 }
+
+
+   You don't need to create collection.
+   MongoDB creates collection automatically, when you insert some document.
+
+> db.developers.insert({"name" : "Developers"})
+
+> show collections
+mycol
+mycollection
+developers
+
+
+
+
+
+   Drop Collection: db.COLLECTION_NAME.drop()
+> use devopsweb
+switched to db devopsweb
+
+> show collections
+mycol
+mycollection
+
+> db.mycollection.drop()
+true
+
+> show collections
+mycol
+
+
+
+
+   Insert Document: db.COLLECTION_NAME.insert(document)
+> db.mycol.insert({
+   title: 'MongoDB Overview', 
+   description: 'MongoDB is no sql database',
+   by: 'RG',
+   url: 'http://www.devopsweb.com',
+   tags: ['mongodb', 'database', 'NoSQL'],
+   likes: 300
+})
+
+
+   Insert multiple documents in a single query:
+> db.post.insert([
+   {
+      title: 'Ansible Overview', 
+      description: 'Ansible for automation.',
+      by: 'RG',
+      url: 'http://www.devopsweb.com',
+      tags: ['ansible', 'automation', 'aws'],
+      likes: 300
+   },
+	
+   {
+      title: 'NoSQL Database', 
+      description: "NoSQL database doesn't have tables",
+      by: 'RG',
+      url: 'http://www.devopsweb.com',
+      tags: ['mongodb', 'database', 'NoSQL'],
+      likes: 30, 
+      comments: [	
+         {
+            user:'user1',
+            message: 'My first comment',
+            dateCreated: new Date(2019,03,10,2,35),
+            like: 0 
+         }
+      ]
+   }
+])
+
+
+
+
+   Query Document: db.COLLECTION_NAME.find()   db.mycol.find().pretty()
+> db.mycol.find().pretty()
+{
+	"_id" : ObjectId("5d47592dacd94298bda99386"),
+	"title" : "MongoDB Overview",
+	"description" : "MongoDB is no sql database",
+	"by" : "RG",
+	"url" : "http://www.devopsweb.com",
+	"tags" : [
+		"mongodb",
+		"database",
+		"NoSQL"
+	],
+	"likes" : 300
+}
+
+
+> db.mycol.find({$and:[{"by":"RG"},{"title": "MongoDB Overview"}]}).pretty()
+
+> db.mycol.find({$or:[{"by":"RG"},{"title": "MongoDB Overview"}]}).pretty()
+
+> db.mycol.find({"likes": {$gt:10}, $or: [{"by": "RG"}, {"title": "MongoDB Overview"}]}).pretty()
+
+
+   Update Document:
+> db.mycol.update({'title':'MongoDB Overview'},{$set:{'title': 'MongoDB Tutorial'}})
+
+      Multiple Updates:
+> db.mycol.update({'title':'MongoDB Overview'}, {$set:{'title':'MongoDB Tutorial'}},{multi:true})
+
+
+
+   Delete Document: db.COLLECTION_NAME.remove(DELLETION_CRITTERIA)
+> db.mycol3.insert({
+   title: 'New FLASK Overview', 
+   description: 'FLASK',
+   by: 'RG',
+   url: 'http://www.devopsweb.com',
+   tags: ['flask', 'web', 'python'],
+   likes: 3
+})
+
+> db.mycol3.remove({'title':'FLASK Overview'})
+
+
+      Remove Only One:
+db.COLLECTION_NAME.remove(DELETION_CRITERIA,1)

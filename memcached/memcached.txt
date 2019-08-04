@@ -1,0 +1,128 @@
+Memcached Testing:
+
+On Ansible Host:
+=============
+$ cd /home/ansible/git-testing/ansible_prep_server
+
+$ sudo vim /etc/hosts
++++
+52.15.164.18 memcached-server
++++
+
+$ vim files/etc/hosts
++++
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+52.15.164.18 memcached-server
++++
+
+$ vim hosts
++++
+[servers]
+memcached-server
++++
+
+
+$ vim servers
++++
+memcached-server
++++
+
+
+On Ansible Server:
+==================
+   Testing:
+$ ansible -i hosts all --key-file "~/kube.pem" -u centos -m ping
+$ ansible -i hosts all --key-file "~/kube.pem" -u centos -m ping --become-user=root
+$ ansible -i hosts all --key-file "~/kube.pem" -u centos -m command -a 'hostname'
+
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos set_hostname.yml -e server_hostname=memcached-server
+
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos update_etc_hosts.yml
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos update_system.yml
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos install_packages.yml
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos disable_firewall.yml
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos disable_selinux.yml
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos ntp.yml
+
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos create_swap.yml -e server_hostname=memcached-server
+
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos reboot.yml -e wait_port=22
+   OR
+$ for server in `cat servers`;
+do ansible-playbook -i hosts --key-file "~/kube.pem" -u centos reboot_single.yml -e server_hostname=$server -e wait_port=22;
+done
+
+
+
+
+Confirm & Verify:
+=================
+$ ssh -i ~/kube.pem centos@memcached-server
+
+
+$ hostnamectl
+$ cat /etc/hosts
+$ sudo yum -y update
+$ git
+$ tree
+$ vim i
+$ sudo systemctl status firewalld.service
+$ sestatus
+$ uptime
+$ ntpq -p
+$ ntpstat
+
+
+   Install Memcached.
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos memcached.yml
+
+$ telnet 127.0.0.1 11211
+// now store some data and get it from memcached server
+set devopsweb 0 900 9
+memcached
+STORED
+
+get devopsweb
+VALUE devopsweb 0 9
+memcached
+END
+
+
+   :Syntax
+
+The basic syntax of Memcached set command is as shown below −
+
+set key flags exptime bytes [noreply] 
+value 
+
+The keywords in the syntax are as described below −
+
+    + key − It is the name of the key by which data is stored and retrieved from Memcached.
+
+    + flags − It is the 32-bit unsigned integer that the server stores with the data provided by the user, and returns along with the data when the item is retrieved.
+
+    + exptime − It is the expiration time in seconds. 0 means no delay. If exptime is more than 30 days, Memcached uses it as UNIX timestamp for expiration.
+
+    + bytes − It is the number of bytes in the data block that needs to be stored. This is the length of the data that needs to be stored in Memcached.
+
+    + noreply (optional) - It is a parameter that informs the server not to send any reply.
+
+    + value − It is the data that needs to be stored. The data needs to be passed on the new line after executing the command with the above options.
+
+
+
+
+
+   Output:
+
+The output of the command is as shown below −
+
+STORED
+
+    + STORED indicates success.
+
+    + ERROR indicates incorrect syntax or error while saving data.
+
+

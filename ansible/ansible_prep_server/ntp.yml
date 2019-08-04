@@ -1,0 +1,21 @@
+---
+- name: Install NTP Packages.
+  become: true
+  hosts: all
+  tasks:
+    - name: Install NTP Packages.
+      yum:
+        name:
+          - ntp
+          - ntpdate
+        state: present
+    - name: Select NTP Pool.
+      command: ntpdate 0.centos.pool.ntp.org
+    - name: Start NTP.
+      service:
+        name: ntpd
+        state: started
+    - name: Enable NTP.
+      service:
+        name: ntpd
+        enabled: yes

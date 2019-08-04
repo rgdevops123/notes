@@ -51,6 +51,9 @@ $ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos update_system.yml
 $ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos install_packages.yml
 $ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos disable_firewall.yml
 $ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos disable_selinux.yml
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos ntp.yml
+
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos create_swap.yml -e server_hostname=all
 
 $ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos reboot.yml -e wait_port=22
    OR
@@ -76,4 +79,5 @@ $ vim i
 $ sudo systemctl status firewalld.service
 $ sestatus
 $ uptime
-
+$ ntpq -p
+$ ntpstat

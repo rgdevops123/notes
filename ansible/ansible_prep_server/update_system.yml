@@ -1,0 +1,9 @@
+---
+- name: Update the System.
+  become: true
+  hosts: all
+  tasks:
+    - name: Update the System.
+      yum:
+        name: "*"
+        state: latest

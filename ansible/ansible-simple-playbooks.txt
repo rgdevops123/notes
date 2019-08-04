@@ -249,3 +249,49 @@ Create a logfile named with the current date.
         state: started
 ...
 
+
+   *** Change Hostname ***
+---
+- name: Change Hostname.
+  become: true
+  hosts: "{{ server_hostname }}"
+  tasks:
+    - name: Change Hostname.
+      hostname:
+        name: "{{ server_hostname }}"
+
+###USAGE: ansible-playbook -i hosts set_hostname.yml -e server_hostname=puppetserver
+...
+
+
+   *** Update the System ***
+---
+- name: Update the System.
+  become: true
+  hosts: webservers
+  tasks:
+    - name: Update the System.
+      yum:
+        name: "*"
+        state: latest
+...
+
+   *** Stop and Disable Firewall ***
+---
+- name: Stop and Disable Firewall.
+  become: true
+  hosts: webservers
+  tasks:
+    - name: Confirm Firewall is installed.
+      yum:
+        name: firewalld
+        state: present
+    - name: Stop Firewall.
+      service:
+        name: firewalld
+        state: stopped
+        ignore_errors: yes
+    - name: Disable Firewall.
+      service:
+        name: firewalld
+        enabled: no

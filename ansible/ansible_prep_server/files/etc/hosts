@@ -1,0 +1,7 @@
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+3.14.65.203 puppetserver
+3.14.152.227 pn1
+18.221.252.28 pn2
+

@@ -1,0 +1,79 @@
+On Ansible Host:
+=============
+$ sudo vim /etc/hosts
++++
+3.13.33.203 node1
+3.23.63.218 node2
+3.33.83.233 node3
++++
+
+
+$ vim files/etc/hosts
++++
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+
+3.13.33.203 node1
+3.23.63.218 node2
+3.33.83.233 node3
++++
+
+$ vim hosts
++++
+[servers]
+node1
+node2
+node3
++++
+
+$ vim servers
++++
+node1
+node2
+node3
++++
+
+
+On Ansible Server:
+==================
+   Testing:
+$ ansible -i hosts all --key-file "~/kube.pem" -u centos -m ping
+$ ansible -i hosts all --key-file "~/kube.pem" -u centos -m ping --become-user=root
+
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos set_hostname.yml -e server_hostname=node1
+
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos set_hostname.yml -e server_hostname=node2
+
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos set_hostname.yml -e server_hostname=node3
+
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos update_etc_hosts.yml
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos update_system.yml
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos install_packages.yml
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos disable_firewall.yml
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos disable_selinux.yml
+
+$ ansible-playbook -i hosts --key-file "~/kube.pem" -u centos reboot.yml -e wait_port=22
+   OR
+$ for server in `cat servers`;
+do ansible-playbook -i hosts --key-file "~/kube.pem" -u centos reboot_single.yml -e server_hostname=$server -e wait_port=22;
+done
+
+
+
+
+Confirm & Verify:
+=================
+$ ssh -i ~/kube.pem centos@node1
+$ ssh -i ~/kube.pem centos@node2
+$ ssh -i ~/kube.pem centos@node3
+
+$ hostnamectl
+$ cat /etc/hosts
+$ sudo yum -y update
+$ git
+$ tree
+$ vim i
+$ sudo systemctl status firewalld.service
+$ sestatus
+$ uptime
+

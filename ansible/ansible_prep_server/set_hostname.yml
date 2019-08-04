@@ -1,0 +1,8 @@
+---
+- name: Change Hostname.
+  become: true
+  hosts: "{{ server_hostname }}"
+  tasks:
+    - name: Change Hostname.
+      hostname:
+        name: "{{ server_hostname }}"

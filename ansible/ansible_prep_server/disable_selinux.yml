@@ -1,0 +1,8 @@
+---
+- name: Disable SELINUX.
+  become: true
+  hosts: all
+  tasks:
+    - name: Disable SELinux.
+      selinux:
+        state: disabled

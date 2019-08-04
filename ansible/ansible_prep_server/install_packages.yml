@@ -1,0 +1,13 @@
+---
+- name: Install Packages.
+  become: true
+  hosts: all
+  tasks:
+    - name: Install git, tree and vim.
+      yum:
+        name:
+          - git
+          - tree
+          - vim
+        state: latest
+

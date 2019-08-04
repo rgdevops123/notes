@@ -1,0 +1,12 @@
+---
+- name: Update /etc/hosts.
+  become: true
+  hosts: all
+  tasks:
+    - name: Update /etc/hosts.
+      copy:
+        src: ./files/etc/hosts
+        dest: /etc/hosts
+        owner: root
+        group: root
+        mode: '0644'

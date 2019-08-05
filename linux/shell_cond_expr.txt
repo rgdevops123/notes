@@ -1,0 +1,130 @@
+Q: What are a few "SHELL CONDITIONAL EXPRESSIONS"?
+
+-a file
+True if file exists.
+
+-b file
+True if file exists and is a block special file.
+
+-c file
+True if file exists and is a character special file.
+
+-d file
+True if file exists and is a directory.
+
+-e file
+True if file exists.
+
+-f file
+True if file exists and is a regular file.
+
+-g file
+True if file exists and is set-group-id.
+
+-h file {also -L}
+True if file exists and is a symbolic link.
+
+-k file
+True if file exists and its "sticky" bit is set.
+
+-p file
+True if file exists and is a named pipe (FIFO).
+
+-r file
+True if file exists and is readable.
+
+-s file
+True if file exists and has a size greater than zero.
+
+-t fd
+True if file descriptor fd is open and refers to a terminal.
+
+-u file
+True if file exists and its set-user-id bit is set.
+
+-w file
+True if file exists and is writable.
+
+-x file
+True if file exists and is executable.
+
+-O file
+True if file exists and is owned by the effective user id.
+
+-G file
+True if file exists and is owned by the effective group id.
+
+-S file
+True if file exists and is a socket.
+
+
+! EXPRESSION
+The EXPRESSION is false.
+
+-n STRING
+The length of STRING is greater than zero.
+
+-z STRING
+The length of STRING is zero.
+
+STRING1 = STRING2
+STRING1 is equal to STRING2
+
+STRING1 != STRING2
+STRING1 is not equal to STRING2
+
+INTEGER1 -eq INTEGER2
+INTEGER1 is numerically equal to INTEGER2
+
+INTEGER1 -gt INTEGER2
+INTEGER1 is numerically greater than INTEGER2
+
+INTEGER1 -lt INTEGER2
+INTEGER1 is numerically less than INTEGER2
+
+
+
+Q: What is a script that can check for the existence of the messages file?
+
+   Sample Script:
+# vim file_check.sh
++++
+#!/bin/bash
+
+echo "This script checks the existence of a file."
+sleep 1
+
+echo "Checking..."
+sleep 1
+
+if [ -f $1 ]
+  then
+    echo "File $1 exists."
+else
+  echo "File $1 does not exist."
+fi
+
+echo
+sleep 1
+
+echo "...done."
++++
+
+Running:
+# bash file_check.sh /var/log/messages
+This script checks the existence of a file.
+Checking...
+File /var/log/messages exists.
+
+...done.
+
+# bash file_check.sh /var/log/nofile
+This script checks the existence of a file.
+Checking...
+File /var/log/nofile does not exist.
+
+...done.
+
+
+
+

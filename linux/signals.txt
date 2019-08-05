@@ -1,0 +1,7 @@
+Q: What are a few UNIX Signals?
+
+1  Hangup
+2  Interupt
+3  Quit
+9  Kill
+15 Soft Term

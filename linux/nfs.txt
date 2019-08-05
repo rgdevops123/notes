@@ -1,0 +1,41 @@
+Q: What is the NFS server config file & contents
+
+NFS: ServerIP: 10.0.0.3
+server# vim /etc/exports
+...
+#/data/web   *(rw,sync)
+/data/web    10.0.0.0/24(rw,sync)
+...
+
+
+Q: How do you restart NFS?
+
+server# systemctl restart nfs
+
+
+Q: How do you check what a server is exporting?
+
+server# showmount -e 10.0.0.3
+Export list for 10.0.0.3:
+/data/web 10.0.0.0/24
+
+ client# showmount -e 10.0.0.3
+Export list for 10.0.0.3:
+/data/web 10.0.0.0/24
+
+
+
+Q: How do you mount an NFS directory on a client?
+
+client# mount -t nfs 10.0.0.3:/data/web /data/web
+
+                   OR
+A
+client# vim /etc/fstab
+Device.  Mount Point.  Filesystem Format.  Mount Options.   Dump
+Value.   Filesystem Check Order.
+...
+10.0.0.3:/data/web   /data/web   nfs   defaults   0   0
+...
+
+client# mount -a

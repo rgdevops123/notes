@@ -1,0 +1,25 @@
+Q: What is Apache Tomcat?
+
+Apache Tomcat (or simply Tomcat) is an open source web server and
+servlet container developed by the Apache Software Foundation (ASF).
+Tomcat implements the Java Servlet and the JavaServer Pages ( JSP )
+specifications from Oracle Corporation, and provides a "pure Java"
+HTTP web server environment for Java code to run.
+
+
+Q: What is the difference between Apache and Tomcat?
+
+Apache Tomcat is used to deploy your Java Servlets and JSPs. So in
+your Java project you can build your WAR (short for Web ARchive) file,
+and just drop it in the deploy directory in Tomcat. So basically
+Apache is an HTTP Server, serving HTTP. Tomcat is a Servlet and JSP
+Server serving Java technologies.
+
+Q: What is the difference between Tomcat and JBoss?
+
+The Major Differences Between JBoss and Tomcat. Both JBoss and Tomcat
+are Java servlet application servers, but JBoss is a whole lot more.
+... One way to think of it is that JBoss is a JEE stack that includes
+a servlet container and web server, whereas Tomcat, for the most part,
+is a servlet container and web server.
+

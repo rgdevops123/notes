@@ -1,0 +1,57 @@
+Q: How do you query a package that has NOT been installed yet?
+
+   To query a package that has NOT been installed yet, add the
+   -p
+
+For example, rpm -ql package would become
+# rpm -qpl package.
+
+
+Q: How do you query package names using wildcards?
+
+# rpm -qa | grep pattern
+# yum list | grep pattern
+
+
+Q: How do you find out what files are included in the package?
+
+# rpm -ql package
+
+
+Q: How do you find out what are the config files in a package?
+
+# rpm -qc package
+
+
+Q: How do you find what are the documentation files in a package?
+
+# rpm -qd package
+
+
+Q: How do you show general info on a package?
+
+# rpm -qi package
+# yum info package
+
+
+Q: How do you find out what package owns this file?
+
+# rpm -qf path/to/file
+# yum provides path/to/file
+
+
+Q: How do you find out what are the scripts in a package?
+
+# rpm -q --scripts package
+
+
+Q: How do you find out what services does this package provide?
+
+# rpm -q --provides package
+
+
+Q: How do you find out what services does this package require?
+
+# rpm -q --requires package
+
+

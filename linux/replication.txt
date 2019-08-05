@@ -1,0 +1,13 @@
+Q: Replication is done on a ... if it is not encrypted with TLS/SSL.
+
+ Trusted Private Network
+
+
+Q: How do you replicate SVN servers?
+
+svnsync
+
+
+Q: How do you replicate LDAP servers?
+
+syncrepl

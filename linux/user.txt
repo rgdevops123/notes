@@ -1,0 +1,156 @@
+
+Q: How can you check the last time a user logged in?
+
+# last | grep jyork
+
+
+Q: How do you add a user?
+
+# useradd -c "Jane York" -m jyork
+
+-c: COMMENT
+-m: Create the user's home directory if it does not exist.
+
+
+Q: What are the fields of /etc/passwd?
+
+username
+password
+uid
+gid
+comment
+homedir
+shell
+
+
+Q: What are the fields of /etc/shadow?
+
+username
+password
+last changed (since Epoch)
+min password change. 0 => anytime
+max password change. 9999 => keep for years
+warn of expiring password
+inactive . . . disable. (days after expire)
+days disabled. (since Epoch)
+A reserved field for possible future use
+
+
+Q: How do you view password details of a user?
+
+# chage -l jsmith
+
+Last password change : Feb 15, 2012
+Password expires : never
+Password inactive : never
+Account expires : never
+Minimum number of days between password change : 0
+Maximum number of days between password change : 99999
+Number of days of warning before password expires : 7
+
+chage username
+
+
+   Q: How do you change the ...
+explicit expiration date
+
+  (-E) to 01/31/2012,
+
+minimum password age
+
+  (-m) of 5 days,
+
+maximum password age
+
+  (-M) of 90 days,
+
+inactivity period
+
+  (-I) of 5 days after password expiration,
+
+and a warning time period
+
+  (-W) of 14 days before password expiration.
+
+sudo chage -E 01/31/2012 -m 5 -M 90 -I 30 -W 14 username
+
+
+
+
+Q: How do you disable login to a user?
+
+/bin/false &  /bin/nologin
+
+
+
+
+
+Q: Create a system account with a specified home directory.
+
+# useradd -r app1 -d /apps/app1
+     Creates an "app1" user and an "/apps/app1" home directory.
+
+-r, --system
+           Create a system account.
+
+           System users will be created with no aging information in
+/etc/shadow, and their numeric identifiers are chosen in the
+           SYS_UID_MIN-SYS_UID_MAX range, defined in /etc/login.defs,
+instead of UID_MIN-UID_MAX (and their GID counterparts for the
+           creation of groups).
+
+           Note that useradd will not create a home directory for such
+an user, regardless of the default setting in /etc/login.defs
+           (CREATE_HOME). You have to specify the -m options if you
+want a home directory for a system account to be created.
+
+-d, --home-dir HOME_DIR
+           The new user will be created using HOME_DIR as the value
+for the user's login directory. The default is to append the LOGIN
+           name to BASE_DIR and use that as the login directory name.
+
+
+
+
+
+
+
+
+Q: What is pwconv?
+
+Creates /etc/shadow from /etc/passwd.
+
+
+Q: What is pwunconv?
+
+ Creates /etc/passwd from
+/etc/passwd and /etc/shadow and then removes /etc/shadow.
+
+
+Q: What is grpconv?
+
+ Creates /etc/gshadow from
+ /etc/group.
+
+
+Q: What is grpunconv?
+
+  Creates /etc/group from
+ /etc/group and /etc/gshadow and then removes /etc/gshadow.
+
+
+Q: What is gpasswd?
+
+Administers /etc/group and /etc/gshadow
+
+
+Q: What is umask?
+
+   'User file creation mask'
+
+
+Q: What is the umask default?
+
+    022 (Default)
+
+

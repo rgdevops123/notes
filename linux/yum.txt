@@ -1,0 +1,70 @@
+
+
+
+
+Q: What is Ubuntu's APT?
+
+Advanced Packaging Tool (APT)
+
+
+Q: What is RedHat's/Centos's YUM?
+
+Yellow dog Updater, Modified
+
+
+
+Q: How do you clean up yum's cache, packages, headers, metadata,
+dbcache, rpmdb & plugins?
+
+# yum clean all
+
+
+Q: How do you list YUM Repos?
+
+# yum repolist
+
+
+Q: How do you YUM Download RPMs without installing them?
+
+# yum -y install --downloadonly --downloaddir=/data/rpms glibc glibc2 libgcc
+
+       OR
+
+# yumdownloader --resolve --downloadonly --downloaddir=/data/rpms
+glibc glibc2 libgcc
+
+
+Q: How do you Install a the EPEL Repo?
+
+# yum install epel-release
+
+       OR
+
+# yum -Uvh http://"EPEL"
+
+
+Q: How do you install a downloaded RPM via YUM.
+
+# yum localinstall /path/to/kmod-compat-wireless.rpm
+
+
+Q: How do you perform a group install?
+
+# yum group install "KDE Desktop"
+
+# yum group install kde-desktop
+
+# yum install @"KDE Desktop"
+
+# yum install @kde-desktop
+
+
+Q: How do you perform a group removal?
+
+# yum group remove "KDE Desktop"
+
+# yum group remove kde-desktop
+
+# yum remove @"KDE Desktop"
+
+# yum remove @kde-desktop

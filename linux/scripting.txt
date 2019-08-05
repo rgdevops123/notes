@@ -1,0 +1,277 @@
+
+Q: What is SED?
+
+stream editor
+
+
+Q: How can you replace all instances of rgriffith with Robert Griffith
+in a file using SED?
+
+# cat file | sed 's/rgriffith/Robert Griffith/g'
+
+
+Q: How can you do the above modifying the file in place?
+
+# sed -i 's/rgriffith/Robert Griffith/g' file
+
+
+Q: How can you do the above modifying the file in place with a backup file?
+
+# sed -i.bak 's/rgriffith/Robert Griffith/g' file
+
+
+Q: What is awk and what is the abbreviation of?
+
+Text processing tool for data extraction and reporting.
+
+Abbreviation is last names of authors:
+Alfred Aho
+Peter Weinberger
+Brian Kernighan
+
+
+Q: How can you, using awk, display the username and fullname of a
+specific user in /etc/passwd?
+
+# cat /etc/passwd | grep rgriffith | awk -F":" '{print $1, "\t", $5}'
+rgriffith Robert Griffith
+
+
+Q: How do you find Orphan process?
+
+# ps -elf | awk '{if ($5 == 1){print $4" "$5" "$15}}'
+
+
+Q: How do you list one file per line in a directory?
+
+# ls -1
+
+
+Q: How can you create files 1-9 and a-g quickly?
+
+# for i in {a..g}; do touch $i; done
+# for i in {1..9}; do touch $i; done
+
+
+
+
+Q: How do you create a file with the date and time appended?
+
+$ touch data.txt.$(date +"%Y%m%d_%H%M%S")
+$ tar -zcvf /tmp/devopsweb.$(date +"%Y%m%d_%H%M%S") devopsweb
+
+
+$ ls
+data.txt.20190110_180620
+
+$ date
+Thu Jan 10 18:06:24 EST 2019
+
+
+
+
+
+Q:  Create a shell script to add a path.
+
+if ! echo ${PATH} | grep -q /opt/jdk1.8.0_111/bin ; then
+   export PATH=/opt/jdk1.8.0_111/bin:${PATH}
+fi
+
+
+
+
+Q: How do you rename files from us.data to un.data?
+
+for i in *.data;
+do a="$(echo $i | sed s/us/un/)";
+mv "$i" "$a";
+done
+
+
+Q: How do you insert text at the front of filenames?
+
+   for i in `ls`; do a=calmem1-"$i"; mv "$i" "$a"; done
+
+
+Q: How do you remove whitespace from filenames?
+
+   # for i in *; do a="${i// /_}";  mv "$i" "$a"; done
+
+NOTE:
+*\ * selects all files with a space in their name as input for the the for loop.
+
+The quotes around "$f" are important because we know there's a space
+in the filename and otherwise it would appear as 2+ arguments to mv.
+
+In ${i// /_}:
+  The double slashes // are for replacing all occurrences of space
+with _, if you put one slash  /, only first space is going to be
+replaced.
+  The space is there because you are replacing space (with underscore)
+      ${parameter//find/replace}
+
+
+
+Q: How do you replace _-_ in filenames?
+
+   # for i in *; do a="${i//_-_/_}";  mv "$i" "$a"; done
+
+
+
+Q: What is a script that can check for the existence of the messages file?
+
+   Sample Script:
+# vim file_check.sh
++++
+#!/bin/bash
+
+echo "This script checks the existence of a file."
+sleep 1
+
+echo "Checking..."
+sleep 1
+
+if [ -f $1 ]
+  then
+    echo "File $1 exists."
+else
+  echo "File $1 does not exist."
+fi
+
+echo
+sleep 1
+
+echo "...done."
++++
+
+Running:
+# bash file_check.sh /var/log/messages
+This script checks the existence of a file.
+Checking...
+File /var/log/messages exists.
+
+...done.
+
+# bash file_check.sh /var/log/nofile
+This script checks the existence of a file.
+Checking...
+File /var/log/nofile does not exist.
+
+...done.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Q: How can you redirect all output of several commands "date", "who" &
+"pwd" to a logfile?
+
+# (date; who; pwd) > logfile
+
+
+Q: How can you execute commands sequentially?
+
+# cd; ls
+
+
+Q: What are the redirection forms?
+
+File        Name            Common abbreviation    Typical default
+Descriptor
+
+0            Standard input        stdin            Keyboard
+1            Standard output       stdout            Screen
+2            Standard error        stderr            Screen
+
+
+Q: What is 2>&1?
+
+Redirect Standard Error to Standard Output.
+
+
+Q: How can you send standard error to file but have standard output remain
+the same to the screen?
+
+# cmd 2>file
+
+
+Q: How can you send both standard error and standard output to file?
+
+# cmd > file 2>&1
+
+
+Q: How can you send standard output to file f1, standard error to file f2?
+
+# cmd > f1 2>f2
+
+
+Q: How can you send output of cmd to standard output (terminal) and to files?
+
+# cmd | tee files
+
+
+Q: How can you send standard output and standard error of cmd to
+standard output (terminal) and to files?
+
+# cmd 2>&1 | tee files
+
+
+Q: What is tee?
+
+Send output to Screen & File.
+
+Example:
+# ls -1 *.txt | wc -l | tee count.txt
+
+Explanation:
+In the above example, the ls command lists all files in the current
+directory that have the filename extension .txt, one file per line;
+this output is piped to wc, which counts the lines and outputs the
+number; this output is piped to tee, which writes the output to the
+terminal, and writes the same information to the file count.txt. If
+count.txt already exists, it is overwritten.
+
+
+
+Q: How can you match any string of zero or more characters?
+
+*
+
+
+Q: How can you match 0 or 1 single character?
+
+?
+
+
+Q: How can you match a set of characters?
+
+# ls -l [af37]
+# ls -l [3-8]
+# ls -l [a-c]
+
+
+Q: How can you match characters not in a set?
+
+# ls -l [^af37]
+# ls -l [!af37]

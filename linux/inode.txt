@@ -1,0 +1,58 @@
+Q: What is a Dentry?
+
+A data structure used to represent a Directory.
+
+
+Q: What is an INODE?
+
+    inode - a data structure used to represent a filesystem object,
+which can be one of various things including a file or a directory.
+
+
+Q: What information is contained in an Inode?
+
+   owner type size
+   group permissions dates
+   pointers to data
+
+
+Q: What are the dates in an inode?
+
+
+Access: last time the contents of the file were examined.
+Modify: Last time the contents of the file were changed.
+Change: Last time the file's inode was changed.
+
+The change time includes things like modifying the permissions and
+ownership, while the modify time refers specifically to the files
+contents.
+
+
+Q: What command/system call can you use to get Inode information?
+
+   stat: Getting inode information
+
+   stat() is a Unix system call that returns useful data about a file inode.
+
+   Example:
+# stat /tmp/test123.txt
+File: `/tmp/test123.txt'
+Size: 23              Blocks: 8          IO Block: 4096   regular file
+Device: fd02h/64770d    Inode: 17          Links: 1
+Access: (0644/-rw-r--r--)  Uid: (  500/ user1)   Gid: (  501/   ossec)
+Access: 2011-01-21 12:56:05.000000000 -0500
+Modify: 2011-01-21 06:36:01.000000000 -0500
+Change: 2011-01-21 06:36:01.000000000 -0500
+
+
+Q: How do you get the long listing of a file?
+
+# ls -l | grep test123.txt
+-rw-r--r-- 1 user1  ossec        23 Jan 21 06:36 test123.txt
+
+
+Q: How do you get the inode number of a file?
+
+# ls -i | grep test123.txt
+17 test123.txt
+

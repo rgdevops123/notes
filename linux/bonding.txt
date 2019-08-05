@@ -1,0 +1,26 @@
+Q: What can you gain by implementing Network Bonding?
+
+  Fault Tolerance (Redundancy)
+  Increased Throughput (Speed)
+  Load Balancing
+
+
+Q: What are the Network Bonding Modes?
+
+   0 - Round Robin
+   1 - Active Backup
+   2 - Exclusive OR (XOR)
+   3 - Broadcast
+   4 - LACP
+   5 - TLB
+   6 - ALB
+
+
+Q: What are some Network Bonding options?
+
+   mode=[0-6]
+   primary=eth0
+   miimon=100
+   downdelay=500
+   updelay=500
+   xmit-hash-policy=layer2

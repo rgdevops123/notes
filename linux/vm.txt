@@ -1,0 +1,25 @@
+Q: What is Paravirtualization?
+
+   Virtualization in which the guest operating system (the one being
+virtualized) is aware that it is a guest and accordingly has drivers
+that, instead of issuing hardware commands, simply issue commands
+directly to the host operating system.
+
+Q: What is the XEN/OVM architecture made up of?
+
+***Hypervisor***
+  VMM/host/DOM 0
+  VMs/guest/DOM 1...
+
+
+Q: How do you Delete a KVM VM?
+
+# virsh list
+# virsh shutdown vm1.test.com
+# virsh undefine vm1.test.com
+
+
+Q: How do you Delete/Disable virbr0?
+
+# virsh net-destroy default
+# virsh net-undefine default

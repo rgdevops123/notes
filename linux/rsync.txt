@@ -1,0 +1,35 @@
+
+Q: How do you sync filesystems?
+
+Use rsync.
+# rsync [OPTIONS] [SRC] [DEST]
+-v : verbose
+-r : copies data recursively (don't preserve inode data)
+-a : archive mode: copy files recursively, preserve inode data.
+-z : compress file data
+-h : human-readable, output numbers in a human-readable format
+-e : specify the remote shell to use
+--bwlimit=KBPS          limit I/O bandwidth; KBytes per second
+
+# rsync -zvh backup.tar /tmp/backups/
+# rsync -avzh /root/rpmpkgs /tmp/backups/
+# rsync -avz rpmpkgs/ root@192.168.0.101:/home/
+# rsync -avzh root@192.168.0.100:/home/rgriffith/rpmpkgs /tmp/myrpms
+# rsync -avzhe ssh root@192.168.0.100:/root/install.log /tmp/
+# rsync -avzhe ssh backup.tar root@192.168.0.100:/backups/
+# rsync -avzhe ssh --progress /home/rpmpkgs root@192.168.0.100:/root/rpmpkgs
+# rsync -avze ssh --include 'R*' --exclude '*'
+root@192.168.0.101:/var/lib/rpm/ /root/rpm
+# rsync -avzhe ssh --max-size='200k' /var/lib/rpm/
+root@192.168.0.100:/root/tmprpm
+# rsync --bwlimit=100 -avzhe ssh  /var/lib/rpm/
+root@192.168.0.100:/root/tmprpm/
+
+   *** CAREFUL***   Deletes files on target if not on source.
+# rsync -avz --delete root@192.168.0.100:/var/lib/rpm/ .
+   *** CAREFUL***   Deletes files on target if not on source.
+
+   *** CAREFUL***   Deletes source files.
+# rsync --remove-source-files -zvh backup.tar /tmp/backups/
+   *** CAREFUL***   Deletes source files.
+

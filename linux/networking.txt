@@ -25,9 +25,68 @@ Q: How do you bring down interface eth0?
        $ ifdown eth0
 
 
+Q: How do you Delete eth0?
+
+# nmcli connection show
+# nmcli con del "UUID of eth0"
+          OR
+# ip link delete eth0
+
+
 
 Q: How do you show table routes?
 
        $ ip route show
 
 
+Q: What are the Private Address Spaces
+
+     10.0.0.0        -   10.255.255.255  (10/8  prefix)
+
+     172.16.0.0      -   172.31.255.255  (172.16/12 prefix)
+
+     192.168.0.0     -   192.168.255.255 (192.168/16 prefix)
+
+
+Q: What are the Network Number Address Ranges?
+
+A = 1   - 126 N.H.H.H     16,777,216 addresses
+L = 127
+B = 128 - 191 N.N.H.H         65,536 addresses
+C = 192 - 223 N.N.N.H            255 addresses
+D = 224 - 239 Reserved for Multicasting
+E = 240 - 254 Experimental; Used for research
+
+
+
+Q: How would you perform a Network Throughput Test?
+
+ftp> put "|dd if=/dev/zero bs=1024k count=1024" /dev/null
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Q: What is a NIC?
+
+   Network Interface Controller

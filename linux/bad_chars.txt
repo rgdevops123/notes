@@ -1,0 +1,101 @@
+Q: What is od?
+
+octal dump
+
+
+Q: What is tr?
+
+translate or delete characters
+
+Example: # tr -d '\177' <file
+
+
+Q: What tools can you use to clean up files with bad/mystery characters in it?
+
+dos2unix, cat -v, od -c
+
+od -c : prints out all regular characters in ASCII.
+
+null         \0
+backspace    \b
+form-feed    \f
+new-line     \n
+return       \r
+tab          \t
+
+- if od doesn't recognize a regular ASCII character, it will dump the
+octal value.  See Example 4.
+
+
+   Example 1: "cat -v"
+   ----------
+host # cat file
+def
+host # cat -v file
+abc^Mdef
+
+
+   Example 2: "od -c"
+   ----------
+host # od -c file
+0000000 a b c \r d e f \n
+0000010
+
+       Note:
+       -----
+       - With the "-c" flag used, the "^M" character shows up as "\r".
+       - The byte-offset is also off ... it should be 7 instead of 10
+like the below example.
+
+    Example 3: "cat", "cat -v" & "od -c" with no funny characters.
+   ----------
+host # cat file
+abcdef
+
+host # cat -v file
+abcdef
+
+host # od -c file
+0000000 a b c d e f \n
+0000007
+
+
+    Example 4: od does not recognize and can not translate ASCII character.
+   ----------
+host # cat file
+bcdef
+
+host # cat -v file
+a^?bcdef
+
+host # od -c file
+0000000 a 177 b c d e f \n
+0000010
+
+
+    Example 4: Solution.
+   ----------
+host # cat file
+bcdef
+
+host # cat -v file
+a^?bcdef
+
+host # od -c file
+0000000 a 177 b c d e f \n
+0000010
+
+host # tr -d '\177' <file
+abcdef
+
+host # tr -d '\177' <file >file2 <--- Where the magic happens...
+host # cat file2
+abcdef
+
+host # cat -v file2
+abcdef
+
+host # od -c file2
+0000000 a b c d e f \n
+0000007
+

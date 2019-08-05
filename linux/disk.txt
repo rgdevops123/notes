@@ -1,0 +1,147 @@
+Q: How do you check SWAP space? 3 ways...
+
+  # swapon -s
+  # cat /proc/swaps
+  # cat /proc/meminfo \
+            | grep -i swap
+
+
+   Q: How do you create a SWAP space file?
+
+  # dd if=/dev/zero of=/swap bs=1024k count=1024
+
+  # mkswap /swap
+  # swapon /swap
+  # chmod 600 /swap
+
+   # vi /etc/fstab
+   /swap swap swap defaults 0 0
+
+  # swapon -s    (To check.)
+
+
+   Q: How do you add a new pv, vg, lv & fs?
+
+
+ # fdisk -l
+ # fdisk /dev/sdc
+ Command (m for help): l    (ELL/list partition types)
+   82  Linux swap
+   8e  Linux LVM
+ Command (m for help): n    (add new partition)
+ Command (m for help): p    (primary partition 1-4)
+ Command (m for help): First Cylinder: 7067
+ Command (m for help): Last Cylinder: +33G
+
+ Command (m for help): p    (print the partition table)
+ Command (m for help): d    (delete a partition)
+ Command (m for help): t    (change a partition's system id)
+
+ Command (m for help): w    (write table to disk)
+ # partprobe
+ # init 6
+ # fdisk -l
+ # pvcreate /dev/sdc1
+ # vgcreate vg03 /dev/sdc1
+ ### vgextend vg03 /dev/sdc1
+ # lvcreate -L 10G -n data3 vg03
+ # mkfs -t ext3 /dev/vg03/data3
+ # mkdir /data3
+
+ # vim /etc/fstab
+ +++
+ /dev/vg03/data3 /data3 ext3 defaults,usrquota,grpquota 1 2
+ +++
+
+# mount -a
+
+# cd /data
+# vim rsync_files.txt
++++
+backups
+python_code_examples
+python_mods_examples
+rsync_files.txt
+sreweb
++++
+
+
+# for i in `cat rsync_files.txt`; do rsync -av $i /data3; done
+
+    ***fdisk, partprobe, ssm, lvm
+
+
+Q: How can you view disk and LVM information?
+
+ # fdisk -l
+ # ssm list
+ # pvdisplay
+ # vgdisplay
+ # lvdisplay
+
+
+Q: How do you view free disk space:
+
+# parted
+> select /dev/sdb
+> print free
+
+
+Q: How do you use fdisk?
+
+fdisk /dev/sda
+m (help/command list)
+l    (ELL/list partition types)
+n   (add new partition)
+p   (primary partition 1-4)
+First Cylinder: 7067
+Last Cylinder: +33G
+w   (write table to disk)
+
+
+Q: How do you get the system to apply the fdisk changes?
+
+# partprobe OR reboot
+
+
+Q: How do you create a new filesystem?
+
+# mkfs -t ext4 /dev/sda3
+
+
+Q: How fo you make a directory?
+
+mkdir /xen
+
+
+Q: Where is the filesystem table stored?
+
+# vi /etc/fstab
+/dev/sda4 /xen ext4 defaults 1 1
+Dump Value: 0 or 1
+   0 = Ignore.
+   1 = Back it up.
+Filesystem Check Order:
+   0 = Ignore.
+   1 = Check Filesystem
+
+# mount -a
+
+
+Q: How do you remove a Logical Volume?
+
+ # lvremove /dev/vg03/data3
+
+
+Q: How do you remove a Physical Volume from Volume Group?
+
+# vgreduce vg03 /dev/sda3
+
+
+Q: How do you delete a Physical Volume?
+
+# pvremove /dev/sda3
+
+
+
+

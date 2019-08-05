@@ -1,0 +1,27 @@
+Q: What is the difference between raid 01 and raid 10?
+
+   RAID 0+1 (RAID 01) is "mirror of stripes".  The disks within the
+groups are striped and the groups are mirrored.
+
+   RAID 1+0 (RAID 10) is a "stripe of mirrors".   The disks within the
+group are mirrored and the groups themselves ar7e striped.
+
+
+   Q: How do you create a RAID?
+
+# mdadm
+ --create /dev/md0
+ --level={linear;stripe;mirror;5;6;10}
+ --raid-disks=6
+ /dev/sda /dev/sdb /dev/sdc /dev/sdd /dev/sde /dev/sdf
+
+
+   Q: How do you show details of RAID?
+
+# mdadm --detail /dev/md0
+
+
+   Q: How do you replace a failed disk?
+
+     +++Add a spare
+#mdadm /dev/md0 -a /dev/sdb

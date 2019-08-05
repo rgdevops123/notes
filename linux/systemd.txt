@@ -1,0 +1,36 @@
+Q: Name some CentOS 7 differences:
+
+Uses systemd rather than upstart or SysV.
+ - systemctl
+ - hostnamectl
+ - timedatectl
+
+Boot Process is different.
+
+TARGETS: default graphical multi-user basic sysinit local-fs
+KERNEL
+GRUB/LILO
+MBR
+BIOS
+POST
+
+
+Q: What are some systemd TARGETS?
+
+TARGETS: default graphical multi-user basic sysinit local-fs
+
+SysV Runlevel          systemd Target
+0                               runlevel0.target, poweroff.target
+1, s, single                runlevel1.target, rescue.target
+2, 4                           runlevel2.target, runlevel4.target,
+multi-user.target
+3                               runlevel3.target, multi-user.target
+5                               runlevel5.target, graphical.target
+6                               runlevel6.target, reboot.target
+emergency               emergency.target
+
+
+Q: Where are the systemd target files located?
+
+/usr/lib/systemd/system
+/etc/systemd/system

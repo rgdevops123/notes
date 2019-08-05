@@ -1,0 +1,44 @@
+Q: How do you query DNS?
+
+dig, host, nslookup
+
+
+Q: What are a couple of DNS Resource Records?
+
+SOA
+
+NS
+MX
+
+A AAAA
+CNAME
+PTR
+
+TXT
+
+
+Q: What are a few DNS Country Codes?
+
+au
+co
+de
+eu
+fi
+fr
+tt
+uk
+
+
+Q: What are a few DNS Domains?
+
+arpa
+biz
+com
+edu
+gov
+info
+mil
+net
+org
+tv
+

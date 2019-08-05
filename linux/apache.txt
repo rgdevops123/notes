@@ -1,0 +1,40 @@
+Q: What are a few Apache modules?
+
+mod_so
+
+mod_auth_digest
+mod_authz_owner
+mod_authz_user
+mod_authz_groupfile
+mod_authz_host
+mod_authz_svn
+mod_cgi
+mod_dav
+mod_dav_fs
+mod_dav_svn
+mod_dontdothat
+mod_gnutls
+mod_imagemap
+mod_info
+mod_(ldap,memcached,mongo,dbd,redis)
+mod_mime
+mod_(python,perl,php)
+mod_sed
+mod_ssl
+mod_status
+
+
+Q: What is Apache's DocumentRoot?
+
+/var/www/html
+
+
+Q: Where are the Apache modules located?
+
+/etc/httpd/modules
+
+
+Q: What are three examples of Apache Static content?
+
+HTML files, Image files, CSS files
+

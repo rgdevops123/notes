@@ -1,0 +1,109 @@
+Q: What does sar stand for?
+
+   System Activity Report
+
+
+Q: How do you install sar?
+
+   # yum -y install sysstat
+
+
+Q: What does the default sar cron look like?
+
+# cat /etc/cron.d/sysstat
+
+# Run system activity accounting tool every 10 minutes
+*/10 * * * * root /usr/lib64/sa/sa1 1 1
+
+# Generate a daily summary of process accounting at 23:53
+
+53 23 * * * root /usr/lib64/sa/sa2 -A
+
+So the first cron entry will run every 10 minutes which will call the
+sadc utility and collect system stats and store it in a binary file.
+And the second cron entry will dump all the contents of that binary
+file into another text file.
+
+
+Q: Where are the default sar statistics saved?
+
+   /var/log/sa
+
+
+Q: (SAR) How can you check the CPU usage of ALL CPUs?
+
+   # sar -u
+
+
+Q: (SAR) How can you display real time CPU usage every 1 second for 3 times.
+
+   # sar -u 1 3
+
+
+Q: (SAR) How can you display additional fields.
+
+   # sar -u ALL
+   # sar -u ALL 1 3
+
+
+Q: (SAR) How can you display CPU usage for the 10th day of the month
+from the sa10 file.
+
+   # sar -u -f /var/log/sa/sa10
+
+
+Q: (SAR) How can you check the CPU usage of Individual CPU? (Multi-core CPUs)
+
+   # sar -P ALL
+
+
+Q: (SAR) How can you check the context switch per second?
+
+   # sar -w
+   # sar -w 1 3
+   # sar -w -f /var/log/sa/sa10
+
+
+Q: (SAR) How can you check Block Device DISK I/O for all disks?
+
+   # sar -b
+   # sar -b 1 3
+   # sar -b -f /var/log/sa/sa15
+
+
+Q: (SAR) How can you check  Individual DISK Device I/O?
+
+   # sar -d
+   # sar -d 1 3
+   # sar -d -f /var/log/sa/sa10
+
+
+Q: (SAR) How can you check the run queue and LOAD average?
+
+   # sar -q
+   # sar -q 1 3
+   # sar -q -f /var/log/sa/sa10
+
+
+Q: (SAR) How can you check the MEMORY Free and Used?
+
+   # sar -r
+   # sar -r 1 3
+   # sar -r -f /var/log/sa/sa10
+
+
+Q: (SAR) How can you check the network statistics?
+
+   # sar -n DEV 1 1
+
+
+Q: (SAR) How can you check the SWAP Space used?
+
+   # sar -S
+   # sar -S 1 3
+   # sar -S -f /var/log/sa/sa15
+
+
+Q: (SAR) How can you check the system using a start and end time?
+
+   # sar -q -f /var/log/sa/sa17 -s 02:10:01 -e 03:20:01

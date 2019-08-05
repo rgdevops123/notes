@@ -1,11 +1,33 @@
 General:
 
+
+
+Q: What is IT orchestration:
+
+ task automation, application deployment, and cloud provisioning.
+
+
+
+Q: What is System load/CPU Load?
+
+
+ A measurement of CPU over or under-utilization in a Linux system; the
+number of processes which are being executed by the CPU or in waiting
+state. Load average - is the average system load calculated over a
+given period of time of 1, 5 and 15 minutes.
+
 Q: What are three main types of I/O?
 
 
 binary I/O
 raw I/O
 text I/O
+
+
+Q: What is /dev/null?
+
+A special filesystem object that throws away everything written into it.
+
 
 
 Q: What is a KERNEL?
@@ -48,6 +70,49 @@ NETWORKING
  +/proc/net/bonding/bond0
 
 
+
+Q: What are some important configuration files?
+
+Kernel, Logging, Networking, Kernel Parameters, DNS(client&server)
+
+Kernel             - /boot/vmlinuz*
+
+Logging            - /var/log/messages
+
+Networking         - /etc/sysconfig/network & network-scripts/ifcfg-ens33
+
+Kernel Parameters  - /etc/sysctl.conf or /etc/sysctl.d/*
+
+DNS                - /etc/resolv.conf,
+    /etc/named.conf,
+/etc/named/zones/root forward reverse local
+
+
+Q: What is the Rsyslog Server config file?
+
+# vim /etc/rsyslog.conf
+...
+
+   Q: What is the Rsyslog Server port?
+
+$ModLoad imudp
+$UDPServerRun 514
+
+
+   Q: What is the Rsyslog Client config file?
+
+# vim /etc/rsyslog.conf
+...
+*.* @@10.0.0.11:514
+...
+
+
+
+Q: What does the "cksum" command do?
+
+cksum - checksum and count the bytes in a file
+
+
 Q: Tell me something about ext2?
 
     e2fsck
@@ -57,4 +122,398 @@ Q: Tell me something about ext3?
 
     Journaling
 
+Q: How do you free pagecache?
 
+echo 1 > /proc/sys/vm/drop_caches
+
+
+Q: How do you free dentries & inodes
+
+echo 2 > /proc/sys/vm/drop_caches
+
+
+Q: How do you free pagecache, dentries & inodes
+
+echo 3 > /proc/sys/vm/drop_caches
+
+
+Q: How do you change file permissions?
+
+# chmod u+x file
+
+   u (user), g (group), o (others),
+   a (all),
+   r (read), w (write) and x (exec)
+
+   4 (read), 2 (write) and 1 (exec)
+   1000 Sticky Bit  rwxrwxrwt
+   2000 SetGid Bit  rwxrwsrwx
+   4000 SetUid Bit  rwsrwxrwx
+
+
+Q: What is the Max Filename Length?
+
+    255 characters.
+
+
+Q: What are Daemons?
+
+   Services that wait for & process requests.
+
+
+Q: How do you use watch?
+
+   # watch -n 1 uptime
+
+   # watch -n 1 "ls -l"
+
+Q: Describe XOR?
+
+0   0   0
+0   1   1
+1   0   1
+1   1   0
+
+
+Q: How do you mount a filesystem?
+
+# mount  "real"  "fake"
+# mount  /dev/hda2  /mnt
+
+
+
+Q: What is the boot process?
+
+POST
+BIOS
+MBR
+GRUB/LILO
+KERNEL
+INIT/TARGETS  (legacy => SysVinit) (Upstart {/etc/event.d/})
+RUNLEVEL
+
+
+Q: What are the Runlevels?
+
+0: Halt System (To shutdown the system)
+1: Single user mode
+2: Basic multi user mode without NFS
+3: Full multi user mode (text based)
+4: unused
+5: Multi user mode with Graphical User Interface
+6: Reboot System
+
+
+
+Q: What is LILO?
+
+Linux Loader
+
+
+Q: What is GRUB?
+
+GRand Unified Bootloader
+
+
+Q: How do you get the nice value of a process?
+
+# ps -o pid,comm,nice -p 14374
+  PID     COMMAND        NI
+14374   firefox                0
+
+
+Q: How do you update the nice value of a process?
+
+# renice -20 -p 14374
+14374 (process ID) old priority, new priority -20
+
+   Confirmation.
+# ps -o pid,comm,nice -p 14374
+  PID     COMMAND        NI
+14374   firefox                -20
+
+
+Q: What is the difference between a logical link and hard link?
+
+inode & across filesystems.
+
+- Hard Link: link to physical file
+   More than one filename reference the same inode number.
+   Hard links must reside on the same filesystem as the real/source file.
+   The real/source file must exist.
+
+- Soft Link: link to path
+   Special file (with unique inode) is created that points to real/source file.
+   Special file is called 'soft link' or a 'symbolic link' (aka a 'symlink').
+   Soft links can reside on separate filesystems than the real/source file.
+   The real/source file does not have to exist.
+   Additional I/O necessary to complete file access.
+   Additional storage taken up by Soft Link's file data.
+
+
+
+
+Q: What are the process states in Unix?
+
+Running : The process is either running or it is ready to run.
+
+Waiting : The process is waiting for an event or for a resource.
+
+Stopped : The process has been stopped, usually by receiving a signal.
+
+Zombie : The process is dead but have not been removed from the process table.
+
+
+
+
+Q: What is a Zombie process?
+
+   Zombie = When a program forks and the child finishes before the
+parent, the kernel still keeps some of its information about the child
+in case the parent might need it - for example, the parent may need to
+check the child's exit status. To be able to get this information, the
+parent calls `wait()'; In the interval between the child terminating
+and the parent calling `wait()', the child is said to be a `zombie'.
+
+(If you do `ps', the child will have a `Z' in its status field to
+indicate this.)
+
+Finding Zombies => ps aux | grep -w Z
+
+
+Q: How can you create and test for a Zombie process?
+
+# vim zombie.c
++++
+#include <stdlib.h>
+#include <sys/types.h>
+#include <unistd.h>
+
+int main ()
+{
+  pid_t child_pid;
+
+  child_pid = fork ();
+  if (child_pid > 0) {
+    sleep (60);
+  }
+  else {
+    exit (0);
+  }
+  return 0;
+}
++++
+
+# cc zombie.c -o zombie
+
+# ./zombie
+
+# ps aux | grep -w Z
+root      9662  0.0  0.0      0     0 pts/0    Z+   21:29   0:00
+[zombie] <defunct>
+
+
+Q: What is a Orphan process?
+
+   Orphan = An orphan process is a computer process whose parent
+process has finished or terminated, though itself remains running.
+
+In a Unix-like operating system any orphaned process will be
+immediately adopted by the special init system process. This operation
+is called re-parenting and occurs automatically. Even though
+technically the process has the "init" process as its parent, it is
+still called an orphan process since the process that originally
+created it no longer exists.
+
+
+Q: How do you find Orphan process?
+
+# ps -elf | awk '{if ($5 == 1){print $4" "$5" "$15}}'
+
+
+
+
+
+Q: What is dmesg?
+
+Prints the message buffer of the kernel. The output of this command
+typically contains the messages produced by the device drivers.
+
+
+Q: What is logrotate?
+
+Systematically rotates and archives log files.
+
+
+Q: What are some XOR implementations?
+
+   RAID XOR
+   Network Bonding XOR
+
+Q: How can you check to see when the server last rebooted?
+
+# last | grep reboot
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Q: What is /etc/inittab used for?
+
+   Set the default run level.
+
+# vi /etc/inittab (id:5:initdefault:)
+
+
+Q: How do you show what run level you are on?
+
+# who -r
+
+
+Q: How do you reboot a server?
+
+# init 6
+# shutdown -r
+# reboot
+
+
+Q: What is Unix time?
+
+   (also known as POSIX time or Epoch time) is a system for describing
+instants in time, defined as the number of seconds that have elapsed
+since 00:00:00 Coordinated Universal Time (UTC), Thursday, 1 January
+1970, [note 1] not counting leap seconds.
+
+
+Q: Who created C?
+
+       Dennis Ritchie
+
+
+Q: Who created UNIX?
+
+       Dennis Ritchie
+       Ken Thompson
+
+
+Q: Who created LINUX?
+
+       Linus Torvalds
+
+
+Q: Who created PYTHON?
+
+       Guido van Rossum
+
+
+Q: Who created PERL?
+
+       Larry Wall
+
+
+Q: Who created BASH?
+
+       Steve Bourne
+
+
+Q: Name a few File formats?
+
+     html  . . .  json, xml, yaml
+
+
+Q: What is the LINUX mascot?
+
+   Tux - Penguin mascot
+
+
+Q: What is the difference between UNIX & LINUX?
+
+   UNIX - propriety
+   LINUX - non-propriety
+
+
+Q: How do you Open CMD Prompt?
+
+   Ctrl-Alt-F1
+
+
+Q: How much should Swap Space be?
+
+    2 X Memory up o 4GB
+
+
+Q: How can you reboot a machine?
+
+   Ctrl-Alt-Del
+
+
+Q: What is a Parallel port?
+
+   Where devices such as Printers are connected:
+     - /dev/lp..lp0..lp1..lp2..lp3
+
+
+Q: What are device names for Floppy Drives?
+
+   /dev/fd0..fd1
+
+
+Q: What are device names for Hard Drives?
+
+    /dev/hda..hdb
+
+
+Q: What are device names for IDE/EIDE hard drives Partitions?
+
+/dev/hda1..hda2..hda3
+
+
+Q: What are device names for Serial Ports?
+
+   /dev/ttyS0 ... ttyS7
+   Windows SPs COM1 ... COM8
+
+
+
+
+Q: How can you go to the home directory of the current user?
+
+# cd ~
+
+
+Q: How can you go to the home directory of a specific user?
+
+# cd ~username
+
+
+Q: How many bytes, kilobytes & megabytes in...
+-r-r--r-- 1 root root 3006000 Dec 21 19:22 data.txt-compress-level-1.bz2
+
+3006000B    Bytes
+~3006K      Kilobytes
+~3M         Megabytes

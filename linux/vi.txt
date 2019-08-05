@@ -1,0 +1,13 @@
+Q: What are the modes of vim?
+
+   CMD, EDIT & EX mode
+
+
+Q: In VIM, how do you change the shiftwidth setting?
+
+:set shiftwidth=2
+
+
+Q: In VIM, how do you shift 3 lines of code to the right?
+
+3>>

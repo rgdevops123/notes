@@ -1,0 +1,70 @@
+Q: What are UNIX System calls for a File?
+
+   + System calls for low level file I/O:
+create
+open
+close
+read
+write
+lseek
+unlink
+
+
+Q: What are UNIX System calls for a process?
+
+   + System Calls for process control
+exec
+fork
+wait
+exit
+signal
+kill
+
+
+Q: What are UNIX System calls for IPC?
+
+   + System Calls for IPC
+dup
+pipe
+
+
+Q: What are UNIX System calls for Networking?
+
+   + Networking/Socket System calls:
+socket
+bind
+listen
+accept
+connect
+shutdown
+close
+send
+receive
+
+
++ * Socket - The socket system call creates a new socket by assigning
+a new descriptor.
+
++ * Bind - The bind system call associates a local network transport
+address with a socket
+
++ * Listen - This call indicates that the server process is ready to
+accept any new incoming connections
+
++ * Accept - The accept system call is a blocking call that waits for
+incoming connections.
+
++ * Connect - The connect system call is normally called by the client
+process to connect to the server process.
+
++ * Shutdown - The shutdown system call closes either one or both ends
+of the connection.
+
++ * Close - The close system call closes or aborts any pending
+connections on the socket.
+
++ * Send - There are four system calls to send data on the n/w
+interface: write, writev, sendto, and sendmsg.
+
++ * Receive - There are 4 system calls that can be used to receive
+data from a connection: read, readv, recvfrom, and recvmsg.

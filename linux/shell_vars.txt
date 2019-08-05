@@ -1,0 +1,14 @@
+Q: What are a few Built-in Shell Variables?
+
+$0  command name
+$n  nth command line argument
+
+$#  number of command line arguments
+
+$*  all of the command line arguments
+$@  all of the command line arguments in iterable list
+
+$$  pid of current running process
+$!  pid of last run background command
+
+$?  exit code of last command run

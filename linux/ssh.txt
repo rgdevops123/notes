@@ -1,0 +1,95 @@
+
+Q: How do you create an SSL Tunnel?
+
+# ssh -L 8888:smf1-afk-15-sr4.prod.tw.com:31567 nest1.corp.twitter.com -N
+
+  Then go to the website ...
+    Ex: http://127.0.0.1:8888/
+
+   OR
+
+Socket Secure (SOCKS)
+
+# ssh -D 8080 user1@nest1.corp.twitter.com
+
+Network => Advanced => SOCKS Proxy => 127.0.0.1:8080
+
+  Then go to the website ...
+    Ex: http://smf1-afk-15-sr4.prod.tw.com:31567/
+
+
+
+Q: Where is the user-specific SSH configuration information stored?
+
+In the user's home directory within the ~/.ssh/ directory
+
+
+Q: What are the Private/Public Keys for RSA V1?
+
+identity
+identity.pub
+
+Q: What are the Private/Public Keys for RSA V2?
+
+id_rsa
+id_rsa.pub
+
+
+Q: What are the Private/Public Keys for DSA?
+
+id_dsa
+id_dsa.pub
+
+
+Q: What file holds a list of authorized public keys for servers?
+
+ ~/.ssh/authorized_keys
+
+
+Q: How does the ssh process work with keys?
+
+When the client connects to a server, the server authenticates the
+client by checking its signed public key stored within the
+authorized_keys file.
+
+
+Q: How can you better secure Public Keys?
+
+Move authorized_keys to /etc/ssh/publickeys/ and create a symbolic
+link from users directory to here.
+
+
+Q: What file contains DSA host keys of SSH servers?
+
+~/.ssh/known_hosts
+
+
+Q: What is the known_hosts file used for?
+
+This file is for ensuring that the SSH client is connecting the
+correct SSH server.
+
+
+Q: What happens if the server's host key changes?
+
+If an SSH server's host key has changed, the client notifies the user
+that the connection cannot proceed until the server's host key is
+deleted from the known_hosts file.
+
+
+Q: How do you generate a DSA Private/Public key?
+
+#  ssh-keygen -t dsa
+
+
+
+Q: How do you restrict root login to console?
+
+# vim  /etc/ssh/sshd_config
++++
+#PermitRootLogin yes
+PermitRootLogin no
+AllowUsers
++++
+
+# systemctl restart ssh

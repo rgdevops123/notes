@@ -1,0 +1,50 @@
+Q: What is a KERNEL?
+
+     Software on the server that handles
+Inter-process Communication,
+I/O,
+Memory Management,
+Networking,
+Process and Thread Management,
+Security
+
+
+
+Q: How do you list Kernel Modules?
+
+- lsmod / modprobe 2XTAB ENT
+
+
+Q: How do you install Kernel Modules?
+
+- insmod / modprobe -a <mod>
+
+
+Q: How do you remove Kernel Modules?
+
+- rmmod / modprobe -r <mod>
+
+
+Q: Where are kernel modules stored?
+
+   '/lib/modules/kernel-version/'
+
+
+
+Q: How do you modify kernel parameters?
+
+# vim /proc or /proc/sys/*
+   OR
+# vim /etc/sysctl.conf OR /etc/sysctl.d/99-example.conf
+# sysctl -p    ### To update.
+# sysctl -a    ### To check & confirm.
+
+
+Q: How do you Enable IP Forwarding?
+
+$ echo "net.ipv4.ip_forward = 1"|sudo tee /etc/sysctl.d/99-ipforward.conf
+net.ipv4.ip_forward = 1
+
+$ sudo sysctl -p /etc/sysctl.d/99-ipforward.conf
+net.ipv4.ip_forward = 1
+

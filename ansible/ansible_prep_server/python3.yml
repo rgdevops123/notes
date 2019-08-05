@@ -1,0 +1,20 @@
+---
+- name: Install Python 3.6.
+  become: true
+  hosts: all
+  tasks:
+    - name: Install EPEL.
+      yum:
+        name:
+          - epel-release
+        state: present
+    - name: Install Python 3.6.
+      yum:
+        name:
+          - python36
+          - python36-pip
+        state: present
+    - name: Install the 'Development tools' package group.
+      yum:
+        name: "@Development tools"
+        state: present

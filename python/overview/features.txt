@@ -1,0 +1,11 @@
+What is Python?  State some programming language features of Python.
+
+- Built-in Data Structures
+- Built-in Modules
+- embeddable into C programs 
+- extendable with C modules
+- free & open source
+- interactive
+- interpreted 
+- object oriented 
+- portable 

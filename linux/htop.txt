@@ -1,0 +1,24 @@
+htop
+
+$ sudo yum -y install epel-release
+
+$ sudo yum list | grep htop
+
+      Htop has three sections:
+      ========================
+   Header, where we can see info like CPU, Memory, Swap and also shows tasks, load average and Up-time.
+   List of processes sorted by CPU utilization.
+   Footer shows different options like help, setup, filter tree kill, nice , quit etc.
+
+
+
+   Sort by Memory:
+Shift m
+
+
+   Sort by Time:
+Shift t
+
+
+   Sort by CPU:
+Shift p

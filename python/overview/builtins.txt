@@ -1,0 +1,56 @@
+Name some Python Builtin functions.
+
+Builtins:
+
+ - Help   11
+
+       dir, help, type, chr, ord,
+
+       locals, globals, vars, 
+
+       print, repr, str
+
+ - Data Structures   5
+
+       list, tuple, set, fs, dict
+
+ - Work with Sequences   16
+
+       all, any, enumerate, filter, iter,
+
+       len, map, max, min, next,
+
+       range, reversed, 
+
+       slice, sorted, sum,
+
+       zip
+
+ - Numbers   9
+
+       int, float, complex,
+
+       bin, oct, hex,
+
+       abs, power, round,
+
+ - Classes & Properties   10
+
+       object, property,
+
+       classmethod, staticmethod,
+
+       isinstance, issupper,
+
+       setattr, hasattr, getattr,
+
+       delattr
+
+ - Extras   6
+
+       ascii, bool, compile,
+
+       divmod,
+
+       eval, exec, 
+

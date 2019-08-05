@@ -1,0 +1,16 @@
+AssertionError
+EOFError
+ImportError
+IndentationError
+IndexError
+IOError
+KeyError
+NameError
+RuntimeError
+StopIterationError
+SyntaxError
+TabError
+TypeError
+UnicodeError
+ValueError
+ZeroDivisionError

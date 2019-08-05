@@ -5,7 +5,9 @@ IndentationError
 IndexError
 IOError
 KeyError
+MemoryError
 NameError
+OSError
 RuntimeError
 StopIterationError
 SyntaxError

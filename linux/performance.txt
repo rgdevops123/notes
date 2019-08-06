@@ -37,17 +37,33 @@ Q: What is the output of the vmstat command?
    system   in cs
    cpu      us sys id wa st
 
+   NOTE:
+    Swap
+      si: Amount of memory swapped in from disk (/s).
+      so: Amount of memory swapped to disk (/s).
+    
+    IO
+      bi: Blocks received from a block device (blocks/s).
+      bo: Blocks sent to a block device (blocks/s).
+
+
+
+Q: How do you display Human readable vmstat output?
+
+   # vmstat -S M
+     -S => Switches  outputs  between 1000 (k), 1024 (K), 1000000 (m), or 1048576 (M) bytes.
+           Does not change the swap (si/so) or block (bi/bo) fields. 
 
 
 Q: How do you check network port usage?
 
    netstat
           -a  (port usage)
-          -l   (listeningPorts)
+          -l  (listeningPorts)
           -n  (I.P.'s)
           -p  (processes)
-          -r   (routingTable)
-          -i   (interface~errors)
+          -r  (routingTable)
+          -i  (interface~errors)
           -s  (stats~packetsDropped)
 
 

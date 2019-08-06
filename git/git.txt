@@ -1,0 +1,39 @@
+  *** Branching ***
+
+Q: How do you create a new branch and switch to it at the same time?
+
+  Issue 33: Add GIT documentation to notes.
+$ git checkout -b iss33
+
+   Shorthand for:
+$ git branch iss33
+$ git checkout iss33
+
+
+$ mkdir git
+$ vim git/git.txt
+
+$ git commit -am "Added git.txt [Issue 33]."
+
+$ git checkout master
+$ git merge iss33
+
+$ git branch -d iss33
+
+
+Q: How do you switch from a branch to master?
+
+$ git checkout master
+
+
+Q: How do you merge a branch with master?
+
+$ git checkout master
+$ git merge <BRANCH_NAME>
+
+
+
+Q: How do you delete a branch?
+
+$ git branch -d <BRANCH_NAME>
+

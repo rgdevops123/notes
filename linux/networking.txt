@@ -39,6 +39,105 @@ Q: How do you show table routes?
        $ ip route show
 
 
+Q: What is the syntax of adding static routes?
+
+   ip route add {NETWORK/MASK} via {GATEWAYIP}
+   ip route add default {NETWORK/MASK} via {GATEWAYIP}
+
+
+Q: How do you add a default route (for all addresses) 
+     via the local gateway 10.0.0.3 that can be reached
+     on device eth0.
+
+$ ip route add default via 10.0.0.3 dev eth0
+
+
+Q: How do you delete the default route?
+
+$ ip route delete default
+
+
+Q: How do you add a static route to a host address?
+
+$ ip route add 23.3.33.133 via 10.0.0.3
+$ ip route add 23.3.33.133 via 10.0.0.3 dev eth0
+
+
+Q: How do you add a static route to a network?
+
+$ ip route add 23.0.0.0/24 via 10.0.0.3 
+$ ip route add 23.0.0.0/24 via 10.0.0.3 dev eth0
+
+
+Q: What file stores static route configuration?
+
+/etc/sysconfig/network-scripts/route-eth0
++++
+23.0.0.0/24 via 10.0.0.3 dev eth0
++++
+
+
+
+
+   *** Testing ***
+
+      Testing Routing:
+On all systems, remove virbr0:
+# systemctl disable libvirtd.service
+
+
+   On test1:
+NIC1: 10.0.0.33/25
+
+$ ping 10.0.0.10
+$ ssh user1@10.0.0.10
+
+$ ping 10.0.0.133
+$ ssh user1@10.0.0.133
+
+$ ip route add default via 10.0.0.10 dev eth0
+
+
+
+   On test2:
+NIC1: 10.0.0.10/25
+NIC2: 10.0.0.129/25
+
+$ vim /etc/sysctl.d/S99_ipforward
++++
+net.ipv4.ip_forward = 1
++++
+
+$ sysctl -p /etc/sysctl.d/S99_ipforward
+$ sysctl -a | grep forward
+
+$ ip route delete ***
+
+
+   On test3:
+NIC1: 10.0.0.133/25
+
+$ ping 10.0.0.129
+$ ssh user1@10.0.0.129
+
+$ ping 10.0.0.33
+$ ssh user1@10.0.0.33
+
+$ ip route default via 10.0.0.129 dev eth0
+
+   *** Testing ***
+
+
+
+
+
+
+
+
+
+
+
+
 Q: What are the Private Address Spaces
 
      10.0.0.0        -   10.255.255.255  (10/8  prefix)

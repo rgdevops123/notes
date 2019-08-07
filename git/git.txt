@@ -39,6 +39,16 @@ $ git branch -d <BRANCH_NAME>
 
 
 
+
 How do you push a branch upstream?
 
-$ git push --set-upstream origin gitbranch
+$ git push --set-upstream origin iss33
+
+
+
+Q: How do you delete a branch remotely?
+
+$ git push <remote_name> --delete <branch_name>
+
+   Example:
+$ git push https://github.com/rgdevops123/notes --delete iss33

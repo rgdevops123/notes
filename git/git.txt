@@ -37,3 +37,8 @@ Q: How do you delete a branch?
 
 $ git branch -d <BRANCH_NAME>
 
+
+
+How do you push a branch upstream?
+
+$ git push --set-upstream origin gitbranch

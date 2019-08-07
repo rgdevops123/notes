@@ -52,3 +52,26 @@ $ git push <remote_name> --delete <branch_name>
 
    Example:
 $ git push https://github.com/rgdevops123/notes --delete iss33
+
+
+
+
+
+
+
+
+
+How do you clone a subdirectory?
+
+
+$ mkdir notes_subdir
+$ cd notes_subdir
+$ git init
+$ git remote add -f origin https://github.com/rgdevops123/notes
+
+$ git config core.sparseCheckout true
+
+$ echo "python" >> .git/info/sparse-checkout
+$ echo "hadoop" >> .git/info/sparse-checkout
+
+$ git pull origin master

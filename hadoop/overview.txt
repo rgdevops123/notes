@@ -1,0 +1,64 @@
+What is Hadoop Common?
+
+It is the collection of common utilities and Java  libraries necessary to support other Hadoop modules.
+
+
+What is Hadoop YARN?
+
+         Acronym:
+
+   Yet Another Resource 
+         Negotiator 
+
+      Slang:
+   OS of Hadoop
+
+      What is it?
+It is the framework used for Hadoop job scheduling and Hadoop cluster resource management.
+
+    Yarn Architecture: 2.x +
+Resource Manager
+Node Manager
+Application Manager 
+
+     Added in Hadoop 3:
+      Port 50070 is now 9870
+         Fault Tolerance:
+ - Erasure coding (No replication)
+ - Auto tuning of heap.
+
+What is HDFS?
+
+   (Distributed Storage)
+
+      Based on what?
+Based on Google File System 
+      (GFS)
+
+      What is HDFS?
+The Hadoop Distributed File System (HDFS) is a highly fault-tolerant, distributed file system, specifically designed to run on commodity hardware to process large data sets.
+
+
+What is Hadoop MapReduce?
+
+   (Distributed Computation)
+It is a YARN-based system for parallel processing / parallel programming of large data sets.
+
+Hadoop Setup:
+   Install JDK & JRE
+   Install Hadoop
+   Configure:
+      core-site.xml
+      yarn-site.xml
+      hdfs-site.xml
+      mapred-site.xml
+      hadoop-env.sh
+   Run:
+      $ hadoop namenode -format
+      $ start-dfs.sh
+      $ start-yarn.sh
+   
+   HDFS:
+      $ hdfs dfs mkdir|put|
+
+

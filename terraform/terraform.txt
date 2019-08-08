@@ -1,0 +1,93 @@
+Terraform & AWS:
+
+Deploy a cluster of web servers on AWS.
+
+
+   NOTE: Immutable Infrastructure Paradigm
+ With EC2 Instances, changes to many attributes will force the original Instance to be terminated and a completely new Instance to be created (this is an example of the immutable infrastructure paradigm).
+
+
+
+   Download and Unizp Terraform:
+  https://www.terraform.io/downloads.html
+
+$ unzip terraform_0.12.6_linux_amd64.zip
+
+   Copy to /usr/bin:
+$ sudo cp terraform /usr/bin
+
+   Confirm Terraform installed:
+$ ls -l /usr/bin/terraform 
+-rwxr-xr-x 1 root root 49424832 Aug  7 17:34 /usr/bin/terraform
+
+$ terraform -v
+Terraform v0.12.6
+
+
+   Create a Terraform User in AWS:
+GoTo: IAM, Users,
+Click "Add User"
+Enter: "terraform_user"
+Click "Next"
+Click: "Attach existing policies directly."
+Select "AmazonEC2FullAccess"
+Click "Next"
+Store the AWS access key id and secret access key
+
+
+   Update Credentials File:
+$ vim ~/.aws/credentials
+[terraform]
+aws_access_key_id = xxxxxxxxxxxxxxxxxxx
+aws_secret_access_key = xxx/xxxxxxxxxxxxx/xxxx
+
+
+   Test out a simple terraform launch:
+$ mkdir terraform
+
+$ vim main.tf
++++
+provider "aws" {
+  region                  = "us-east-2"
+  shared_credentials_file = "/home/terraform/.aws/credentials"
+  profile                 = "terraform"
+}
+
+module "ec2_cluster" {
+  source                 = "terraform-aws-modules/ec2-instance/aws"
+  version                = "~> 2.0"
+
+  name                   = "web"
+  instance_count         = 3
+
+  ami                    = "ami-0f2b4fc905b0bd1f1"
+  instance_type          = "t2.micro"
+  key_name               = "terraform"
+  monitoring             = true
+  vpc_security_group_ids = ["sg-<YOUR_SECURITY_GROUP>"]
+  subnet_id              = "subnet-<YOUR_SUBNET_ID>"
+
+  associate_public_ip_address = true
+
+  tags = {
+    Terraform   = "true"
+    Environment = "dev"
+  }
+}
++++
+
+
+   Initialize Terraform:
+$ terraform init
+
+
+   Show what Terraform will do. No execution.
+$ terraform plan
+
+
+   Create the instance:
+$ terraform apply
+
+
+   Log into your instances:
+$ ssh -i terraform.pem centos@<PUBLIC_IP>

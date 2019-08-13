@@ -1,0 +1,16 @@
+Virtual Network Computing (VNC) is a way to use a graphical desktop from one computer (the server) on a remote computer (the client). It is possible to have a VNC server running on a Windows server and view it on a Linux client or vice versa. The keyboard and mouse input from the client machine is sent over the network to the host, and the host returns the graphical display. Any actions are performed on the server, not the client.
+
+      Instructions:
+   Step 1:
+  Open a terminal window. The terminal will be found under "Applications" and "Accessories (GNOME)" or "Start" and "Utilities (KDE)."
+
+   Step 2:
+  Install vncviewer. sudo apt-get install vncviewer.
+
+   Step 3:
+  Type the command: vncviewer hostname:number. The VNC server will start with a session number. You will need to know this number to connect to the server. For example: vncviewer linuxhost:1
+
+  Enter the password for the vncserver.
+This password will most likely be different than the password used to actually log into the system.
+
+  Use the remote desktop. The VNC server will provide you with a graphical desktop that you can use as you would a local desktop.

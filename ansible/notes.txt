@@ -1,0 +1,7 @@
+Q: What's the difference between inventory_hostname and ansible_hostname?
+
+
+    inventory_hostname - As configured in the ansible inventory file (eg: /etc/ansible/hosts). It can be an IP address or a name that can be resolved by the DNS
+
+    ansible_hostname - As discovered by ansible. Ansible ssh's into the host and gathers some facts. As part of the fact, it also discovers its hostname which is stored in ansible_hostname.
+

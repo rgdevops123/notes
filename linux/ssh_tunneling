@@ -1,0 +1,19 @@
+Q: How do you create an SSL Tunnel (LOCAL)?
+
+# ssh -L 8080:target-server:5000 user1@bastion1 -N
+
+  Then go to the website ...
+    Ex: http://127.0.0.1:8080/
+
+
+Q: How do you create an SSL Tunnel (DYNAMIC)?
+
+Socket Secure (SOCKS)
+
+# ssh -D 8080 user1@bastion1 -N
+
+Network => Advanced => SOCKS Proxy => 127.0.0.1:8080
+
+  Then go to the website ...
+    Ex: http://target-server:5000/
+

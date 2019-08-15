@@ -1,0 +1,40 @@
+$ cat testdata.txt 
+This line has a number 3
+This line does not.
+This line has a number 333
+
+This line has an IP Address 23.133.13.203
+This line has an Email Address user1@email.com
+This line does not have either one.
+
+
+   Display just the line with one 3 followed by nothing.
+
+$ cat testdata.txt | grep --perl-regexp "(? \d\b)"
+This line has a number 3
+
+
+   Display all lines with a 3 followed by some other character.
+
+$ cat testdata.txt | grep --perl-regexp "(? \d\B)"
+This line has a number 333
+This line has an IP Address 23.133.13.203
+
+
+   Display all lines with a 333 on them.
+
+$ cat testdata.txt | grep --perl-regexp "(? \d\d\d)"
+This line has a number 333
+
+
+   Display all I.P. Addresses.
+
+$ cat testdata.txt | grep --perl-regexp "(? \d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})"
+This line has an IP Address 23.133.13.203
+
+
+   Display all Email Addresses.
+
+$ cat testdata.txt | grep --perl-regexp "(? \w+@\w+\.\w+)"
+This line has an Email Address user1@email.com
+

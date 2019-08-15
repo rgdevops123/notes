@@ -1,0 +1,10 @@
+vim /etc/nagios/conf.d/webservers.cfg
++++
+define service {
+        use                             local-service
+        hostgroup_name                  webservers
+        service_description             DEVOPSWEB
+        check_command                   check_http!-p 3000
+        notifications_enabled           1
+}
++++

@@ -1,0 +1,31 @@
+Q: How do you install ntp?
+
+$ sudo yum -y install ntp
+
+
+Q: How do you ensure NTP is started after reboot?
+
+$ sudo systemctl enable ntpd
+
+
+Q: How do you start NTP?
+
+$ sudo systemctl start ntpd
+
+
+Q: How do you allow UDP traffic for the NTP service in order to communicate with the NTP pool?
+
+$ sudo firewall-cmd --permanent --add-service=ntp
+$ sudo firewall-cmd --reload
+
+
+Q: How do you get a basic NTP report?
+
+$ sudo ntpstat
+      OR
+$ date
+
+
+Q: How do you get some information about the time synchronization process?
+
+$ sudo ntpq -p

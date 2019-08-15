@@ -1,0 +1,13 @@
+Q: How do you view your timezove configuration?
+
+$ sudo timedatectl
+
+
+Q: How do yoy view a list of all the available time zones?
+
+$ sudo timedatectl list-timezones
+
+
+Q: How do you set your time zone to Los Angeles?
+
+$ sudo timedatectl set-timezone America/Los_Angeles

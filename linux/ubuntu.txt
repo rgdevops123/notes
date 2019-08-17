@@ -1,0 +1,3 @@
+Q: How do you check what ubuntu version is running?
+
+$ lsb_release -a

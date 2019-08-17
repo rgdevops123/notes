@@ -1,0 +1,9 @@
+Q: How do you remove all of the core files on a system?
+
+$ sudo find / -type f -name core -atime +1 -exec rm {} \;
+
+-atime n
+    File  was last accessed n*24 hours ago.  
+    When find figures out how many 24-hour periods ago the file was last accessed,
+    any fractional part is ignored, so to match -atime  +1,
+    a file has to have been accessed at least two days ago.

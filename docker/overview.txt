@@ -1,0 +1,255 @@
+Docker is a container management service.
+
+Docker's keywords are build, ship and run anywhere.  The whole idea of Docker is for developers to easily develop applications, ship them into containers which can then be deployed anywhere.
+
+   Login and Push a docker image to Docker Hub:
+$ sudo docker login --username=rgdevops123
+$ sudo docker push rgdevops123/rgcentos7.6
+$ sudo docker push rgdevops123/devopsweb
+
+
+$ mkdir docker
+$ cd docker
+$ git clone https://github.com/rgdevops123/devopsweb.git
+$ cd devopsweb
+
+
+   Build Docker Image.
+$ vim Dockerfile
+$ sudo docker build . -t rgdevops123/devopsweb
+
+
+   View local Docker Images.
+$ sudo docker images
+
+
+   Create a Container from the local Docker image.
+$ sudo docker run -d --rm --name devopsweb -p 5000:5000 rgdevops123/devopsweb
+$ sudo docker run --env-file .env -d --rm --name devopsweb -p 5000:5000 rgdevops123/devopsweb
+
+
+   View all of the local Conatiners (Running, Stopped, etc...)
+$ sudo docker ps -a
+
+
+   View the last 100 lines of the Container's logs:
+$ sudo docker logs --tail 100 devopsweb
+
+
+   Stream the Container's logs:
+$ sudo docker logs --follow devopsweb
+
+
+   Start a Centos 7 Container to log into:
+$ sudo docker run -it -d --rm --name rgcentos7build centos
+
+
+   Connect to a Running Container:
+$ sudo docker exec -it d0c4cd9e9696 /bin/bash
+
+
+   Remove an image:
+$ sudo docker rmi rgdevops123/devopsweb
+
+
+   Start, Stop and Terminate/Kill (ungracefully stop) a docker container.
+$ sudo docker start container_name
+$ sudo docker stop  container_name
+$ sudo docker kill  container_name
+
+$ sudo docker restart container_name
+
+   Pull a new Docker image:
+$ sudo docker pull centos
+
+
+
+
+   *** rgdevops123/rgcentos7.6 DOCKERFILE ***
+$ vim Dockerfile
+FROM centos:centos7.6.1810
+
+ARG BUILDDIR="/tmp/build"
+WORKDIR ${BUILDDIR}
+
+RUN yum -y update
+RUN yum -y install epel-release && yum clean all
+
+RUN yum -y groupinstall development
+RUN yum -y install openssl-devel postfix sqlite-devel vim wget zlib-devel
+
+RUN wget --quiet https://github.com/openssl/openssl/archive/OpenSSL_1_0_2l.tar.gz > /dev/null 2>&1 && \
+tar -zxvf OpenSSL_1_0_2l.tar.gz && \
+cd openssl-OpenSSL_1_0_2l && \
+./config shared > /dev/null 2>&1 && \
+make > /dev/null 2>&1 && \
+make install > /dev/null 2>&1 && \
+export LD_LIBRARY_PATH=/usr/local/ssl/lib/
+
+RUN wget --quiet https://www.python.org/ftp/python/3.6.5/Python-3.6.5.tar.xz > /dev/null 2>&1 && \
+tar xJf Python-3.6.5.tar.xz && \
+cd Python-3.6.5 && \
+./configure > /dev/null 2>&1 && \
+make > /dev/null 2>&1 && \
+make install > /dev/null 2>&1
+
+rm -rf ${BUILDDIR}
+
+CMD ["/bin/bash"]
+
+
+
+
+   *** DEVOPSWEB DOCKERFILE ***
+$ vim Dockerfile
+FROM rgdevops123/rgcentos7.6
+
+ENV FLASK_APP devopsweb.py
+
+COPY devopsweb.py gunicorn.py requirements.txt config.py .env ./
+COPY app app
+COPY migrations migrations
+
+RUN /usr/local/bin/pip3 install -r requirements.txt
+
+EXPOSE 5000
+CMD ["gunicorn", "--config", "gunicorn.py", "devopsweb:app"]
+
+
+
+
+
+
+
+
+
+
+Systemd Service:
+--------------------------
+$ cd /etc/systemd/system
+
+$ sudo vim devopsweb.service
++++
+[Unit]
+Description = DevOpsWeb
+After = network.target
+
+[Service]
+User=rgriffith
+WorkingDirectory=/home/centos/docker/devopsweb
+Environment="DEVOPSWEB_CONFIG_MODE=Debug"
+Environment="MAIL_SERVER=smtp.gmail.com"
+Environment="MAIL_PORT=587"
+Environment="MAIL_USE_TLS=True"
+Environment="MAIL_USERNAME=<SECRET>"
+Environment="MAIL_PASSWORD=<SECRET>"
+Environment="POSTGRES_USER=devopsweb"
+Environment="POSTGRES_PASSWORD=devopsweb"
+Environment="POSTGRES_DB=devopsweb"
+Environment="SECRET_KEY=<SECRET>"
+Environment="SQLALCHEMY_DATABASE_URI_DEBUG=sqlite:////tmp/database.db"
+Environment="SQLALCHEMY_TRACK_MODIFICATIONS=False"
+ExecStart = /usr/bin/gunicorn --config /home/centos/docker/devopsweb/gunicorn.py devopsweb:app &
+
+[Install]
+WantedBy = multi-user.target
++++
+
+$ sudo systemctl enable devopsweb.service
+$ sudo systemctl start devopsweb.service
+
+NOTE:
+   If you modify the service configuration file run:
+$ sudo systemctl daemon-reload
+
+
+
+      *** MORE SECURE Systemd Service ***
+
+Systemd Service:
+--------------------------
+$ cd /etc/systemd/system
+
+$ sudo vim devopsweb.service
++++
+[Unit]
+Description = DevOpsWeb
+After = network.target
+
+[Service]
+User=webadmin
+WorkingDirectory=/home/webadmin/devopsweb
+ExecStart = /usr/bin/gunicorn --config /home/webadmin/devopsweb/gunicorn.py devopsweb:app
+
+[Install]
+WantedBy = multi-user.target
++++
+
+
+$ sudo systemctl edit devopsweb
+
+$ sudo vim /etc/systemd/system/devopsweb.service.d/myenv.conf
++++
+[Service]
+Environment="DEVOPSWEB_CONFIG_MODE=Debug"
+Environment="MAIL_SERVER=smtp.gmail.com"
+Environment="MAIL_PORT=587"
+Environment="MAIL_USE_TLS=True"
+Environment="MAIL_USERNAME=<SECRET>"
+Environment="MAIL_PASSWORD=<SECRET>"
+Environment="POSTGRES_USER=devopsweb"
+Environment="POSTGRES_PASSWORD=devopsweb"
+Environment="POSTGRES_DB=devopsweb"
+Environment="SECRET_KEY=<SECRET>"
+Environment="SQLALCHEMY_DATABASE_URI_DEBUG=sqlite:////tmp/database.db"
+Environment="SQLALCHEMY_TRACK_MODIFICATIONS=False"
++++
+
+$ sudo chmod 600 /etc/systemd/system/devopsweb.service.d/myenv.conf
+
+$ sudo systemctl enable devopsweb.service
+$ sudo systemctl start devopsweb.service
+
+NOTE:
+   If you modify the service configuration file run:
+$ sudo systemctl daemon-reload
+
+
+
+
+
+
+
+
+
+   TESTING Postfix Mail Server:
+   --------------------------------------------
+$ vim test.py
++++
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from email.utils import COMMASPACE, formatdate
+
+
+def sendMail(to, fro, subject, text, server="localhost"):
+    assert type(to)==list
+
+    msg = MIMEMultipart()
+    msg['From'] = fro
+    msg['To'] = COMMASPACE.join(to)
+    msg['Date'] = formatdate(localtime=True)
+    msg['Subject'] = subject
+
+    msg.attach( MIMEText(text) )
+
+    smtp = smtplib.SMTP(server)
+    smtp.sendmail(fro, to, msg.as_string() )
+    smtp.close()
+
+
+sendMail([' rgdevops123 '<SECRET>],'devopsweb <devopsweb@demo.com>','Hello','Testing 1 2 3!!!')
++++
+
+$ python3.6 test.py
+       *** Check your Inbox ***

@@ -1,6 +1,26 @@
 Docker is a container management service.
 
-Docker's keywords are build, ship and run anywhere.  The whole idea of Docker is for developers to easily develop applications, ship them into containers which can then be deployed anywhere.
+Docker's keywords are build, ship and run anywhere.
+The whole idea of Docker is for developers to easily develop applications, 
+ship them into containers which can then be deployed anywhere.
+
+
+   Install Docker.
+$ sudo yum -y install docker
+
+
+   Start Docker.
+$ sudo systemctl start docker
+$ sudo systemctl enable docker
+$ sudo systemctl status docker
+
+
+   Add docker admins to docker group.
+$ sudo vim /etc/group
++++
+docker:x:981:rgriffith
++++
+
 
    Login and Push a docker image to Docker Hub:
 $ sudo docker login --username=rgdevops123
@@ -21,6 +41,7 @@ $ sudo docker build . -t rgdevops123/devopsweb
 
    View local Docker Images.
 $ sudo docker images
+$ sudo docker image ls
 
 
    Create a Container from the local Docker image.
@@ -59,8 +80,51 @@ $ sudo docker kill  container_name
 
 $ sudo docker restart container_name
 
+
+
+   Remove a conatiner.
+# docker rm <CONTAINER ID>
+
+
+   Remove all containers.
+$ docker rm -f $(docker ps -aq)
+### docker rm (remove container)
+### -f flag (for rm) is to stop container if it's running (force deletion).
+### -q flag (for ps) is to print only container IDs.
+
+
+   View docker configuration.
+$ docker inspect rgdevops123/devopswebnl
+### Displays system wide information about the Docker installation
+###       kernel version, number of containers and images,
+###       exposed ports, mounted volumes, etc.
+
+
    Pull a new Docker image:
-$ sudo docker pull centos
+$ sudo docker pull rgdevops123/devopswebnl
+
+
+   Install a downloaded Docker Image.
+$ sudo docker pull rgdevops123/devopswebnl
+$ sudo docker save -o devopswebnl.docker rgdevops123/devopswebnl
+$ sudo docker load -i devopswebnl.docker
+
+
+   Rename a docker image.
+$ sudo docker tag devopswebnl:latest rgdevops123/devopswebnl:latest
+
+
+   Copy files to/from HOST/Container.
+
+$ sudo docker cp 
+   <containerId>:/file/path/within/container         
+   /host/path/target
+
+$ sudo docker cp 
+/host/path/target  
+<containerId>:/file/path/within/container
+
+
 
 
 

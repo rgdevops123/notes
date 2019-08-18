@@ -14,5 +14,6 @@ SyntaxError
 TabError
 TypeError
 UnicodeError
+UnboundLocalError
 ValueError
 ZeroDivisionError

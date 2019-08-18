@@ -7,14 +7,19 @@ $ ansible webservers –m ping
 
 
 List the hosts in the inventory file.
-$ ansible webservers --list-hosts
-  hosts (1):
-    172.16.91.182
+$ ansible -i hosts web --list-hosts
+  hosts (3):
+    devopsweb1
+    devopsweb2
+    devopsweb3
+
 
    *** Setup Module ***
 Gather information about target machines network, hardware, OS version, memory, etc...
    Setup Module
 $ ansible webservers –m setup
+
+
 
    *** Command Module ***
 Execute a specific command on a target machine and get the output.
@@ -26,10 +31,14 @@ $ ansible webservers -m command -a 'hostname'
 172.16.91.182 | CHANGED | rc=0 >>
 ansible2node
 
+
+
    *** Shell Module ***
 $ ansible webservers -m shell -a 'ps -ef | grep firefox'
 172.16.91.182 | CHANGED | rc=0 >>
 rgriffi+ 50772  6922  2 20:26 ?        00:00:25 /usr/lib64/firefox/firefox
+
+
 
    *** User Module ***
 Add a user.
@@ -42,12 +51,16 @@ $ ansible webservers -m user -a 'name=webadmin password=!@#$%^ -comment="Web Adm
 Delete a user.
 $ ansible webservers -m user -a 'name=webadmin state=absent' --become
 
+
+
    *** Group Module ***
 Add a group.
 $ ansible webservers -m group -a 'name=webadmin gid=9001 state=present' --become
 
 Delete a group.
 $ ansible webservers -m group -a 'name=webadmin state=absent' --become
+
+
 
    *** File Module ***
 Create a file.
@@ -62,9 +75,13 @@ $ ansible webservers -m file -a 'dest=/home/webadmin/incoming state=directory mo
 Delete a directory.
 $ ansible webservers -m file -a 'dest=/home/webadmin/incoming state=absent' --become
 
+
+
    *** Copy Module ***
 Copy a file.
 $ ansible webservers -m copy -a 'src=/outgoing/data.txt dest=/home/webadmin/data.txt' --become
+
+
 
    *** Packages Module ***
 Install a Package.
@@ -79,6 +96,8 @@ Remove a Package.
 $ ansible webservers -m yum -a 'name=httpd state=absent' --become
 $ ansible webservers -m apt -a 'name=httpd state=absent' --become
 
+
+
    *** Services Module ***
 Start a Service.
 $ ansible webservers -m service -a 'name=httpd state=started' --become
@@ -88,4 +107,3 @@ $ ansible webservers -m service -a 'name=httpd state=stopped' --become
 
 Restart a Service.
 $ ansible webservers -m service -a 'name=httpd state=restarted' --become
-

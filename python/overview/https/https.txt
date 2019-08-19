@@ -36,3 +36,6 @@ After the client verifies the certificate, it creates an encryption
   Self-Signed Certificate:
     A self-signed certificate is one where the signature is generated
  using the private key that is associated with that same certificate.
+
+    Flask's pyOpenSSL generates a different certificate each time the
+ server runs.

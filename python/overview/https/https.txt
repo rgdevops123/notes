@@ -31,3 +31,8 @@ After the client verifies the certificate, it creates an encryption
  the package. From the point when the server receives the encryption
  key all traffic is encrypted with this key that only the client and
  server know.
+
+
+  Self-Signed Certificate:
+    A self-signed certificate is one where the signature is generated
+ using the private key that is associated with that same certificate.

@@ -75,3 +75,11 @@ $ echo "python" >> .git/info/sparse-checkout
 $ echo "hadoop" >> .git/info/sparse-checkout
 
 $ git pull origin master
+
+
+
+What is "git rebase"?
+
+Reapply commits on top of another base tip.
+
+

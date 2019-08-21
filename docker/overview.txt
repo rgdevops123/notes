@@ -5,6 +5,13 @@ The whole idea of Docker is for developers to easily develop applications,
 ship them into containers which can then be deployed anywhere.
 
 
+What is the difference between CMD and ENTRYPOINT in a Dockerfile?
+
+   Docker has a default entrypoint which is /bin/sh -c but does not have a default command.
+
+   The ENTRYPOINT specifies a command that will always be executed when the container starts. The CMD specifies arguments that will be fed to the ENTRYPOINT.
+
+
    Install Docker.
 $ sudo yum -y install docker
 

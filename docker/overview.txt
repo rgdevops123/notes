@@ -5,7 +5,7 @@ The whole idea of Docker is for developers to easily develop applications,
 ship them into containers which can then be deployed anywhere.
 
 
-What is the difference between CMD and ENTRYPOINT in a Dockerfile?
+What is the difference between ENTRYPOINT and CMD in a Dockerfile?
 
    Docker has a default entrypoint which is /bin/sh -c but does not have a default command.
 
@@ -32,9 +32,6 @@ $ sudo docker cp cert.pem 9ae10da90f8d:/devopsweb
 $ sudo docker cp key.pem 9ae10da90f8d:/devopsweb
 [root@4816cb7b221c devopsweb]# /usr/sbin/postfix start
 [root@4816cb7b221c devopsweb]# gunicorn --certfile cert.pem --keyfile key.pem --config gunicorn.py devopsweb:app &
-
-
-
 
 
 

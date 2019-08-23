@@ -1,0 +1,38 @@
+Running devopsweb on HTTPS.
+
+$ cd devopsweb
+$ ls   ### Note that cert.pem & key.pem are there
+app                   devopsweb.py        gunicorn.py     migrations   requirements.txt
+***cert.pem***        docker-compose.yml  ***key.pem***   nginx        tests_pytests
+config.py             Dockerfile          logs            __pycache__  tests_selenium
+coverage_html_report  docker-run.sh       manage.py       README.md    tests_unittests
+
+$ vim docker-run.sh
++++
+#!/bin/bash 
+
+/usr/sbin/postfix start
+gunicorn --certfile cert.pem --keyfile key.pem --config gunicorn.py devopsweb:app &
++++
+
+
+$ sudo docker run --privileged=true --env DEVOPSWEB_CONFIG_MODE=Test1 -d --rm --name devopsweb -p 443:5000 -v $(pwd):/devopsweb rgdevops123/devopsweb
+
+   OR with a SQLite DB.
+
+Update config.py
+$ vim config.py
++++
+class TestConfig1(Config):
+    DEBUG = True
+    LOGIN_DISABLED = True
+    TESTING = True
+    WTF_CSRF_ENABLED = False
+    SQLALCHEMY_DATABASE_URI = 'sqlite:////tmp/testdatabase.db'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SECRET_KEY = '12346789'
++++
+
+$ sudo docker run --privileged=true --env DEVOPSWEB_CONFIG_MODE=Test1 -d --rm --name devopsweb -p 443:5000 -v $(pwd):/devopsweb rgdevops123/devopsweb
+
+

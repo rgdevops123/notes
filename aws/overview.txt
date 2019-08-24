@@ -162,6 +162,16 @@ $ aws ec2 describe-instances --filters  "Name=instance-type,Values=t2.micro"
 
 
 Q: How do you describe all instances and return all instance IDs and AMI IDs?
+
+$ aws ec2 describe-instances --query 'Reservations[*].Instances[*].[InstanceId,ImageId]'
+--------------------------------------------------
+|                DescribeInstances               |
++----------------------+-------------------------+
+|  i-037a59248dded357e |  ami-0f2b4fc905b0bd1f1  |
++----------------------+-------------------------+
+
+
+Q: How do you describe all instances and return all instance IDs and AMI IDs?
      But only show the tag value where the tag key is "Name".
 
 $ aws ec2 describe-instances --query 'Reservations[*].Instances[*].[InstanceId,ImageId,Tags[?Key==`Name`].Value]'

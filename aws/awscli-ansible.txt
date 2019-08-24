@@ -1,0 +1,54 @@
+In AWS IAM:
+Add Policy for Access ID:
+     Managed policy     AmazonEC2FullAccess
+
+$ sudo apt -y  install awscli
+
+$ aws configure
+AWS Access Key ID [None]: <Access Key ID>
+AWS Secret Access Key [None]: < Secret Access Key>
+Default region name [None]: us-east-2        
+Default output format [None]: table
+          OR
+$ export AWS_ACCESS_KEY_ID=<Access Key ID>
+$ export AWS_SECRET_ACCESS_KEY=< Secret Access Key>
+$ export AWS_DEFAULT_REGION=us-east-2
+$ export AWS_DEFAULT_OUTPUT=table
+
+Test Access:
+   List Access Keys:
+$ aws iam list-access-keys
+
+   View Instance Details:
+$ aws ec2 describe-instances
+
+
+$ sudo apt -y install python-pip
+
+$ pip install boto
+
+$ ansible-playbook -v ec2_prov_playbook.yml
+
+Check out:
+https://github.com/ansible/ansible/issues/25459
+
+
+---
+### provision AWS EC2 instance
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  user: ansible
+  tasks:
+    - name: Provision 1 instances
+      local_action:
+        module: ec2
+        key_name: kube
+        group_id: sg-0de7ba70ec355cc6b
+        instance_type: t2.micro
+        image: ami-0f2b4fc905b0bd1f1
+        region: us-east-2
+        vpc_subnet_id: subnet-b1ff9fcb
+        wait: yes
+        count: 1
+        assign_public_ip: yes

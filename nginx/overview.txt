@@ -1,0 +1,19 @@
+NGINX:
+
+
+$ sudo yum -y install nginx
+
+$ sudo vim /etc/nginx/nginx.conf
++++
+    server {
+        listen       8080 default_server;
+        listen       [::]:8080 default_server;
+        server_name  _;
+        root         /var/www/html;
++++
+
+   ### Place index.html and content in /var/www/html
+
+$ sudo systemctl restart nginx
+
+GOTO: http://127.0.0.1:8080

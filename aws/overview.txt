@@ -1,0 +1,228 @@
+Q: What is AWS, EC2, EBS, ELB, ALB, NLB, CLB, IAM, ARN, 
+        Amazon Route53, AWS Lambda, Elastic IP address,
+        VPC, RDS, DynamoDB, Scalability, Elasticity, Auto Scaling, 
+        Scheduled Scaling, CloudWatch.
+
+
+AWS   - Amazon Web Services
+
+EC2    - Elastic Cloud Computing
+
+EBS    - Elastic Block Storage
+
+ELB    - Elastic Load Balancer
+
+ALB    - Application Load Balancer
+
+NLB    - Network Load Balancer
+
+CLB    - Classic Load Balancer
+
+IAM    - AWS Identity and Access Management. SSL Cert MGMT.
+
+ARN   - Amazon Resource Name
+
+Amazon Route53   - DNS
+
+AWS Lambda   - Run code without provisioning or managing servers. 
+
+Elastic IP address   - across availability zones, switch to larger server.
+
+VPC   - Virtual Private Cloud … Private Network. 
+
+RDS   - Relational DB Service.
+
+DynamoDB   - NoSQL database service that supports both document and key-value store models.
+
+Scalability   -  "workload increase"..."provision resources"..."incrementally"
+
+Elasticity     -  "workload increase/workload decrease"..."provision/deprovision resources"..."autonomic manner"
+
+Auto Scaling   - Use metrics and rules to automate Spinning up/Terminating instances.
+
+Scheduled Scaling   - Define Min, Max & Scaling Size.
+
+CloudWatch   - Monitoring.
+
+
+Q: What is Elastic Load Balancing   
+
+- automatically distributes incoming application traffic across multiple targets, such as Amazon EC2 instances, containers, and IP addresses. It can handle the varying load of your application traffic in a single Availability Zone or across multiple Availability Zones. Elastic Load Balancing offers three types of load balancers that all feature the high availability, automatic scaling, and robust security necessary to make your applications fault tolerant. ALB, NLB & CLB.
+
+
+Q: What is the difference between Scalability vs. Elasticity?
+
+Scalability   -  "workload increase"..."provision resources"..."incrementally"
+Elasticity     -  "workload increase/workload decrease"..."provision/deprovision resources"..."autonomic manner"
+
+
+Q: What is the “aws” sub command for managing “instances”, “loadbalancers”, “containers”, “identities”
+
+- ec2
+
+- elbv2
+
+- ecs
+
+- iam
+
+
+   *** TODO ***
+
+How do you install AWS CLI?
+
+$ pip install awscli
+
+
+How do you upload a file to Amazon S3?
+
+$ aws s3 cp data.txt s3://mybucket/
+
+
+   *** TODO ***
+
+
+Q: How do you list AWS users?
+
+# aws iam list-users --output table
+
+
+Q: How do you setup/configure the AWS CLI?
+
+$ aws configure
+Provide: AWS Access Key ID, AWS Secret Access Key,
+Default region name, Default output format 
+
+
+Q: What is the AWS CLI config file?
+
+Provide: aws_access_key_id, aws_secret_access_key, region & output
+$ chmod 600 ~/.aws/config
+$ export AWS_CONFIG_FILE=$HOME/.aws/config
+
+
+   *** TODO ***
+Q: How do yo create a Security Group?
+
+$ aws ec2 create-security-group --group-name my-sg 
+      --description "My security group"
+   *** TODO ***
+
+
+Q: How do you create AWS EC2 Instances?
+
+# $ aws ec2 run-instances --image-id ami-1d668865 
+--count 1 --instance-type t2.micro --key-name sreweb 
+--security-group-ids sg-099b5174 --subnet-id subnet-a8cc14e0
+
+
+Q: How do you connect to AWS EC2 Instances?
+
+# chmod 400 sreweb.pem
+# ssh -i "sreweb.pem" ec2-user@ec2-18-220-78-69.us-east-2.compute.amazonaws.com
+# ssh -i "sreweb.pem" ec2-user@52.53.157.185
+
+
+Q: How do you list AWS EC2 Instances by type?
+
+# aws ec2 describe-instances --filters "Name=instance-type,Values=t2.micro"
+
+# aws ec2 describe-instances --query 'Reservations[].Instances[].[Placement.AvailabilityZone, State.Name, InstanceId, InstanceType, ImageId, KeyName]' --output table
++++
+|  us-west-1b|  stopped |  i-090482f549f6d99c0  |  t2.micro |  ami-3a674d5a |  sreweb
++++
+
+
+Q: How do you start AWS EC2 Instances?
+
+$ aws ec2 start-instances --instance-ids i-090482f549f6d99c03
+$ aws ec2 start-instances --instance-ids i-090482f549f6d99c0 i-0533738ec208d34c7
+
+
+Q: How do you restart/reboot AWS EC2 Instances?
+
+$ aws ec2 reboot-instances --instance-ids i-090482f549f6d99c03
+$ aws ec2 reboot-instances --instance-ids i-090482f549f6d99c0 i-0533738ec208d34c7
+
+
+Q: How do you stop AWS EC2 Instances?
+
+$ aws ec2 stop-instances --instance-ids i-090482f549f6d99c03
+
+
+Q: How do you terminate/delete AWS EC2 Instances?
+
+$ aws ec2 terminate-instances --instance-ids i-090482f549f6d99c03
+
+
+
+Q: How do you get all instances of type t2.micro?
+
+$ aws ec2 describe-instances --filters  "Name=instance-type,Values=t2.micro"
+
+
+Q: How do you describe all instances and return all instance IDs and AMI IDs?
+     But only show the tag value where the tag key is "Name".
+
+$ aws ec2 describe-instances --query 'Reservations[*].Instances[*].[InstanceId,ImageId,Tags[?Key==`Name`].Value]'
+---------------------------
+|    DescribeInstances    |
++-------------------------+
+|  i-037a59248dded357e    |
+|  ami-0f2b4fc905b0bd1f1  |
+|  devopsweb              |
++-------------------------+
+
+
+
+Q: What is an ARN?
+
+- Amazon Resource Name
+
+
+Q: How do you create an AWS Application Load Balancer?
+
+# aws elbv2 create-load-balancer --name sreweb-load-balancer  
+--subnets subnet-6ac8c232 subnet-7776b310    
+--security-groups sg-36b32f50 sg-684dde0e sg-cb4ddead
+
+
+Q: How do you create a Target Group?
+
+# aws elbv2 create-target-group --name sreweb-targets --protocol HTTP  
+--port 8833 --vpc-id vpc-c61942a2
+
+
+Q: How do you register Targets:
+
+# aws elbv2 register-targets
+--target-group-arn < >
+--targets Id=i-090482f549f6d99c0 Id=i-0533738ec208d34c7
+
+
+Q: How do you create a Listener:
+
+# aws elbv2 create-listener
+--load-balancer-arn < >
+--protocol HTTP --port 8833  
+--default-actions Type=forward,TargetGroupArn=< >
+
+
+Q: How do you view Health of Target Group”:
+
+# aws elbv2 describe-target-health --target-group-arn < >
+
+
+Q: What are the Virtualization Types?
+
+HVM AMI: Hardware Virtual Machine
+PV  AMI: Paravirtual
+
+
+Q: What are CloudWatch Alarms?
+
+  Alarm: Issue … instance exceeded metric.
+  Insufficient: Not enough info to determine if there is an issue.
+  Ok: … instance has not exceeded metric.
+  CloudWatch Detailed Monitoring: 
+     1min checks rather than 5min checks. Extra costs.

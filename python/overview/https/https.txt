@@ -39,3 +39,8 @@ After the client verifies the certificate, it creates an encryption
 
     Flask's pyOpenSSL generates a different certificate each time the
  server runs.
+
+
+Q: Name three Certificate Authorities (CAs).
+
+DigiCert, Entrust & Verisign.

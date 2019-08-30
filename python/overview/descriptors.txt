@@ -3,6 +3,8 @@ https://docs.python.org/3/howto/descriptor.html
 
 Descriptor:
 
+   Descriptors allow you to write reusable code that can be shared between classes.
+
 The below defines descriptors, summarizes the protocol, and shows how descriptors are called. Examines a custom descriptor and several built-in Python descriptors including functions, properties, static methods, and class methods. Shows how each works by giving a pure Python equivalent and a sample application.
 
 Learning about descriptors not only provides access to a larger toolset, it creates a deeper understanding of how Python works and an appreciation for the elegance of its design.

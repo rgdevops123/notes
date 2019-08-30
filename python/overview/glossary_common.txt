@@ -1,6 +1,12 @@
          PYTHON GLOSSARY: Common Terms
          =============================
 = = = = = = = = = 
+
+   __init__(self)
+
+    In a class, this is the initialization or constructor method.
+
+= = = = = = = = = 
    >>>
 
     The default Python prompt of the interactive shell. Often seen for code examples which can be executed interactively in the interpreter.

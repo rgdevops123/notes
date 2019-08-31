@@ -1,0 +1,36 @@
+Create Root CA (Done once)
+
+  Create Root Key:
+   NOTE: If you want a non password protected key just remove the -des3 option
+$ openssl genrsa -out rootCA.key 4096
+
+
+  Create and self sign the Root Certificate:
+   NOTE: Here we used our root key to create the root certificate that needs to 
+         be distributed in all the computers that have to trust us.
+$ openssl req -x509 -new -nodes -key rootCA.key -sha256 -days 1024 -out rootCA.crt
+
+   
+
+
+Create a certificate (Done for each server)
+
+  Create the certificate key:
+$ openssl genrsa -out key.pem 2048
+
+  Create the signing (csr):
+   Method A (Interactive)
+$ openssl req -new -key key.pem -out cert.csr
+
+   Method B (One Liner)
+$ openssl req -new -sha256 -key key.pem \
+-subj "/C=US/ST=CA/O=DMCC, Inc./CN=18.191.87.186" \
+-out cert.csr
+
+  Generate the certificate using the csr and key along with the CA Root key:
+$ openssl x509 -req -in cert.csr \
+-CA rootCA.crt -CAkey rootCA.key -CAcreateserial \
+-out cert.pem -days 500 -sha256
+
+   NOTE: The above is for the below URL.
+https://18.191.87.186

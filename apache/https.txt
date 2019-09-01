@@ -17,17 +17,17 @@ LoadModule proxy_http_module modules/mod_proxy_http.so
 $ sudo vim /etc/httpd/conf.d/devopsweb.conf
 +++
 <VirtualHost *:80>
-<Proxy balancer://devopsweb>
-    BalancerMember http://10.0.0.96:5000
-    BalancerMember http://10.0.0.97:5000
-    BalancerMember http://10.0.0.98:5000
+    <Proxy balancer://devopsweb>
+        BalancerMember http://10.0.0.96:5000
+        BalancerMember http://10.0.0.97:5000
+        BalancerMember http://10.0.0.98:5000
 
-</Proxy>
+    </Proxy>
 
-    ProxyPreserveHost On
+        ProxyPreserveHost On
 
-    ProxyPass / balancer://devopsweb/
-    ProxyPassReverse / balancer://devopsweb/
+        ProxyPass / balancer://devopsweb/
+        ProxyPassReverse / balancer://devopsweb/
 </VirtualHost>
 +++
 

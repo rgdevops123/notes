@@ -1,0 +1,165 @@
+VNC:
+
+Introduction
+
+Virtual Network Computing, or VNC, is a connection system that allows you to use your keyboard and mouse to interact with a graphical desktop environment on a remote server. It makes managing files, software, and settings on a remote server easier for users who are not yet comfortable with the command line.
+
+In this guide, you’ll set up a VNC server on an Ubuntu 18.04 server and connect to it securely through an SSH tunnel. You’ll use TightVNC, a fast and lightweight remote control package. This choice will ensure that our VNC connection will be smooth and stable even on slower internet connections.
+
+
+Prerequisites
+
+To complete this tutorial, you’ll need:
+
+    One Ubuntu 18.04 server set up by following the Ubuntu 18.04 initial server setup guide, including a sudo non-root user and a firewall.
+    A local computer with a VNC client installed that supports VNC connections over SSH tunnels.
+        On Winows, you can use TightVNC, RealVNC, or UltraVNC.
+        On macOS, you can use the built-in Screen Sharing program, or can use a cross-platform app like RealVNC.
+        On Linux, you can choose from many options, including vinagre, krdc, RealVNC, or TightVNC.
+
+
+
+         Step 1 — Installing the Desktop Environment and VNC Server
+
+By default, an Ubuntu 18.04 server does not come with a graphical desktop environment or a VNC server installed, so we’ll begin by installing those. Specifically, we will install packages for the latest Xfce desktop environment and the TightVNC package available in the official Ubuntu repository.
+
+On your server, update your list of packages:
+
+    $ sudo apt update
+
+Now install the Xfce desktop environment on your server:
+
+    $ sudo apt -y install xfce4 xfce4-goodies
+
+Once that installation completes, install the TightVNC server:
+
+    $ sudo apt -y install tightvncserver
+
+
+
+
+
+
+
+
+To complete the VNC server’s initial configuration after installation, use the vncserver command to set up a secure password and create the initial configuration files:
+
+    $ vncserver
+
+You’ll be prompted to enter and verify a password to access your machine remotely:
+
+Output
+You will require a password to access your desktops.
+
+   Password:
+   Verify:
+
+The password must be between six and eight characters long. Passwords more than 8 characters will be truncated automatically.
+
+Once you verify the password, you’ll have the option to create a a view-only password. Users who log in with the view-only password will not be able to control the VNC instance with their mouse or keyboard. This is a helpful option if you want to demonstrate something to other people using your VNC server, but this isn’t required.
+
+The process then creates the necessary default configuration files and connection information for the server:
+
+
+   Output:
+Would you like to enter a view-only password (y/n)? n
+xauth:  file /home/sammy/.Xauthority does not exist
+
+New 'X' desktop is your_hostname:1
+
+Creating default startup script /home/sammy/.vnc/xstartup
+Starting applications specified in /home/sammy/.vnc/xstartup
+Log file is /home/sammy/.vnc/your_hostname:1.log
+
+
+
+
+
+
+         Step 2 — Configuring the VNC Server
+
+The VNC server needs to know which commands to execute when it starts up. Specifically, VNC needs to know which graphical desktop it should connect to.
+
+These commands are located in a configuration file called xstartup in the .vnc folder under your home directory. The startup script was created when you ran the vncserver in the previous step, but we’ll create our own to launch the Xfce desktop.
+
+When VNC is first set up, it launches a default server instance on port 5901. This port is called a display port, and is referred to by VNC as :1. VNC can launch multiple instances on other display ports, like :2, :3, and so on.
+
+Because we are going to be changing how the VNC server is configured, first stop the VNC server instance that is running on port 5901 with the following command:
+
+    $ vncserver -kill :1
+
+The output should look like this, although you’ll see a different PID:
+
+   Output:
+Killing Xtightvnc process ID 17648
+
+
+
+
+
+
+
+Before you modify the xstartup file, back up the original:
+
+    $ mv ~/.vnc/xstartup ~/.vnc/xstartup.bak
+
+Now create a new xstartup file and open it in your text editor:
+
+    $ vim ~/.vnc/xstartup
++++
+#!/bin/bash
+xrdb $HOME/.Xresources
+startxfce4 &
++++
+
+The first command in the file, xrdb $HOME/.Xresources, tells VNC’s GUI framework to read the server user’s .Xresources file. .Xresources is where a user can make changes to certain settings of the graphical desktop, like terminal colors, cursor themes, and font rendering. The second command tells the server to launch Xfce, which is where you will find all of the graphical software that you need to comfortably manage your server.
+
+To ensure that the VNC server will be able to use this new startup file properly, we’ll need to make it executable.
+
+    $ sudo chmod +x ~/.vnc/xstartup
+
+
+
+
+
+
+Now, restart the VNC server.
+
+    $ vncserver
+
+You’ll see output similar to this:
+
+Output
+New 'X' desktop is your_hostname:1
+
+Starting applications specified in /home/sammy/.vnc/xstartup
+Log file is /home/sammy/.vnc/your_hostname:1.log
+
+With the configuration in place, let’s connect to the server from our local machine.
+
+
+
+
+
+
+         Step 3 — Connecting the VNC Desktop Securely
+
+VNC itself doesn’t use secure protocols when connecting. We’ll use an SSH tunnel to connect securely to our server, and then tell our VNC client to use that tunnel rather than making a direct connection.
+
+Create an SSH connection on your local computer that securely forwards to the localhost connection for VNC. You can do this via the terminal on Linux or macOS with the following command:
+
+    $ ssh -i ~/user1.pem -L 5901:127.0.0.1:5901 -C -N -l ubuntu ubuntu
+
+The -L switch specifies the port bindings. In this case we’re binding port 5901 of the remote connection to port 5901 on your local machine. The -C switch enables compression, while the -N switch tells ssh that we don’t want to execute a remote command. The -l switch specifies the remote login name.
+
+If you are using a graphical SSH client, like PuTTY, use your_server_ip as the connection IP, and set localhost:5901 as a new forwarded port in the program’s SSH tunnel settings.
+
+Once the tunnel is running, use a VNC client to connect to localhost:5901. You’ll be prompted to authenticate using the password you set in Step 1.
+
+    $ sudo apt -y install tigervnc-viewer
+    $ /usr/bin/vncviewer
+     
+    VNC Server: localhost:5901
+
+Once you are connected, you’ll see the default Xfce desktop.
+

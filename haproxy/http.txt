@@ -1,0 +1,26 @@
+HAPROXY: HTTP
+
+$ sudo yum -y install haproxy
+
+$ sudo vim /etc/haproxy/haproxy.cfg
++++
+#---------------------------------------------------------------------
+# main frontend which proxys to the backends
+#---------------------------------------------------------------------
+frontend  main *:80
+    default_backend             app
+
+
+#---------------------------------------------------------------------
+# round robin balancing between the various backends
+#---------------------------------------------------------------------
+backend app
+    balance     roundrobin
+    server  app1 10.0.0.96:5000 check
+    server  app2 10.0.0.97:5000 check
+    server  app3 10.0.0.98:5000 check
++++
+
+$ sudo systemctl restart haproxy.service
+
+GOTO: http://lb1

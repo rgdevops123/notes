@@ -1,0 +1,39 @@
+Self Signed Certificate with Custom Root CA
+
+
+Create Root CA (Done once)
+
+  Create Root Key:
+$ openssl genrsa -out rootCA.key 4096
+
+
+  Create and self sign the Root Certificate:
+   NOTE: Here we used our root key to create the root certificate that needs to 
+         be distributed in all the computers that have to trust us.
+$ openssl req -x509 -new -nodes -key rootCA.key -sha256 -days 1024 -out rootCA.crt
+
+   
+
+
+Create a certificate (Done for each server)
+
+  Create the certificate key:
+$ openssl genrsa -out lb1.key 2048
+
+
+  Create the signing (csr):
+   Method A (Interactive)
+$ openssl req -new -key lb1.key -out lb1.csr
+
+   Method B (One Liner)
+$ openssl req -new -sha256 -key lb1.key \
+-subj "/C=US/ST=CA/O=DMCC/CN=lb1" \
+-out lb1.csr
+
+  Generate the certificate using the csr and key along with the CA Root key:
+$ openssl x509 -req -in lb1.csr \
+-CA rootCA.crt -CAkey rootCA.key -CAcreateserial \
+-out lb1.crt -days 500 -sha256
+
+
+$ cat lb1.crt lb1.key > lb1.pem

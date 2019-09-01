@@ -1,0 +1,116 @@
+Apache HTTP & HTTPS:
+
+         HTTP:
+$ sudo yum -y install httpd
+$ sudo systemctl start httpd
+$ sudo systemctl enable httpd
+
+$ sudo vim /etc/httpd/conf.modules.d/00-proxy.conf
++++
+LoadModule proxy_module modules/mod_proxy.so
+LoadModule lbmethod_byrequests_module modules/mod_lbmethod_byrequests.so
+LoadModule proxy_balancer_module modules/mod_proxy_balancer.so
+LoadModule proxy_http_module modules/mod_proxy_http.so
++++
+
+
+$ sudo vim /etc/httpd/conf.d/devopsweb.conf
++++
+<VirtualHost *:80>
+<Proxy balancer://devopsweb>
+    BalancerMember http://10.0.0.96:5000
+    BalancerMember http://10.0.0.97:5000
+    BalancerMember http://10.0.0.98:5000
+
+</Proxy>
+
+    ProxyPreserveHost On
+
+    ProxyPass / balancer://devopsweb/
+    ProxyPassReverse / balancer://devopsweb/
+</VirtualHost>
++++
+
+$ sudo systemctl restart httpd
+
+GOTO:  http://lb1
+
+
+
+         HTTPS:
+
+$ mkdir /home/centos/httpd
+$ cd /home/centos/httpd
+
+Self Signed Certificate with Custom Root CA
+
+
+Create Root CA (Done once)
+
+  Create Root Key:
+   NOTE: If you want a non password protected key just remove the -des3 option
+$ openssl genrsa -des3 -out rootCA.key 4096
+
+
+  Create and self sign the Root Certificate:
+   NOTE: Here we used our root key to create the root certificate that needs to 
+         be distributed in all the computers that have to trust us.
+$ openssl req -x509 -new -nodes -key rootCA.key -sha256 -days 1024 -out rootCA.crt
+
+   
+
+
+Create a certificate (Done for each server)
+
+  Create the certificate key:
+$ openssl genrsa -out lb1.key 2048
+
+  Create the signing (csr):
+   Method A (Interactive)
+$ openssl req -new -key lb1.key -out lb1.csr
+
+   Method B (One Liner)
+$ openssl req -new -sha256 -key lb1.key \
+-subj "/C=US/ST=CA/O=DMCC, Inc/CN=lb1" \
+-out lb1.csr
+
+  Generate the certificate using the csr and key along with the CA Root key:
+$ openssl x509 -req -in lb1.csr \
+-CA rootCA.crt -CAkey rootCA.key -CAcreateserial \
+-out lb1.crt -days 500 -sha256
+
+
+
+
+
+
+$ sudo yum -y install mod_ssl
+
+$ sudo vim /etc/httpd/conf.d/ssl.conf
++++
+<VirtualHost *:443>
+     SSLEngine On
+     SSLCertificateFile /home/centos/httpd/lb1.crt
+     SSLCertificateKeyFile /home/centos/httpd/lb1.key
+     SSLCACertificateFile /home/centos/httpd/rootCA.crt 
+
+    <Proxy balancer://devopsweb>
+        BalancerMember http://10.0.0.96:5000
+        BalancerMember http://10.0.0.97:5000
+        BalancerMember http://10.0.0.98:5000
+
+    </Proxy>
+
+    ProxyPreserveHost On
+    SSLProxyEngine on
+
+    ProxyPass / balancer://devopsweb/
+    ProxyPassReverse / balancer://devopsweb/
+</VirtualHost>
++++
+
+
+
+$ sudo systemctl restart httpd
+
+GOTO:  https://lb1

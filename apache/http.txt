@@ -1,0 +1,36 @@
+Apache HTTP:
+
+         HTTP:
+$ sudo yum -y install httpd
+$ sudo systemctl start httpd
+$ sudo systemctl enable httpd
+
+$ sudo vim /etc/httpd/conf.modules.d/00-proxy.conf
++++
+LoadModule proxy_module modules/mod_proxy.so
+LoadModule lbmethod_byrequests_module modules/mod_lbmethod_byrequests.so
+LoadModule proxy_balancer_module modules/mod_proxy_balancer.so
+LoadModule proxy_http_module modules/mod_proxy_http.so
++++
+
+
+$ sudo vim /etc/httpd/conf.d/devopsweb.conf
++++
+<VirtualHost *:80>
+<Proxy balancer://devopsweb>
+    BalancerMember http://10.0.0.96:5000
+    BalancerMember http://10.0.0.97:5000
+    BalancerMember http://10.0.0.98:5000
+
+</Proxy>
+
+    ProxyPreserveHost On
+
+    ProxyPass / balancer://devopsweb/
+    ProxyPassReverse / balancer://devopsweb/
+</VirtualHost>
++++
+
+$ sudo systemctl restart httpd
+
+GOTO:  http://lb1

@@ -24,10 +24,10 @@ $ sudo vim /etc/httpd/conf.d/devopsweb.conf
 
     </Proxy>
 
-        ProxyPreserveHost On
+    ProxyPreserveHost On
 
-        ProxyPass / balancer://devopsweb/
-        ProxyPassReverse / balancer://devopsweb/
+    ProxyPass / balancer://devopsweb/
+    ProxyPassReverse / balancer://devopsweb/
 </VirtualHost>
 +++
 

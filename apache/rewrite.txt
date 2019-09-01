@@ -1,0 +1,17 @@
+<VirtualHost *:80>
+    <Proxy balancer://devopsweb>
+        BalancerMember http://10.0.0.96:5000
+        BalancerMember http://10.0.0.97:5000
+        BalancerMember http://10.0.0.98:5000
+    
+    </Proxy>
+    
+    ProxyPreserveHost On
+
+    ProxyPass / balancer://devopsweb/
+    ProxyPassReverse / balancer://devopsweb/
+
+    RewriteEngine On
+    RewriteCond %{HTTPS} off
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+</VirtualHost>

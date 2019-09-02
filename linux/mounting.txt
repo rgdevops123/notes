@@ -1,0 +1,19 @@
+Mounting/Unmounting an ISO Image.
+
+$ sudo mkdir /mnt/iso
+
+$ sudo mount -t iso9660 -o loop /home/centos/Centos-7-x86_64_Everything.iso /mnt/iso/
+
+-t : This argument is used to indicate the given filesystem type.
+
+ISO 9660 : It describes standard and default filesystem structure to be used on CD/DVD ROMs.
+
+-o : Options are necessary with a -o argument followed by a separated comma string of options.
+
+loop: The loop device is a pseudo-device that often used for mounting CD/DVD ISO image and makes those files accessible as a block device.
+
+
+$ cd /mnt/iso
+$ ls -l
+
+$ sudo umount /mnt/iso

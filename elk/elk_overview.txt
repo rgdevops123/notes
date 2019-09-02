@@ -1,0 +1,74 @@
+ELK: Overview
+
+
+Introduction
+
+The Elastic Stack — formerly known as the ELK Stack — is a collection of open-source software produced by Elastic which allows you to search, analyze, and visualize logs generated from any source in any format, a practice known as centralized logging. Centralized logging can be very useful when attempting to identify problems with your servers or applications, as it allows you to search through all of your logs in a single place. It’s also useful because it allows you to identify issues that span multiple servers by correlating their logs during a specific time frame.
+
+
+The Elastic Stack has four main components:
+
+    Elasticsearch: a distributed RESTful search engine which stores all of the collected data.
+
+    Logstash: the data processing component of the Elastic Stack which sends incoming data to Elasticsearch.
+
+    Kibana: a web interface for searching and visualizing logs.
+
+    Beats: lightweight, single-purpose data shippers that can send data from hundreds or thousands of machines to either Logstash or Elasticsearch.
+
+
+5601 (Kibana web interface).
+9200 (Elasticsearch JSON interface).
+5044 (Logstash Beats interface, receives logs from Beats such as Filebeat)
+9300 (Elasticsearch's Transport interface)
+
+   Elasticsearch
+
+Elasticsearch listens for traffic from everywhere on port 9200. You will want to restrict outside access to your Elasticsearch instance to prevent outsiders from reading your data or shutting down your Elasticsearch cluster through the REST API. Find the line that specifies network.host, uncomment it, and replace its value with localhost so it looks like the following:
+$ sudo vim /etc/elasticsearch/elasticsearch.yml
++++
+network.host: localhost
++++
+
+
+
+   Kibana 
+
+Because Kibana is configured to only listen on localhost, we must set up a reverse proxy to allow external access to it. We will use Nginx for this purpose.
+
+First, use the openssl command to create an administrative Kibana user which you’ll use to access the Kibana web interface. As an example, we will name this account kibanaadmin, but to ensure greater security we recommend that you choose a non-standard name for your user that would be difficult to guess.
+
+The following command will create the administrative Kibana user and password, and store them in the htpasswd.users file. You will configure Nginx to require this username and password and read this file.
+
+$ echo "kibanaadmin:`openssl passwd -apr1`" | sudo tee -a /etc/nginx/htpasswd.users
+
+
+
+   Logstash
+
+Although it’s possible for Beats to send data directly to the Elasticsearch database, it is recommended using Logstash to process the data first. This will allow you to collect data from different sources, transform it into a common format and export it to another database.
+
+Logstash’s configuration files are written in the JSON format and reside in the /etc/logstash/conf.d directory. As you configure it, it’s helpful to think of Logstash as a pipeline which takes in data at one end, processes it in one way or another, and sends it out to its destination (in this case, the destination being Elasticsearch). A Logstash pipeline has two required elements, input and output, and one optional element, filter. The input plugins consume data from a source, the filter plugins process the data, and the output plugins write the data to a destination.
+
+We configured Logstash to store the Beats data in Elasticsearch, which is running at localhost:9200, in an index named after the Beat used. The Beat used in this tutorial is Filebeat.
+
+
+
+   Beats
+The Elastic Stack uses several lightweight data shippers called Beats to collect data from various sources and transport them to Logstash or Elasticsearch. Here are the Beats that are currently available from Elastic:
+
+    Filebeat: collects and ships log files.
+    Metricbeat: collects metrics from your systems and services.
+    Packetbeat: collects and analyzes network data.
+    Winlogbeat: collects Windows event logs.
+    Auditbeat: collects Linux audit framework data and monitors file integrity.
+    Heartbeat: monitors services for their availability with active probing.
+
+
+   We loaded the index template into Elasticsearch.
+An Elasticsearch index is a collection of documents that have similar characteristics. Indexes are identified with a name, which is used to refer to the index when performing various operations within it. The index template will be automatically applied when a new index is created.
+
+
+Filebeat comes packaged with sample Kibana dashboards that allow you to visualize Filebeat data in Kibana. Before you can use the dashboards, you need to create the index pattern and load the dashboards into Kibana.
+
+As the dashboards load, Filebeat connects to Elasticsearch to check version information. To load dashboards when Logstash is enabled, you need to manually disable the Logstash output and enable Elasticsearch output.

@@ -1,0 +1,282 @@
+ELK: Install
+
+         Install OpenJDK 8:
+$ sudo yum -y install java-1.8.0-openjdk
+
+$ java -version
+openjdk version "1.8.0_222"
+OpenJDK Runtime Environment (build 1.8.0_222-b10)
+OpenJDK 64-Bit Server VM (build 25.222-b10, mixed mode)
+
+
+
+
+         Installing and Configuring Elasticsearch
+
+   Import the Elasticsearch public GPG key:
+$ sudo rpm --import https://artifacts.elastic.co/GPG-KEY-elasticsearch
+   OR
+  Download it and ...
+$ sudo rpm --import GPG-KEY-elasticsearch
+
+
+   Add the Elastic Repository:
+$ sudo vim /etc/yum.repos.d/elasticsearch.repo
++++
+[elasticsearch-6.x]
+name=Elasticsearch Repository for 6.x Packages
+baseurl=https://artifacts.elastic.co/packages/6.x/yum
+gpgcheck=1
+gpgkey=https://artifacts.elastic.co/GPG-KEY-elasticsearch
+enabled=1
+autorefresh=1
+type=rpm-md
++++
+
+
+   Install Elasticsearch:
+$ sudo yum -y install elasticsearch
+
+
+   Configure Elasticsearch:
+$ sudo vim /etc/elasticsearch/elasticsearch.yml
++++   
+network.host: localhost
++++
+
+
+   Start and Enable Elasticsearch:
+$ sudo systemctl start elasticsearch
+$ sudo systemctl enable elasticsearch
+
+
+   Test Elasticsearch service is running by sending an HTTP request:
+$ curl -X GET "localhost:9200"
+
+
+
+
+         Installing and Configuring the Kibana Dashboard
+
+   Install Kibana Dashboard:
+$ sudo yum -y install kibana
+
+
+   Start and Enable Kibana Dashboard:
+$ sudo systemctl start kibana
+$ sudo systemctl enable kibana
+
+
+   Create an Administrative Kibana User:
+$ echo "kibanaadmin:`openssl passwd -apr1`" | sudo tee -a /etc/nginx/htpasswd.users
+
+
+
+
+   Configure NGINX Reverse Proxy:
+$ sudo vim /etc/nginx/conf.d/elk.conf
++++
+    upstream app {
+        server localhost:5601;
+    }
+
+    server {
+        listen 80;
+        server_name lb1;
+        return 301 https://lb1$request_uri;
+    }
+
+    server {
+        listen 443 ssl;
+        server_name lb1;
+
+        ssl on;
+        ssl_certificate         /root/certs/elk.crt;
+        ssl_certificate_key     /root/certs/elk.key;
+
+        auth_basic "Restricted Access";
+        auth_basic_user_file /etc/nginx/htpasswd.users;
+
+        location / {
+            proxy_pass http://app;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header X-Forwarded-Proto $scheme;
+        }
+
+    }
++++
+
+
+   Check the NGINX configuration for syntax errors:
+$ sudo nginx -t
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+
+
+   Restart NGINX:
+$ sudo systemctl restart nginx
+
+
+GOTO: https://elk
+USER: kibanaadmin
+PASSWORD: <SECRET>
+
+Then: https://elk/status
+
+
+
+
+
+         Installing and Configuring Logstash
+
+   Install Logstash:
+$ sudo yum -y install logstash
+
+
+   Configure Logstash:
+
+      Create a configuration file called 02-beats-input.conf 
+      where you will set up your Filebeat input:
+
+$ sudo vim /etc/logstash/conf.d/02-beats-input.conf
++++
+input {
+  beats {
+    port => 5044
+  }
+}
++++
+
+
+      Create a configuration file called 10-syslog-filter.conf,
+      which will add a filter for system logs (syslogs):
+
+$ sudo vim /etc/logstash/conf.d/10-syslog-filter.conf
++++
+filter {
+  if [fileset][module] == "system" {
+    if [fileset][name] == "auth" {
+      grok {
+        match => { "message" => ["%{SYSLOGTIMESTAMP:[system][auth][timestamp]} %{SYSLOGHOST:[system][auth][hostname]} sshd(?:\[%{POSINT:[system][auth][pid]}\])?: %{DATA:[system][auth][ssh][event]} %{DATA:[system][auth][ssh][method]} for (invalid user )?%{DATA:[system][auth][user]} from %{IPORHOST:[system][auth][ssh][ip]} port %{NUMBER:[system][auth][ssh][port]} ssh2(: %{GREEDYDATA:[system][auth][ssh][signature]})?",
+                  "%{SYSLOGTIMESTAMP:[system][auth][timestamp]} %{SYSLOGHOST:[system][auth][hostname]} sshd(?:\[%{POSINT:[system][auth][pid]}\])?: %{DATA:[system][auth][ssh][event]} user %{DATA:[system][auth][user]} from %{IPORHOST:[system][auth][ssh][ip]}",
+                  "%{SYSLOGTIMESTAMP:[system][auth][timestamp]} %{SYSLOGHOST:[system][auth][hostname]} sshd(?:\[%{POSINT:[system][auth][pid]}\])?: Did not receive identification string from %{IPORHOST:[system][auth][ssh][dropped_ip]}",
+                  "%{SYSLOGTIMESTAMP:[system][auth][timestamp]} %{SYSLOGHOST:[system][auth][hostname]} sudo(?:\[%{POSINT:[system][auth][pid]}\])?: \s*%{DATA:[system][auth][user]} :( %{DATA:[system][auth][sudo][error]} ;)? TTY=%{DATA:[system][auth][sudo][tty]} ; PWD=%{DATA:[system][auth][sudo][pwd]} ; USER=%{DATA:[system][auth][sudo][user]} ; COMMAND=%{GREEDYDATA:[system][auth][sudo][command]}",
+                  "%{SYSLOGTIMESTAMP:[system][auth][timestamp]} %{SYSLOGHOST:[system][auth][hostname]} groupadd(?:\[%{POSINT:[system][auth][pid]}\])?: new group: name=%{DATA:system.auth.groupadd.name}, GID=%{NUMBER:system.auth.groupadd.gid}",
+                  "%{SYSLOGTIMESTAMP:[system][auth][timestamp]} %{SYSLOGHOST:[system][auth][hostname]} useradd(?:\[%{POSINT:[system][auth][pid]}\])?: new user: name=%{DATA:[system][auth][user][add][name]}, UID=%{NUMBER:[system][auth][user][add][uid]}, GID=%{NUMBER:[system][auth][user][add][gid]}, home=%{DATA:[system][auth][user][add][home]}, shell=%{DATA:[system][auth][user][add][shell]}$",
+                  "%{SYSLOGTIMESTAMP:[system][auth][timestamp]} %{SYSLOGHOST:[system][auth][hostname]} %{DATA:[system][auth][program]}(?:\[%{POSINT:[system][auth][pid]}\])?: %{GREEDYMULTILINE:[system][auth][message]}"] }
+        pattern_definitions => {
+          "GREEDYMULTILINE"=> "(.|\n)*"
+        }
+        remove_field => "message"
+      }
+      date {
+        match => [ "[system][auth][timestamp]", "MMM  d HH:mm:ss", "MMM dd HH:mm:ss" ]
+      }
+      geoip {
+        source => "[system][auth][ssh][ip]"
+        target => "[system][auth][ssh][geoip]"
+      }
+    }
+    else if [fileset][name] == "syslog" {
+      grok {
+        match => { "message" => ["%{SYSLOGTIMESTAMP:[system][syslog][timestamp]} %{SYSLOGHOST:[system][syslog][hostname]} %{DATA:[system][syslog][program]}(?:\[%{POSINT:[system][syslog][pid]}\])?: %{GREEDYMULTILINE:[system][syslog][message]}"] }
+        pattern_definitions => { "GREEDYMULTILINE" => "(.|\n)*" }
+        remove_field => "message"
+      }
+      date {
+        match => [ "[system][syslog][timestamp]", "MMM  d HH:mm:ss", "MMM dd HH:mm:ss" ]
+      }
+    }
+  }
+}
++++
+
+
+
+      Create a configuration file called 30-elasticsearch-output.conf:
+
+$ sudo vim /etc/logstash/conf.d/30-elasticsearch-output.conf
++++
+output {
+  elasticsearch {
+    hosts => ["localhost:9200"]
+    manage_template => false
+    index => "%{[@metadata][beat]}-%{[@metadata][version]}-%{+YYYY.MM.dd}"
+  }
+}
++++
+
+
+   Test the Logstash configuration with this command:
+
+$ sudo -u logstash /usr/share/logstash/bin/logstash --path.settings /etc/logstash -t
+
+
+
+   Start and Enable Logstash:
+
+$ sudo systemctl start logstash
+$ sudo systemctl enable logstash
+
+
+
+
+
+         Installing and Configuring Filebeat
+
+   Install Filebeat:
+$ sudo yum -y install filebeat
+
+
+   Configure Filebeat to connect with Logstash:
+$ sudo vim /etc/filebeat/filebeat.yml
++++
+#output.elasticsearch:
+  # Array of hosts to connect to.
+  #hosts: ["localhost:9200"]
++++
+output.logstash:
+  # The Logstash hosts
+  hosts: ["localhost:5044"]
++++
+
+
+$ sudo filebeat modules enable apache2 haproxy nginx postgresql redis system  
+
+$ sudo filebeat modules list
+
+   View filebeat's "system" module configuration:
+$ less /etc/filebeat/modules.d/system.yml
+
+
+   Load the index template into Elasticsearch:
+$ sudo filebeat setup --template -E output.logstash.enabled=false \
+-E 'output.elasticsearch.hosts=["localhost:9200"]'
+
+
+   Create the index pattern and load the dashboards into Kibana.
+$ sudo filebeat setup -e -E output.logstash.enabled=false \
+-E output.elasticsearch.hosts=['localhost:9200'] \
+-E setup.kibana.host=localhost:5601
+
+
+   Start and Enable Filebeat:
+$ sudo systemctl start filebeat
+$ sudo systemctl enable filebeat
+
+
+   Test:
+$ curl -X GET 'http://localhost:9200/filebeat-*/_search?pretty'
+
+
+   GOTO: https://elk/
+Click the Discover link in the left-hand navigation bar. On the Discover page, select the predefined filebeat-* index pattern to see Filebeat data. By default, this will show you all of the log data over the last 15 minutes. You will see a histogram with log events, and some log messages
+
+
+
+
+5601 (Kibana web interface).
+9200 (Elasticsearch JSON interface).
+5044 (Logstash Beats interface, receives logs from Beats such as Filebeat)

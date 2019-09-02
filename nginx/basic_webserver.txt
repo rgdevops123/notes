@@ -14,6 +14,13 @@ $ sudo vim /etc/nginx/nginx.conf
 
    ### Place index.html and content in /var/www/html
 
+
+   Check the NGINX configuration for syntax errors:
+$ sudo nginx -t
+nginx: the configuration file /etc/nginx/nginx.conf syntax is ok
+nginx: configuration file /etc/nginx/nginx.conf test is successful
+
+
 $ sudo systemctl restart nginx
 
 GOTO: http://127.0.0.1:8080

@@ -280,3 +280,12 @@ Click the Discover link in the left-hand navigation bar. On the Discover page, s
 5601 (Kibana web interface).
 9200 (Elasticsearch JSON interface).
 5044 (Logstash Beats interface, receives logs from Beats such as Filebeat)
+
+
+   Startup ELK:
+$ sudo systemctl start elasticsearch
+$ sudo systemctl start logstash
+$ sudo systemctl start kibana
+
+$ sudo systemctl start nginx
+$ sudo systemctl start filebeat

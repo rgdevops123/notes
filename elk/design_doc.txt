@@ -1,0 +1,8 @@
+Centralized Logging with Elastic (ELK) Stack, Filebeat and Rsyslog/TLS.
+
+   - Secure Rsyslog/TLS from client to Rsyslog/TLS on Elastic (ELK) Stack Server.
+   - Filebeat sends logs from Rsyslog on Elastic (ELK) Stack Server to Logstash on Elastic (ELK) Stack Server.
+   - Logstash sends logs to Elasticsearch on Elastic (ELK) Stack Server.
+   - Kibana Dashboard visualizes Elasticsearch Data.
+   - NGINX HTTPS Reverse Proxy is the web endpoint.
+   - Local Server Firewall on Elastic (ELK) Stack Server locks down all ports except NGINX HTTPS 443,  Rsyslog TLS TCP 10514 and SSH 22.

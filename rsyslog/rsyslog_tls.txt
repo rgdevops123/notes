@@ -1,0 +1,70 @@
+Rsyslog TLS:
+
+         SERVER:
+   Install rsyslog-gnutls Package:
+
+$ sudo yum -y install rsyslog-gnutls
+
+
+   Update Server Configuration File:
+
+$ sudo vim /etc/rsyslog.conf
++++
+module(load="imuxsock") # local messages
+module(load="imtcp" # TCP listener
+    StreamDriver.Name="gtls"
+    StreamDriver.Mode="1" # run driver in TLS-only mode
+    StreamDriver.Authmode="anon"
+    )
+
+# make gtls driver the default and set certificate files
+global(
+    DefaultNetstreamDriver="gtls"
+    DefaultNetstreamDriverCAFile="/etc/pki/tls/certs/rootCA.crt"
+    DefaultNetstreamDriverCertFile="/etc/pki/tls/certs/elk.crt"
+    DefaultNetstreamDriverKeyFile="/etc/pki/tls/private/elk.key"
+)
+
+    # start up listener at port 10514
+    input(
+    type="imtcp"
+    port="10514"
+    )
++++
+
+$ sudo systemctl restart rsyslog
+
+
+
+         CLIENT:
+   Install rsyslog-gnutls Package:
+
+$ sudo yum -y install rsyslog-gnutls
+
+
+   Update Server Configuration File:
+
+$ sudo vim /etc/rsyslog.conf
++++
+# make gtls driver the default and set certificate files
+global(
+    DefaultNetstreamDriver="gtls"
+    DefaultNetstreamDriverCAFile="/etc/pki/tls/certs/rootCA.crt"
+    DefaultNetstreamDriverCertFile="/etc/pki/tls/certs/devopsweb1.crt"
+    DefaultNetstreamDriverKeyFile="/etc/pki/tls/private/devopsweb1.key"
+)
+
+# set up the action for all messages
+action(
+    type="omfwd"
+    target="elk"
+    protocol="tcp"
+    port="10514"
+    StreamDriver="gtls"
+    StreamDriverMode="1" # run driver in TLS-only mode
+    StreamDriverAuthMode="x509/name"
+    StreamDriverPermittedPeers="elk"
+)
++++
+
+$ sudo systemctl restart rsyslog

@@ -30,6 +30,10 @@ $ openssl req -new -sha256 -key mydomain.com.key \
 -subj "/C=US/ST=CA/O=MyOrg, Inc./CN=mydomain.com" \
 -out mydomain.com.csr
 
+  View the CSR Details:
+$ openssl req -text -noout -verify -in mydomain.com.csr
+
+
   Generate the certificate using the csr and key along with the CA Root key:
 $ openssl x509 -req -in mydomain.com.csr \
 -CA rootCA.crt -CAkey rootCA.key -CAcreateserial \

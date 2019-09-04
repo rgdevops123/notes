@@ -1,0 +1,111 @@
+PostgreSQL:
+
+
+$ sudo docker pull postgres
+
+
+$ sudo docker run --privileged=true \
+--name postgres \
+-d -e POSTGRES_PASSWORD=123 \
+-e POSTGRES_USER=devopsweb \
+-e POSTGRES_PASSWORD=devopsweb \
+-e POSTGRES_DB=devopsweb \
+-p 5432:5432 \
+postgres
+
+
+$ git clone https://rgdevops123/devopsweb.git
+$ cd devopsweb
+
+   Copy over cert.pem & key.pem files.
+
+$ sudo docker run --privileged=true \
+--env DEVOPSWEB_CONFIG_MODE=Production \
+--env DEVOPSWEB_DATABASE_USER=devopsweb \
+--env DEVOPSWEB_DATABASE_PASSWORD=devopsweb \
+--env DEVOPSWEB_DATABASE_HOST=18.222.137.143 \
+--env DEVOPSWEB_DATABASE_PORT=5432 \
+--env DEVOPSWEB_DATABASE_NAME=devopsweb \
+--env SQLALCHEMY_TRACK_MODIFICATIONS=True \
+--env SECRET_KEY=123456 \
+-d --rm --name devopsweb -p 443:5000 \
+-v $(pwd):/devopsweb \
+rgdevops123/devopsweb
+
+
+   GOTO:  https://devopsweb
+
+
+$ sudo docker exec -it <CONTAINER_ID> bash
+
+# psql -U devopsweb
+
+# psql -h localhost -p 5432 -U devopsweb devopsweb
+   Use \q to quit.
+
+
+   List Databases.
+devopsweb=# \l
+                                  List of databases
+   Name    |   Owner   | Encoding |  Collate   |   Ctype    |    Access privileges    
+-----------+-----------+----------+------------+------------+-------------------------
+ devopsweb | devopsweb | UTF8     | en_US.utf8 | en_US.utf8 | 
+ postgres  | devopsweb | UTF8     | en_US.utf8 | en_US.utf8 | 
+
+
+   Connect/Select a desired database.
+devopsweb=# \c devopsweb
+You are now connected to database "devopsweb" as user "devopsweb".
+
+
+   List down all the tables in an attached database.
+devopsweb=# \dt
+              List of relations
+ Schema |    Name     |   Type   |   Owner   
+--------+-------------+----------+-----------
+ public | user        | table    | devopsweb
+(1 rows)
+
+
+devopsweb=# \d user
+                                   Table "public.user"
+   Column   |       Type        | Collation | Nullable |             Default              
+------------+-------------------+-----------+----------+----------------------------------
+ id         | integer           |           | not null | nextval('user_id_seq'::regclass)
+ username   | character varying |           |          | 
+ email      | character varying |           |          | 
+ password   | bytea             |           |          | 
+ phone      | character varying |           |          | 
+ mobile     | character varying |           |          | 
+ department | character varying |           |          | 
+ company    | character varying |           |          | 
+ location   | character varying |           |          | 
+ title      | character varying |           |          | 
+Indexes:
+    "user_pkey" PRIMARY KEY, btree (id)
+    "user_email_key" UNIQUE CONSTRAINT, btree (email)
+    "user_username_key" UNIQUE CONSTRAINT, btree (username)
+
+
+
+
+  Select all of the user information.
+
+ devopsweb=# select * from public.user;
+ id |  username   |         email         |                                                          pas
+sword                                                          | phone | mobile | department | company |
+ location | title 
+----+-------------+-----------------------+-------------------------------------------------------------
+---------------------------------------------------------------+-------+--------+------------+---------+
+----------+-------
+  1 | rgdevops123 | rgdevops123@gmail.com | \x243262243132246b476766794f4777575a553336443737647175385265
+434f43652f4c444c6c78674d6d753358746679336c457549336b6a314c6861 |       |        |            |         |
+          | 
+(1 row)
+
+
+
+   Update Data:
+devopsweb=# UPDATE public.user SET company = 'D. Murray Inc.' WHERE ID = 1;
+UPDATE 1
+

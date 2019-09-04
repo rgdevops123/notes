@@ -20,7 +20,7 @@ $ cd devopsweb
    Copy over cert.pem & key.pem files.
 
 $ sudo docker run --privileged=true \
---env DEVOPSWEB_CONFIG_MODE=Production \
+--env DEVOPSWEB_CONFIG_MODE=ProductionPGDB \
 --env DEVOPSWEB_DATABASE_USER=devopsweb \
 --env DEVOPSWEB_DATABASE_PASSWORD=devopsweb \
 --env DEVOPSWEB_DATABASE_HOST=db \

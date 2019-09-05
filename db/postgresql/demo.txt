@@ -3,6 +3,7 @@ PostgreSQL:
 
 $ sudo docker pull postgres
 
+$ sudo docker images
 
 $ sudo docker run --privileged=true \
 --name postgres \
@@ -12,6 +13,9 @@ $ sudo docker run --privileged=true \
 -e POSTGRES_DB=devopsweb \
 -p 5432:5432 \
 postgres
+
+$ sudo docker logs --follow postgres
+
 
 
 $ git clone https://rgdevops123/devopsweb.git
@@ -32,6 +36,7 @@ $ sudo docker run --privileged=true \
 -v $(pwd):/devopsweb \
 rgdevops123/devopsweb
 
+$ sudo docker logs --follow devopsweb
 
    GOTO:  https://devopsweb
 

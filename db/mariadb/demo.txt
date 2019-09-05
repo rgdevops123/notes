@@ -1,0 +1,93 @@
+MariaDB/MySQL:
+
+
+$ sudo docker pull mariadb
+
+$ sudo docker images
+
+$ sudo docker run --name mariadb \
+-d --rm -e MYSQL_ROOT_PASSWORD=123 \
+-e MYSQL_USER=devopsweb \
+-e MYSQL_PASSWORD=devopsweb \
+-e MYSQL_DATABASE=devopsweb \
+-p 3306:3306 mariadb
+
+$ sudo docker logs --follow mariadb
+
+
+
+$ git clone https://rgdevops123/devopsweb.git
+$ cd devopsweb
+
+   Copy over cert.pem & key.pem files.
+
+$ sudo docker run --privileged=true \
+--env DEVOPSWEB_CONFIG_MODE=ProductionMDB \
+--env DEVOPSWEB_DATABASE_USER=devopsweb \
+--env DEVOPSWEB_DATABASE_PASSWORD=devopsweb \
+--env DEVOPSWEB_DATABASE_HOST=db \
+--env DEVOPSWEB_DATABASE_PORT=3306 \
+--env DEVOPSWEB_DATABASE_NAME=devopsweb \
+--env SQLALCHEMY_TRACK_MODIFICATIONS=True \
+--env SECRET_KEY=123456 \
+-d --rm --name devopsweb -p 443:5000 \
+-v $(pwd):/devopsweb \
+rgdevops123/devopsweb
+
+$ sudo docker logs --follow devopsweb
+
+
+   GOTO:  https://devopsweb
+
+
+
+$ sudo docker exec -it mariadb bash
+
+# mysql --user=devopsweb --password=devopsweb devopsweb
+
+   OR
+
+$ sudo docker exec -it mariadb bash \
+-c "mysql --user=devopsweb --password=devopsweb devopsweb"
+
+
+MariaDB [devopsweb]> use devopsweb;
+Database changed
+
+
+MariaDB [devopsweb]> SELECT database();
++------------+
+| database() |
++------------+
+| devopsweb  |
++------------+
+1 row in set (0.000 sec)
+
+
+
+MariaDB [devopsweb]> SHOW TABLES;
++---------------------+
+| Tables_in_devopsweb |
++---------------------+
+| user                |
++---------------------+
+1 row in set (0.000 sec)
+
+
+
+
+MariaDB [devopsweb]> select * from user;
++----+-------------+-----------------------+--------------------------------------------------------------+-------+--------+------------+---------+----------+-------+
+| id | username    | email                 | password                                                     | phone | mobile | department | company | location | title |
++----+-------------+-----------------------+--------------------------------------------------------------+-------+--------+------------+---------+----------+-------+
+|  1 | rgdevops123 | rgdevops123@gmail.com | $2b$12$yKcX9lPwit/RxSHxTOQAIO/RDJdgPU2LX0JF5srM0cpdC.yVZlJ4q | NULL  | NULL   | NULL       | NULL    | NULL     | NULL  |
++----+-------------+-----------------------+--------------------------------------------------------------+-------+--------+------------+---------+----------+-------+
+1 row in set (0.000 sec)
+
+
+
+
+MariaDB [devopsweb]> UPDATE user SET company = 'D. Murray Inc.' WHERE ID = 1;
+Query OK, 1 row affected (0.002 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+

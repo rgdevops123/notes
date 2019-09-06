@@ -169,3 +169,22 @@ sword                                                          | phone | mobile 
           | 
 (2 rows)
 
+
+
+
+
+
+   Delete Data:
+devopsweb=# DELETE FROM public.user WHERE ID = 2;
+DELETE 1
+devopsweb=# select * from PUBLIC.USER;
+ id |  username   |         email         |                                                          pas
+sword                                                          | phone | mobile | department | company |
+ location | title 
+----+-------------+-----------------------+-------------------------------------------------------------
+---------------------------------------------------------------+-------+--------+------------+---------+
+----------+-------
+  1 | rgdevops123 | rgdevops123@gmail.com | \x2432622431322469776f613475725a43536f504c49336d6e704c304365
+64596545714749566b42635a49576d506f557a4e2e745a73527a322e393379 |       |        |            |         |
+          | 
+(1 row)

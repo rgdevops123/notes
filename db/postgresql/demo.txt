@@ -6,8 +6,8 @@ $ sudo docker pull postgres
 $ sudo docker images
 
 $ sudo docker run --privileged=true \
---name postgres \
--d -e POSTGRES_PASSWORD=123 \
+-d --rm --name postgres \
+-e POSTGRES_PASSWORD=123 \
 -e POSTGRES_USER=devopsweb \
 -e POSTGRES_PASSWORD=devopsweb \
 -e POSTGRES_DB=devopsweb \
@@ -24,6 +24,10 @@ $ cd devopsweb
    Copy over cert.pem & key.pem files.
 
 $ sudo docker run --privileged=true \
+--add-host db:<IP> \
+--health-cmd='curl -skSL -D - https://127.0.0.1:5000 -o /dev/null || exit 1' \
+--health-interval=5s \
+--health-timeout=5s \
 --env DEVOPSWEB_CONFIG_MODE=ProductionPGDB \
 --env DEVOPSWEB_DATABASE_USER=devopsweb \
 --env DEVOPSWEB_DATABASE_PASSWORD=devopsweb \
@@ -41,11 +45,11 @@ $ sudo docker logs --follow devopsweb
    GOTO:  https://devopsweb
 
 
-$ sudo docker exec -it <CONTAINER_ID> bash
+$ sudo docker exec -it postgres bash
 
 # psql -U devopsweb
 
-# psql -h localhost -p 5432 -U devopsweb devopsweb
+# psql -h <IP> -p 5432 -U devopsweb devopsweb
    Use \q to quit.
 
 

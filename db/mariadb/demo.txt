@@ -5,12 +5,14 @@ $ sudo docker pull mariadb
 
 $ sudo docker images
 
-$ sudo docker run --name mariadb \
--d --rm -e MYSQL_ROOT_PASSWORD=123 \
+$ sudo docker run --privileged=true \
+-d --rm --name mariadb \
+-e MYSQL_ROOT_PASSWORD=123 \
 -e MYSQL_USER=devopsweb \
 -e MYSQL_PASSWORD=devopsweb \
 -e MYSQL_DATABASE=devopsweb \
--p 3306:3306 mariadb
+-p 3306:3306 \
+mariadb
 
 $ sudo docker logs --follow mariadb
 
@@ -22,6 +24,10 @@ $ cd devopsweb
    Copy over cert.pem & key.pem files.
 
 $ sudo docker run --privileged=true \
+--add-host db:<IP> \
+--health-cmd='curl -skSL -D - https://127.0.0.1:5000 -o /dev/null || exit 1' \
+--health-interval=5s \
+--health-timeout=5s \
 --env DEVOPSWEB_CONFIG_MODE=ProductionMDB \
 --env DEVOPSWEB_DATABASE_USER=devopsweb \
 --env DEVOPSWEB_DATABASE_PASSWORD=devopsweb \
@@ -90,4 +96,3 @@ MariaDB [devopsweb]> select * from user;
 MariaDB [devopsweb]> UPDATE user SET company = 'D. Murray Inc.' WHERE ID = 1;
 Query OK, 1 row affected (0.002 sec)
 Rows matched: 1  Changed: 1  Warnings: 0
-

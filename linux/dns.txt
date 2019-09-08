@@ -14,6 +14,7 @@ A AAAA
 CNAME
 PTR
 
+CAA
 TXT
 
 

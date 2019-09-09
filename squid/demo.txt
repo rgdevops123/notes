@@ -1,0 +1,22 @@
+SQUID: Ubuntu 18.04
+======
+$ sudo apt update
+$ sudo apt -y install squid
+
+$ sudo vim /etc/squid/squid.conf
++++
+http_port 3128
+...
+http_access allow all
+ #http_access deny all
++++
+
+$ sudo systemctl restart squid
+
+   On Client:
+   =======
+$ export http_proxy=http://10.0.0.3:3128/
+$ export https_proxy=$http_proxy
+
+$ curl http://www.google.com
+$ curl https://www.google.com

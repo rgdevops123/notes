@@ -1,0 +1,31 @@
+         How to use SSH to proxy through a Linux jump host.
+
+$ sudo vim ~/.ssh/config
++++
+Host bastion
+        User centos
+        Hostname <IP_OF_JUMP_HOST>
+
+Host devopsweb
+        User centos
+        Hostname <IP_OF_TARGET_HOST>
+        Port 22
+        ProxyCommand ssh -q -W %h:%p bastion
+
+# q - Quiet mode (supresses all warning and diagnostic messages).
+# W - Requests that standard I/O on the client be forwarded to HOST on PORT over the secure channel.
+# %h - Host to connect to.
+# %p - Port to connect to on the remote host.
++++
+
+$ ssh devopsweb
+
+You will first be prompted for the user password on host-a and then for the password on host_b. Once you successfully authenticate both, you'll find yourself on the host_b bash prompt, having made the hop through the jump host.
+ 
+      Making this more secure:
+
+To make this more secure, you can configure SSH key authentication. To do this, you need to copy your user SSH key from Originating IP to Jump IP and then copy your user SSH key from Jump IP to Destination IP. Remember, this can be easily done with the command:
+
+ssh-copy-id SERVER_IP
+
+Where SERVER_IP is the IP address of your server.

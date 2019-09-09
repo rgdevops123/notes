@@ -14,9 +14,20 @@ http_access allow all
 $ sudo systemctl restart squid
 
    On Client:
-   =======
-$ export http_proxy=http://10.0.0.3:3128/
+   ==========
+$ export http_proxy=http://<PROXY_SERVER_IP_OR_FQDN>:3128/
 $ export https_proxy=$http_proxy
 
 $ curl http://www.google.com
 $ curl https://www.google.com
+
+
+   On Docker Client:
+   =================
+$ sudo vim /etc/sysconfig/docker
++++
+HTTP_PROXY="http://<PROXY_SERVER_IP_OR_FQDN>:3128"
+HTTPS_PROXY="http://<PROXY_SERVER_IP_OR_FQDN>:3128"
++++
+
+$ sudo systemctl restart docker

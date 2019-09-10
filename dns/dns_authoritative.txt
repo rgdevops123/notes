@@ -141,6 +141,7 @@ $ sudo tail -f /var/log/syslog
    Configure the Client Machine:
 $ sudo vim  /etc/resolv.conf
 +++
+search devopsweb.com
 nameserver 10.0.0.30
 nameserver 10.0.0.31
 +++

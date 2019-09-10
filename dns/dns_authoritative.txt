@@ -1,0 +1,153 @@
+   Configure a Authoritative DNS Server (Ubuntu 18.04)
+
+
+$ sudo apt-get update
+$ sudo apt-get install bind9 bind9utils bind9-doc
+
+  Allow only IPV4:
+$ sudo vim /etc/default/bind9
++++
+OPTIONS="-u bind -4"
++++
+
+$ sudo vim /etc/bind/named.conf.options
++++
+acl "trusted" {
+        10.0.0.0/8;
+        localhost;
+        localnets;
+};
+
+options {
+        directory "/var/cache/bind";
+
+        recursion yes;                 # enables resursive queries
+        allow-query { trusted; };      # allows queries from "trusted" clients
+        listen-on { 10.0.0.30; };   # ns1 private IP address - listen on private network only
+        allow-transfer { none; };      # disable zone transfers by default
+
+        forwarders {
+                8.8.8.8;
+                8.8.4.4;
+        };
+
+        dnssec-enable yes;
+        dnssec-validation yes;
+};
++++
+
+
+         Create Zone's:
+   
+$ sudo vim /etc/bind/named.conf.local
++++
+zone "devopsweb.com" {
+    type master;                                # Primary DNS
+    file "/etc/bind/zones/db.devopsweb.com";    # Forward lookup file
+    allow-transfer { 10.0.0.31; };              # ns2 private IP address - secondary
+};
+
+zone "0.0.10.in-addr.arpa" {
+    type master;                       # Primary DNS
+    file "/etc/bind/zones/db.10.0.0";  # Reverse lookup file for 10.0.0.0/8 subnet
+    allow-transfer { 10.0.0.31; };     # ns2 private IP address - secondary
+};
++++
+
+
+
+$ sudo mkdir /etc/bind/zones
+
+$ sudo cp /etc/bind/db.local /etc/bind/zones/db.devopsweb.com
+
+$ sudo vim /etc/bind/zones/db.devopsweb.com
++++
+$TTL    604800
+@       IN      SOA     ns1.devopsweb.com. admin.devopsweb.com. (
+                  3     ; Serial
+             604800     ; Refresh
+              86400     ; Retry
+            2419200     ; Expire
+             604800 )   ; Negative Cache TTL
+;
+; name servers - NS records
+     IN      NS      ns1.devopsweb.com.
+     IN      NS      ns2.devopsweb.com.
+
+; name servers - A records
+ns1.devopsweb.com.          IN      A       10.0.0.30
+ns2.devopsweb.com.          IN      A       10.0.0.31
+
+; 10.0.0.0/8 - A records
+db1                         IN      A      10.0.0.99
+
+lb1                         IN      A      10.0.0.101
+
+www1                        IN      A      10.0.0.96
+www2                        IN      A      10.0.0.97
+www3                        IN      A      10.0.0.98
+
+; CNAME records
+db                          IN      CNAME   db1.devopsweb.com.
+
+lb                          IN      CNAME   lb1.devopsweb.com.
+
+web1                        IN      CNAME   www1.devopsweb.com.
+web2                        IN      CNAME   www2.devopsweb.com.
+web3                        IN      CNAME   www3.devopsweb.com.
++++
+
+
+
+
+$ sudo vim /etc/bind/zones/db.10.0.0
++++
+$TTL    604800
+@       IN      SOA     devopsweb.com. admin.devopsweb.com. (
+                              3         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+; name servers
+      IN      NS      ns1.devopsweb.com.
+      IN      NS      ns2.devopsweb.com.
+
+; PTR Records
+30    IN      PTR     ns1.devopsweb.com.    ; 10.0.0.30
+31    IN      PTR     ns2.devopsweb.com.    ; 10.0.0.31
+
+96    IN      PTR     www1.devopsweb.com.   ; 10.0.0.96
+97    IN      PTR     www2.devopsweb.com.   ; 10.0.0.97
+98    IN      PTR     www3.devopsweb.com.   ; 10.0.0.98
+
+99    IN      PTR     db.devopsweb.com.     ; 10.0.0.99
+
+101   IN      PTR     lb1.devopsweb.com.    ; 10.0.0.101
++++
+
+
+
+$ sudo named-checkconf
+
+$ sudo named-checkzone devopsweb.com /etc/bind/zones/db.devopsweb.com
+$ sudo named-checkzone 0.0.10.in-addr.arpa /etc/bind/zones/db.10.0.0
+
+$ sudo systemctl restart bind9
+$ sudo systemctl enable bind9
+
+$ sudo tail -f /var/log/syslog
+
+   Configure the Client Machine:
+$ sudo vim  /etc/resolv.conf
++++
+nameserver 10.0.0.30
+nameserver 10.0.0.31
++++
+
+
+$ ping -c 1 google.com
+$ dig linuxfoundation.org
+$ dig -x 140.211.169.4
+
+$ dig www1.devopsweb.com

@@ -4,11 +4,11 @@ $ sudo vim ~/.ssh/config
 +++
 Host bastion
         User centos
-        Hostname <IP_OF_JUMP_HOST>
+        Hostname <IP_OR_HOSTNAME_OF_JUMP_HOST>
 
 Host devopsweb
         User centos
-        Hostname <IP_OF_TARGET_HOST>
+        Hostname <IP_OR_HOSTNAME_OF_TARGET_HOST>
         Port 22
         ProxyCommand ssh -q -W %h:%p bastion
 

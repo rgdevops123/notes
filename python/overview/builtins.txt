@@ -34,13 +34,13 @@ Builtins:
 
        abs, power, round,
 
- - Classes & Properties   10
+ - Classes & Properties   11
 
        object, property,
 
-       classmethod, staticmethod,
+       isinstance, issubclass, super,
 
-       isinstance, issupper,
+       classmethod, staticmethod,
 
        setattr, hasattr, getattr,
 
@@ -54,3 +54,11 @@ Builtins:
 
        eval, exec, 
 
+
+
+   EXAMPLE:
+   *** super() ***
+class C(B):
+    def method(self, arg):
+        super().method(arg)    # This does the same thing as:
+                               # super(C, self).method(arg)

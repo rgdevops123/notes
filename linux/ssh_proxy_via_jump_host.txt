@@ -29,3 +29,19 @@ To make this more secure, you can configure SSH key authentication. To do this, 
 ssh-copy-id SERVER_IP
 
 Where SERVER_IP is the IP address of your server.
+
+
+   
+    DYNAMIC JUMPING:
+YOU ===> HOST 1 ===> HOST 2
+
+
+$ ssh -J host1 host2
+
+   OR 
+
+$ ssh -J username@host1:port username@host2:port
+
+   OR
+
+$ ssh -i ~/user1.pem  -J username@host1 username@host2

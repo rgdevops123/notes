@@ -1,0 +1,137 @@
+Firewalld:
+----------
+
+# systemctl start firewalld.service
+# systemctl enable firewalld.service
+# firewall-cmd --state
+
+Creating sreweb Zone:
+---------------------
+# firewall-cmd --permanent --new-zone=sreweb
+# firewall-cmd --permanent --get-zones
+# firewall-cmd --reload
+# firewall-cmd --get-zones
+
+Move interface to sreweb Zone:
+------------------------------
+# firewall-cmd --zone=sreweb --change-interface=ens3
+# firewall-cmd --set-default-zone=sreweb
+# firewall-cmd --get-default-zone
+
+# cat /etc/sysconfig/network-scripts/ifcfg-ens3
++++
+NAME="ens3"
+DEVICE="ens3"
+ONBOOT=yes
+UUID="653ab6cd-9f03-4981-b00f-92368b41fe8c"
+IPV6INIT=yes
+BOOTPROTO=none
+TYPE=Ethernet
+DNS1="10.0.0.11"
+IPADDR=10.0.0.###
+PREFIX=24
+DEFROUTE=yes
+IPV4_FAILURE_FATAL=no
+IPV6_AUTOCONF=yes
+IPV6_DEFROUTE=yes
+IPV6_PEERDNS=yes
+IPV6_PEERROUTES=yes
+IPV6_FAILURE_FATAL=no
+ZONE=sreweb
++++
+
+# systemctl restart network.service
+# systemctl restart firewalld.service
+
+# firewall-cmd --get-services
+
+# firewall-cmd --zone=sreweb --add-service=ssh
+# firewall-cmd --zone=sreweb --permanent --add-service=ssh
+
+
+# firewall-cmd --zone=sreweb --add-port=8888/tcp
+# firewall-cmd --zone=sreweb --permanent --add-port=8888/tcp
+
+# firewall-cmd --zone=sreweb --list-all
+
+# firewall-cmd --list-all
+# firewall-cmd --list-services
+
+# systemctl enable firewalld.service
+# systemctl restart network.service
+# systemctl restart firewalld.service
+
+
+
+Zones:
+------
+Network interfaces are assigned a zone to dictate the behavior that the firewall should allow.
+  drop     - Lowest level of trust.  All incoming connections are dropped without reply and only
+             outgoing connections are possible.
+  block    - Similar to drop but incoming requests are rejected with a icmp-host-prohibited or
+             icmp6-adm-prohibited message.
+  public   - Allow incoming connections on a case-by-case basis.
+  external - NAT masquerading implemented.  Internal network is private but reachable.
+  internal - Computers are failry trustworthy.
+  dmz      - Computers located in DMZ. Only certain incoming connections are allowed.
+  work     - Trust most of the computers.
+  home     - Trust most of the computers.
+  trusted  - Trust all of the computers.
+
+# firewall-cmd --permanent { Persist changes after reboot. }
+
+Turning on the Firewall:
+------------------------
+# systemctl start firewalld.service
+# systemctl enable firewalld.service
+# firewall-cmd --state
+
+# firewall-cmd --get-default-zone
+# firewall-cmd --get-active-zones
+# firewall-cmd --list-all
+# firewall-cmd --get-zones
+# firewall-cmd --zone=work --list-all
+
+# firewall-cmd --zone=work --change-interface=ens3
+
+# firewall-cmd --get-services
+
+# firewall-cmd --zone=work --add-service=https
+# firewall-cmd --zone=work --permanent --add-service=https
+
+# firewall-cmd --list-all
+# firewall-cmd --list-services
+
+
+Creating a Zone:
+----------------
+# firewall-cmd --permanent --new-zone=sreweb
+# firewall-cmd --permanent --get-zones
+# firewall-cmd --reload
+# firewall-cmd --get-zones
+
+
+Remove a service or port from a Zone:
+-------------------------------------
+# vim /etc/firewalld/zones/work.xml
++++
+   *** Remove line with service or port. ***
++++
+
+# firewall-cmd --reload
+
+
+
+
+
+Testing:
+--------
+   http://client1.test.com:8889
+   http://client1.test.com:8888
+   https://client1.test.com:8888
+
+==> sreweb_access.log <==
+10.0.0.1 - - [01/Sep/2017:21:59:56 -0700] "GET / HTTP/1.0" 400 362 "-" "-"
+10.0.0.1 - - [01/Sep/2017:22:00:17 -0700] "GET / HTTP/1.1" 401 381 "-" "Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101 Firefox/45.0"
+10.0.0.1 - user1 [01/Sep/2017:22:00:32 -0700] "GET / HTTP/1.1" 200 37 "-" "Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101 Firefox/45.0"
+10.0.0.1 - user1 [01/Sep/2017:22:00:32 -0700] "GET /favicon.ico HTTP/1.1" 404 69 "-" "Mozilla/5.0 (X11; Linux x86_64; rv:45.0) Gecko/20100101 Firefox/45.0"

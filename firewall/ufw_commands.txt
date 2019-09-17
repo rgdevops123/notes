@@ -1,0 +1,38 @@
+UFW Commands:
+
+
+$ sudo ufw enable
+
+$ sudo ufw status verbose
+
+$ sudo ufw show raw
+
+$ sudo ufw disable
+
+$ sudo ufw reset
+
+$ sudo ufw allow 53
+
+$ sudo ufw allow 53/tcp
+
+$ sudo ufw allow 53/udp
+
+$ sudo ufw deny 53
+
+$ sudo ufw deny 53/tcp
+
+$ sudo ufw deny 53/udp
+
+$ sudo ufw allow ssh
+
+$ sudo ufw deny ssh
+
+$ sudo ufw logging on
+
+$ sudo tail -f /var/log/syslog
+
+
+
+Use curl to test an Apache HTTPD Server:
+client $ curl http://<Firewalled_Server_IP>
+

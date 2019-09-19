@@ -1,5 +1,7 @@
-
-class Employee:
+class Employee(object):
+    """
+    Employee Base Class.
+    """
 
     def __init__(self, first, last):
         self.first = first
@@ -27,7 +29,7 @@ class Employee:
 
 
 emp_1 = Employee('John', 'Smith')
-emp_1.fullname = "Corey Schafer"
+emp_1.fullname = "Jane York"
 
 print(emp_1.first)
 print(emp_1.email)

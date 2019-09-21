@@ -12,6 +12,12 @@ Q: How do you add a user?
 -m: Create the user's home directory if it does not exist.
 
 
+Q) Why do you implement /etc/shadow?
+
+- /etc/passwd is world readable.
+- only root can read /etc/shadow 
+
+
 Q: What are the fields of /etc/passwd?
 
 username

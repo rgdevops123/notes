@@ -1,0 +1,7 @@
+
+
+ESC . == Get last 
+
+!!         == execute last command
+
+Ctrl R ==  start typing command

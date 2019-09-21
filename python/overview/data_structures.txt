@@ -1,3 +1,39 @@
+M: Mutable  ???
+O: Ordered  ???
+H: Hashable ???
+
+
+*) What is a List?
+
+    A mutable ordered collection of objects referenced by index.
+    Not Hashable.
+
+
+*) What is a Tuple?
+
+    An immutable ordered collection of objects referenced by index.
+    Hashable.
+
+
+*) What is a Set?
+
+    A mutable unordered collection of unique objects.
+    Not Hashable.
+
+
+*) What is a Frozenset?
+
+    An immutable unordered collection of unique objects.
+    Hashable.
+
+
+*) What is a Dictionary (also known as an associative array or hash)
+
+   Ah mutable unordered collection of values referenced by key.
+   Not Hashable.
+
+
+
 List:
    len,
    in, not in,

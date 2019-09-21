@@ -1,0 +1,18 @@
+   Q: HTML stands for?
+
+    Hypertext Markup Language
+
+
+   Q: HTTP stands for?
+
+    Hypertext Transfer Protocol
+
+
+   Q: CSS stands for?
+
+   Cascading Style Sheets
+
+
+   Q: What does SNMP stand for?
+
+   Simple Network Management Protocol.  It is used for collecting information from and configuring network devices such as servers, printers, hubs, switches, and routers on an Internet Protocol (IP) network.

@@ -1,0 +1,45 @@
+List:
+   len,
+   in, not in,
+
+   clear
+   del, pop, remove,
+
+   append, extend, insert,
+   copy, copy.deepcopy,
+   count, index, ' '.join(l),
+
+   reverse, sort, sorted
+
+
+Set:
+   len
+
+   in, not in,
+
+   clear,
+   discard, pop, remove,
+
+   add, update, copy,
+
+   intersection, union, difference,
+   symmetric difference,
+   issubset, issupperset,  
+   isdisjoint
+
+
+Dictionary:
+     len(d)
+     in, not in
+
+     d.clear()
+     del d[k]
+
+     d2 = d1.copy()
+     d1.update(d3)
+     d.get ('position', 'ENG')
+
+     d.items():
+           - list of (key,value) tuple
+     d.keys(): list of keys
+     d.values(): list of values 

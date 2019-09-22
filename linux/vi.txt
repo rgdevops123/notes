@@ -11,3 +11,10 @@ Q: In VIM, how do you change the shiftwidth setting?
 Q: In VIM, how do you shift 3 lines of code to the right?
 
 3>>
+
+
+Q: How do you delete all text above a certain line?
+
+dgg
+
+d is the deletion command, and gg is a movement command that says go to the top of the file, so when used together, it means delete from my current position to the top of the file.

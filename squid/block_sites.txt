@@ -15,3 +15,11 @@ $ sudo vim /etc/squid/bad-sites.acl
 
 
 $ sudo systemctl restart squid
+
+
+$ sudo tail -f /var/log/squid/access.log
++++
+1569186077.191      0 <CLIENT_IP> TCP_DENIED/403 4003 CONNECT www.sitex.com:443 - HIER_NONE/- text/html
+1569186081.513      0 <CLIENT_IP> TCP_DENIED/403 4006 CONNECT www.sitey.com:443 - HIER_NONE/- text/html
+1569187195.085      0 <CLIENT_IP> TCP_DENIED/403 4000 CONNECT www.sitez.com:443 - HIER_NONE/- text/html
++++

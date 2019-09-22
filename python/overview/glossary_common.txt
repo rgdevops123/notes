@@ -323,6 +323,17 @@ Operator overloading − The assignment of more than one function to a particula
 >>> today = datetime(year=2017, month=1, day=27)
 >>> f"{today:%B %d, %Y}"  # using date format specifier
 'January 27, 2017'
+
+= = = = = = = = = 
+
+   Factory Method
+
+   The mechanics of Factory Method are always the same. A client (SongSerializer.serialize()) depends on a concrete implementation of an interface. It requests the implementation from a creator component (get_serializer()) using some sort of identifier (format).
+
+The creator returns the concrete implementation according to the value of the parameter to the client, and the client uses the provided object to complete its task.
+
+   NOTE: See "song" example in factory directory.
+
 = = = = = = = = = 
 
    file object (or file-like object)

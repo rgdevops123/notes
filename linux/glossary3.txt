@@ -1,0 +1,1670 @@
+Glossary of Linux Terms
+
+
+This appendix provides brief explanations of common terms used in the Linux and Unix
+environments. These include technical terms, as well as conventions used within the Linux
+community. Due to space limitations, this glossary is somewhat selective, but still should
+prove a lasting reference as well as a helpful guide for those new to Linux.
+    Cross-referenced terms are highlighted in italics.
+
+
+
+Symbols
+.
+     Symbol that, in the context of file management, refers to the current directory.
+
+
+..
+     Symbol that, in the context of file management, refers to the parent directory of that
+     currently being browsed.
+
+
+/
+     Symbol that, in the context of file management, refers to the root of the file system; also
+     separates directories in a path listing.
+
+
+~
+     Symbol that, in the context of file management, refers to a user’s home directory.
+
+
+|
+     Pipe symbol; used at the command prompt to pipe output from one command to another.
+
+
+>
+     Symbol that, when used at the command prompt, indicates output should redirect into a file.
+
+
+
+
+      <
+          Symbol that, when used at the command prompt, indicates a command should accept input
+          from a file (see redirect).
+
+
+      #
+          Symbol that, when it appears on the command prompt, usually indicates the user is currently
+          logged in as root.
+
+
+      $
+          Symbol that, when it appears on the command prompt, usually indicates the user is currently
+          logged in as an ordinary user. (Note that some versions of Linux/Unix use % or > instead of $.)
+
+
+      ?
+          Wildcard character indicating that any character can be substituted in its place.
+
+
+      *
+          Wildcard character indicating that zero or more characters can appear in its place.
+
+
+      *nix
+          Popular but unofficial way of describing the family tree that comprises Unix and its various
+          clones, such as Linux and Minix.
+
+
+      A
+      administrator
+          Another word for either the root user or one who has adopted that user’s powers temporarily.
+
+
+      AIX
+          IBM’s proprietary form of Unix that runs on the company’s proprietary hardware, as well
+          as commodity hardware based around AMD and Intel processors. Nowadays, IBM is slowly
+          deprecating AIX in favor of Linux.
+
+
+      alias
+          Method of creating a user-defined command that, when typed, causes another command to
+          be run or a string to be expanded.
+
+
+      Apache
+          Popular Open Source web server software that runs on Unix, Linux, and other operating
+          system platforms. Considered responsible in part for the rise in popularity of Linux in the
+          late 1990s.
+
+
+applet
+    Small program that, in the context of the Ubuntu desktop, runs as part of a larger program
+    and offers functions that complement the main program. The GNOME desktop incorporates
+    several applets in its notification area.
+
+
+APT
+    Advanced Packaging Tool; the underlying system by which software is managed and installed
+    on Ubuntu and Debian Linux systems. Shell commands beginning with apt, such as apt-get, are
+    used to install new software from various repositories. Under Ubuntu, the Synaptic Package
+    Manager program provides a GUI method of using APT.
+
+
+archive
+    Any file containing a collection of smaller files, compressed or otherwise (see also tar).
+
+
+B
+BASH
+    Bourne Again SHell. The most common shell interpreter used under Linux and offered as
+    default on many Linux systems.
+
+
+binary executable
+    Another way of referring to a program that has been compiled so that it can be used day-to-day.
+    See also compile.
+
+
+block device
+    How the Linux kernel communicates with a device that sends and receives blocks of data;
+    usually a hard disk or removable storage device. See also character device.
+
+
+BSD Unix
+    Berkeley Software Distribution Unix; form of Unix partially based on the original Unix
+    source code but also incorporating recent developments. BSD is open source and free for all
+    to use and share with practically no restrictions. There are various forms of BSD Unix, such
+    as FreeBSD, NetBSD, and OpenBSD. BSD doesn’t use the Linux kernel, but it runs many of
+    the same programs. Some of the programs offered within the Linux operating system come
+    from BSD.
+
+
+bzip2
+    Form of file compression. Together with the older and less efficient gzip, it is a popular form
+    of file compression under Linux and the equivalent to Zip compression under Windows.
+
+
+
+      C
+          Programming language in which much of the Linux kernel is written, as were later versions
+          of Unix before it. C was created by some of the same people who created Unix, and its devel-
+          opment mirrors that of Unix.
+
+
+      C++
+          Object-oriented programming language; originally designed to be an enhancement to C,
+          but now seen as a popular alternative.
+
+
+      C#
+          Modern programming language, which uses similar syntax to C, created by Microsoft and
+          re-created on Linux via the Mono project.
+
+
+      character device
+          How Linux refers to a device that sends/receives data asynchronously. For various technical
+          reasons, this typically refers to the terminal display. See also block device.
+
+
+      checksum
+          Mathematical process that can be applied to a file or other data to create a unique number
+          relative to the contents of that file. If the file is modified, the checksum will change, usually
+          indicating that the file in question has failed to download correctly or has been modified in
+          some way. The most common type of checksum program used under Linux is md5sum.
+
+
+      client
+          Shorthand referring to a computer that connects to a server.
+
+
+      closed source
+          The reverse of Open Source in which the source code is not available for others to see, share,
+          or modify. See also proprietary.
+
+
+      code
+          See source code.
+
+
+      command
+          Input typed at the shell that performs a specific task, usually related to administration of the
+          system and/or the manipulation of files.
+
+
+      command-line prompt
+          See shell.
+
+
+
+commodity
+  In the context of hardware, describes PC hardware usually based around Intel or AMD
+  processors that can be bought off the shelf and used to create sophisticated computer systems
+  (as opposed to buying specially designed hardware). One reason for Linux’s success is its
+  ability to use commodity hardware.
+
+
+community
+  The general term for the millions of Linux users worldwide, regardless of what they use
+  Linux for or their individual backgrounds. By using Linux, you automatically become part
+  of the community.
+
+
+compile
+  The practice of creating a binary file from source code, usually achieved using the ./configure,
+  make, make install series of commands and scripts.
+
+
+config file
+  Configuration file; any file that contains the list of settings for a program. Sometimes it’s
+  necessary to edit config files by hand using programs like vi or Emacs, but often the program
+  itself will write its config file according to the settings you choose.
+
+
+copyleft
+  The legal principle of protecting the right to share a creative work, such as a computer
+  program, using a legally binding license. Copyleft also ensures future iterations of the work
+  are covered in the same way.
+
+
+cracker
+  Someone who breaks into computer systems to steal data or cause damage. The term is not
+  necessarily linked to Linux or Unix but was created by the community to combat the wide-
+  spread use of hacker in this sense. The word hacker has traditionally defined someone who
+  merely administers, programs, and generally enjoys computers.
+
+
+cron
+  Background service that schedules tasks to occur at certain times. It relies on the crontab file.
+
+
+CUPS
+  Common Unix Printing System; set of programs that work in the background to handle
+  printing under Unix and Linux.
+
+
+curses
+  Library that lets software present a semigraphical interface at the shell, complete with menu
+  systems and simple mouse control (if configured). The version of curses used under Linux
+  and Unix is called ncurses.
+
+
+      CVS
+          Concurrent Versioning System; application that allows the latest version of software packages to
+          be distributed over the Internet to developers and other interested parties.
+
+
+      D
+      daemon
+          See service.
+
+
+      Debian
+          Voluntary organization that produces distributions of Free Software operating systems,
+          including Linux. Because it is a nonprofit organization run by passionate Free Software
+          advocates, it is considered the most ethically sound of all Linux outfits. Many distributions,
+          including Ubuntu, use Debian as the basis for their software because of its claimed reliability
+          and relative simplicity.
+
+
+      dependency
+          A way of referring to system files that a program requires in order to run. If the dependencies
+          are not present during program installation, a program might refuse to install.
+
+
+      device
+          Linux shorthand describing something on your system that provides a function for the user
+          or that the system requires in order to run. This usually refers to hardware, but it can also
+          describe a virtual device that is created to provide access to a particular Linux function.
+
+
+      directory
+          What Windows refers to as a folder; areas on a hard disk in which files can be stored and
+          organized.
+
+
+      distribution
+          A collection of software making up the Linux operating system; also known as a distro. The
+          software is usually compiled by either a company or organization. A distribution is designed
+          to be easy to install, administer, and use by virtue of it being an integrated whole. Examples
+          include Ubuntu, SUSE Linux, Red Hat, and Debian.
+
+
+      distro
+          Shorthand for distribution.
+
+
+      documentation
+          Another way of describing written guides or instructions; can refer to online sources of help
+          as well as actual printed documentation.
+
+
+
+dpkg
+    Shell command that can be used to administer software under Ubuntu and Debian. However,
+    the APT system, which uses dpkg, is the preferred method of installing software.
+
+
+E
+Emacs
+    Seminal text editor and pseudo-shell beloved by Unix aficionados; can be used for program-
+    ming tasks, simple word processing, and much more. This editor has cultural significance as
+    one of the core pieces of software offered by GNU Project, The. Emacs was originally developed
+    principally by Stallman, Richard. See also vi.
+
+
+environment
+    Shorthand referring to a user’s unique Linux configuration, such as variables that tell the
+    shell where programs are located.
+
+
+F
+FAT32
+    File Allocation Table 32-bits; file system offered by Windows 98, Me, 2000, and XP. Linux can
+    both read and write to FAT32 file systems. See also NTFS and VFAT.
+
+
+Firefox
+    Web browser program used under Ubuntu and produced by the Mozilla Foundation.
+
+
+FLOSS
+    Free, Libre, or Open Source Software; used within the community to describe all software or
+    technology that, broadly speaking, adheres to the ethical approach of Open Source software
+    and/or Free Software, as well as its legal guidelines.
+
+
+FOSS
+    Free or Open Source Software; alternative term for FLOSS.
+
+
+free
+    When used to describe software or associated areas of technology, “free” indicates that
+    the project abides by the ethical (if not legal) guidelines laid down by GNU Project, The.
+    It doesn’t indicate that the software is free in a monetary sense; its meaning is quite different
+    from “freeware.”
+
+
+      Free Software
+          Software in which the source code—the original listing created by the programmer—is available
+          for all to see, share, study, and adapt to their own needs. This differs from the concept of
+          open source because the right of others to further modify the code is guaranteed via the GNU
+          Public License (GPL) software license (or a compatible license). For various reasons, Free
+          Software sometimes does not include the source code (although the software can still be
+          legally decompiled), but this is rare.
+
+
+      G
+      gcc
+          GNU Compiler Collection; programs used when creating binary executable files from
+          source code.
+
+
+      GID
+          Group ID; numbering system used by the operating system to refer to a group.
+
+
+      GIMP
+          GNU Image Manipulation Program; high-powered image-editing program that runs under
+          Linux, Unix, Windows and other operating systems. Often preceded by the definite article:
+          “The GIMP.”
+
+
+      GNOME
+          GNU Network Object Model Environment; a GUI-based desktop environment used by
+          Ubuntu, as well as several other distributions. It uses the GTK+ libraries. See also KDE.
+
+
+      GNU
+          GNU’s Not Unix; see GNU Project, The.
+
+
+      GNU/Linux
+          Another name for the operating system referred to as Linux. The name GNU/Linux gives
+          credit to the vast quantity of GNU Project, The software that is added to the Linux kernel
+          within a distro to make a complete operating system. As such, GNU/Linux is the preferred
+          term of many Free Software advocates.
+
+
+      GNU Project, The
+          Organization created by Stallman, Richard in order to further the aims of Free Software and
+          create the body of software that makes up the GNU operating system.
+
+
+
+GNU Public License
+    Software license principally created by Stallman, Richard in order to protect software source
+    code against proprietary interests and ensure that it will always be shared. It does this by
+    insisting that any source code covered by the GNU Public License (GPL) must remain licensed
+    under the GPL, even after it has been modified or added to by others. The Linux kernel, as
+    well as much of the software that runs on it, uses the GPL.
+
+
+GPL
+    See GNU Public License.
+
+
+grep
+    Global Regular Expression Print; powerful shell command that lets you search a file or other
+    form of input using regular expressions. Because of the ubiquity of the grep program, many
+    Linux and Unix users refer to searching as “grepping.” To “grep a file” is to search through it
+    for a string.
+
+
+group
+    Collection of users under one heading (group name) to facilitate system administration.
+
+
+GRUB
+    GRand Unified Bootloader; boot manager program that offers a menu from which you can
+    choose which operating system you wish to boot. It’s needed to load the kernel program and
+    thereby initiate the Linux boot procedure.
+
+
+GUI
+    Graphical user interface; describes the software that provides a graphical system to display
+    data and let you control your PC (usually via a mouse).
+
+
+guru
+    One who is experienced and knowledgeable about Linux/Unix and is willing to share his or
+    her knowledge with others. In a perfect world, every newbie would have his or her own guru.
+
+
+gzip
+    One of the two preferred forms of file compression used under Linux. Files employing gzip
+    compression usually have a .gz file extension. See also bzip2.
+
+
+H
+hack
+    Ingenious and/or extremely efficient solution to a problem, particularly within the
+    programming world.
+
+
+
+      hacker
+          Term used within the community to describe anyone who enjoys computers and possesses
+          some skill therein, either in a professional capacity or as a hobby. This term is distinct from
+          connotations of maliciously breaking into computers propagated by the media. See also cracker.
+
+
+      host
+          Shorthand referring to any computer that acts as a server to another computer. See also client.
+
+
+      HP-UX
+          Hewlett-Packard’s proprietary form of Unix designed to work on its own hardware platform.
+
+
+      Hurd
+          Kernel being developed by GNU Project, The. It’s not associated with the Linux kernel in
+          any way.
+
+
+      I
+      info
+          Source of documentation accessible from the shell; an alternative to the more established
+          man page system. Also known as Texinfo.
+
+
+      init
+          The program that is automatically run after the kernel has finished loading, and therefore
+          early in the boot procedure. It’s responsible for effectively starting the operating system.
+
+
+      init.d
+          Collection of startup scripts that make up the components of a run level. Under Ubuntu,
+          these are found at /etc/init.d/. Symbolic links to selected init.d scripts are contained in
+          folders within /etc/init.d that are named after run level numbers, such as rc0.d, rc1.d,
+          rc2.d, and so on.
+
+
+      initrd
+          Initial RAM disk; system used by the Linux kernel to load modules that are essential for the
+          kernel to be able to boot, such as disk controllers.
+
+
+      inode
+          Part of the usually invisible file system structure that describes a file, such as its ownership
+          permissions or file size.
+
+
+
+
+ipchains
+    Now deprecated component of version 2.2 of the Linux kernel that allows the creation of
+    network security setups, such as firewalls or port-forwarding arrangements. Note that some
+    distros still prefer to use ipchains. See also iptables.
+
+
+iptables
+    Component of versions 2.4 and 2.6 of the Linux kernel that allows powerful network security
+    setups. Chiefly used in the creation of firewalls, but can be used for more elementary arrange-
+    ments such as network address translation (NAT) routers.
+
+
+J
+job
+    How the BASH shell refers to a running program in order to facilitate administration by the user.
+
+
+journaling
+    File system technology in which integrity is maintained via the logging of disk writes.
+
+
+K
+KDE
+    K desktop environment; GUI and set of additional programs used on various distros, such as
+    Mandriva and a variation of Ubuntu called Kubuntu.
+
+
+kernel
+    Essential but ordinarily invisible set of programs that run the computer’s hardware and
+    provide a platform on which to run software. In the Linux operating system, the kernel is
+    also called Linux, after its creator, Torvalds, Linus.
+
+
+kernel panic
+    Error message that appears when the kernel program in Linux cannot continue to work. In
+    other words, a polite way of indicating a crash or, more often, a problem arising from user
+    misconfiguration. This is most often seen when booting up after making incorrect changes
+    to the system.
+
+
+kludge
+    Community slang describing an inelegant way of making something work, usually not in a
+    way that is generally accepted as being correct. Pronounced “kloodge.”
+
+
+      Kubuntu
+          Version of Ubuntu that substitutes the GNOME desktop environment for KDE. At the time of
+          writing, it is less mature than the standard version of Ubuntu.
+
+
+      L
+      LAMP
+          Acronym describing a series of programs that work together to provide a complete Linux-
+          based web-hosting environment. Stands for Linux, Apache, MySQL, and Perl, PHP or Python
+          (the last three in the list are scripting languages; see script).
+
+
+      LGPL
+          Lesser GPL; version of the GNU Public License (GPL) in which some use restrictions are
+          slackened at the expense of various freedoms laid down by the main GPL. The LGPL is
+          mostly used for library files.
+
+
+      library
+          General term referring to code that programs need to run and that, once in memory, is
+          frequently accessed by many programs (leading to the phrase “shared library”). The most
+          common and vital library is glibc (GNU C Library), created by GNU Project, The and the
+          fundamental building block without which Linux could not operate. GNOME relies on the
+          GTK+ libraries, among others.
+
+
+      link
+          File system method of assigning additional filenames to a file; also known as a “hard link.”
+          See also symbolic link.
+
+
+      Linux
+          You mean you don’t know by now? Linux is what this book is all about. It is a kernel program
+          created by Torvalds, Linus in 1991 to provide an inexpensive operating system for his computer,
+          along with other components. These days, Linux is used to describe the entire operating
+          system discussed in this book, although many argue (perhaps quite rightly) that this is
+          inaccurate, and use the term GNU/Linux instead.
+
+
+      local
+          Shorthand referring to the user’s PC or a device directly attached to it (as opposed to remote).
+
+
+
+localhost
+    (1) Network name used internally by Linux and software to refer to the local computer,
+    distinct from the network.
+
+    (2) Default name given to a Linux-based PC when no other name is defined during installation.
+    However, under Ubuntu, the name ubuntu is assigned if no name is defined by the user.
+
+
+M
+man page
+    Documentation accessible from the shell that describes a command and how it should be used.
+
+
+Minix
+    Operating system that is a rough clone of Unix, created by Professor Andrew Tanenbaum.
+    It was the inspiration for Linux.
+
+
+module
+    Program code that can be inserted or removed from the kernel in order to support particular
+    pieces of hardware or provide certain kernel functions. Drivers under Windows perform the
+    same function.
+
+
+mount
+    To add a file system so that it is integrated (and therefore accessible) within the main file
+    system; applies to external file systems, such as those available across networks, as well as
+    those on the local PC, such as the hard disk or CD/DVD-ROMs.
+
+
+Mozilla Foundation
+    Organization founded by Netscape to create open source Internet software, such as web
+    browsers and e-mail clients; originally based on the Netscape source code. At the time of
+    writing, it produces the Firefox and Camino web browsers, the Thunderbird e-mail and
+    Usenet client, the Bugzilla bug-tracking software, as well as other programs.
+
+
+MySQL
+    Popular and powerful open source database application. See also LAMP.
+
+
+N
+newbie
+    Term used to describe anyone who is new to Linux and therefore still learning the basics.
+    It’s not a derogatory term! See also guru.
+
+
+
+      NFS
+          Network File System; reliable and established method of sharing files, printers, and other
+          resources across a network of Unix-based operating systems. See also Samba.
+
+
+      NTFS
+          NT File System; file system offered by Windows NT, 2000, and XP. It can be read by Linux,
+          but usually writing is prohibited because it is considered unsafe. See also FAT32.
+
+
+      O
+      OpenOffice.org
+          Open Source office suite project created with the continuing input of Sun Microsystems and
+          based on code Sun contributed to the Open Source community. Its commercial release is in
+          the form of Star Office (although Star Office has several proprietary components added).
+
+
+      open source
+          (1) Method and philosophy of developing software whereby the source code—the original
+          listing created by the programmer—is available for all to see. Note that open source is not
+          the same as Free Software; describing software as open source doesn’t imply that the code
+          can be shared or used by others (although this is often the case).
+
+          (2) A community of users or any project that adheres to open-source values and/or practices.
+
+
+      P
+      partition
+          Subdivision of a hard disk into which a file system can be installed.
+
+
+      PID
+          Process ID; the numbering system used to refer to a process.
+
+
+      pipe
+          Method of passing the output from one command to another for further processing. Piping
+          is achieved within the shell by typing the | symbol.
+
+
+      POSIX
+          Portable Operating System Interface; various technical standards that define how Unix-like
+          operating systems should operate and to which the Linux operating system attempts to adhere.
+
+
+
+PPP
+    Point-to-Point Protocol; networking technology that allows data transfer across serial connec-
+    tions like telephone lines. In other words, it’s the technology that lets you connect to your
+    Internet service provider using a modem.
+
+
+process
+    The way the system refers to the individual programs (or components of programs) running
+    in memory.
+
+
+proprietary
+    Effectively, software for which a software license must be acquired, usually for a fee. This
+    usually means the source code is kept secret, but it can also indicate that the source code is
+    available to view but not to incorporate into your own projects or share with others.
+
+
+R
+Red Hat
+    Well-known company that produces distributions of Linux.
+
+
+redirect
+    To send the output of a command into a particular file. This also works the other way around:
+    the contents of a particular file can be directed into a command. Redirection is achieved
+    within the shell using the left and right angle brackets (< and >), respectively.
+
+
+regex
+    See regular expression.
+
+
+regular expression
+    Powerful and complex method of describing a search string, usually when searching with
+    tools such as grep (although regular expressions are also used when programming). Regular
+    expressions use various symbols as substitutes for characters or to indicate patterns.
+
+
+remote
+    Indicates a computer or service that is available across a network, including but not limited
+    to computers on the Internet (as opposed to local).
+
+
+
+      root
+          (1) The bottom of the Linux file system directory structure, usually indicated by a forward
+          slash (/).
+
+          (2) The user on some versions of Unix or Linux who has control over all aspects of hardware,
+          software, and the file system.
+
+          (3) Used to describe a user who temporarily takes on the powers of the root user (via the sudo
+          command, for example).
+
+
+      RPM
+          Red Hat Package Manager; system used to install and administer programs under Red Hat,
+          SUSE Linux and some other distributions. See also APT.
+
+
+      RTFM
+          Read the freaking manual/man page; exclamation frequently used online when a newbie
+          asks for help without having undertaken basic research.
+
+
+      run level
+          Describes the current operational mode of Linux (typically, the services that are running).
+          Run level 1 is single-user mode (a stripped-down system with minimal running services);
+          run levels 2 through 5 provide a GUI; run level 6 is reboot mode (switching to it will cause the
+          computer to terminate its processes and then reboot); run level 0 is shutdown (switching to
+          it will cause the PC to shutdown).
+
+
+      S
+      Samba
+          Program that re-creates under Unix or Linux the Microsoft SMB-based system of sharing
+          files, printers, and other computer resources across a network. It allows Linux to become
+          a file or printer server for Linux and Windows computers, and also allows a Linux client to
+          access a Windows-based server.
+
+
+      scalable
+          Term describing the ability of a single computer program to meet diverse needs, regardless
+          of the scale of the potential uses. The Linux kernel is described as being scalable because it
+          can run supercomputers, as well as handheld computers and home entertainment devices.
+
+
+
+script
+  Form of computer program consisting of a series of commands in a text file. Most shells
+  allow some form of scripting, and entire programming languages such as Perl are based
+  around scripts. In the context of the Linux operating system, shell scripts are usually created
+  to perform trivial tasks or ones that frequently interact with the user. Shell scripts have the
+  advantage that they can be frequently and easily modified. The Linux boot process relies on
+  several complex scripts to configure essential system functions such as networking and the
+  GUI. See also init.
+
+
+server
+  (1) Type of computer designed to share data with other computers over a network.
+
+  (2) Software that runs on a computer and is designed to share data with other programs on
+  the same PC or with other PCs across a network.
+
+
+service
+  Background program that provides vital functions for the day-to-day running of Linux; also
+  known as a daemon. Services are usually started when the computer boots up and as such
+  are constituent parts of a run level.
+
+
+shell
+  Broadly speaking, any program that creates an operating environment in which you can
+  control your computer. The GNOME desktop can be seen as a shell, for example. However,
+  it’s more commonly understood within Unix and Linux circles as a program that lets you
+  control the system using commands entered at the keyboard. In this context, the most common
+  type of shell in use on Linux is BASH.
+
+
+Shuttleworth, Mark
+  Entrepreneurial South African businessman who, as a long-term Debian hacker, devised
+  and financially supports Ubuntu via his company, Canonical Ltd.
+
+
+SMB
+  Server Message Block; network technology for sharing files, printers, and other resources.
+  See also Samba.
+
+
+Solaris
+  Form of Unix sold by Sun Microsystems; runs on proprietary hardware systems as well as on
+  commodity systems based on Intel and AMD processors.
+
+
+
+      source code
+        The original program listing created by a programmer. Most programs that you download
+        are precompiled—already turned into binary executables ready for general use—unless you
+        specifically choose to download and compile the source code of a program yourself.
+
+
+      SSH
+        Secure SHell; program that lets you access a Linux/Unix computer across the Internet. SSH
+        encrypts data sent and received across the link.
+
+
+      SSL
+        Secure Sockets Layer; form of network data transfer designed to encrypt information for
+        security purposes. It’s used online for certain web sites and also within Linux for certain
+        types of secure data exchange.
+
+
+      Stallman, Richard M.
+        Legendary hacker who founded GNU Project, The and created the concept of copyleft, as well
+        as the software license that incorporates it: the GNU Public License (GPL). See also Torvalds,
+        Linus.
+
+
+      standard error
+        Linux and Unix shorthand for the error output provided by a command.
+
+
+      standard input
+        Linux and Unix shorthand for the device usually used to provide input to the shell. For the
+        majority of desktop PC users, this refers to the keyboard.
+
+
+      standard output
+        Linux and Unix shorthand for the device usually used to display output from a command.
+        For the majority of desktop PC users, this refers to the screen.
+
+
+      string
+        A word, phrase, or sentence consisting of letters, numbers, or other characters that is used
+        within a program and is often supplied by the user.
+
+
+      sudo
+        Program that runs under Unix and Linux by which ordinary users are temporarily afforded
+        administrator rights. Ubuntu relies on sudo as the exclusive way for users to administer
+        the system.
+
+
+      SVG
+        Scalable Vector Graphics; vector graphics technology. SVG is actually an XML markup language
+        designed to create 2D graphics, increasingly used for Linux desktop icons and web graphics.
+
+
+
+swap
+    Area of the hard disk that the Linux kernel uses as a temporary memory storage area. Desktop
+    or server Linux differs from Windows in that it usually requires a separate hard disk partition
+    in which to store the swap file.
+
+
+symbolic link
+    Type of file akin to a Windows shortcut. Accessing a symbolic link file routes the user to an
+    actual file. See also link.
+
+
+sysadmin
+    Systems administrator; a way of describing the person employed within a company to
+    oversee the computer systems. In such an environment, the sysadmin usually is the root
+    user of the various computers.
+
+
+System V
+    Variant of Unix used as a foundation for modern forms of proprietary Unix.
+
+
+T
+tainted
+    Describes a kernel that is using proprietary modules in addition to Open Source modules.
+    Can also refer to insecure software.
+
+
+tar
+    Tape Archive; software able to combine several files into one larger file in order to back them
+    up to a tape drive or simply transfer them across the Internet. Such files are usually indicated
+    by a .tar file extension. Note that a tar file isn’t necessarily compressed; the bzip2 and gzip
+    utilities must be used if this is desired.
+
+
+TCP/IP
+    Transmission Control Protocol/Internet Protocol; standard protocol stack used by most
+    modern operating systems to control and communicate across networks and also across the
+    Internet (as opposed to NetBEUI, commonly available on older versions of Windows, and
+    IPX/SPX, used on Novell’s NetWare operating system).
+
+
+terminal
+    Another word for shell.
+
+
+TeX
+    Method and set of programs for typesetting complex documents. Invented prior to word
+    processors and desktop publishing software, and now considered a specialized tool for
+    laying out scientific texts. An updated version of the program called LaTeX is also available.
+
+
+      Torvalds, Linus
+          Finnish programmer who, in 1991, created the initial versions of the Linux kernel. Since
+          then, he has taken advantage of an international network of volunteers and staff employed
+          by various companies who help produce the kernel. Torvalds himself contributes and over-
+          sees the efforts.
+
+
+      tty
+          TeleTYpewriter; shorthand referring to underlying Linux virtual devices that allow programs
+          and users to access the kernel and thereby run programs.
+
+
+      Tux
+          The name of the penguin character that is the Linux mascot. The original Tux graphic was
+          drawn by Larry Ewing.
+
+
+      U
+      Ubuntu
+          Linux distribution with several unique characteristics. Ubuntu is designed primarily for
+          desktop use, although several server versions are available. It is intended for use by individuals
+          in any location in the world, so it has strong multiple language support. It’s run by the
+          Ubuntu Foundation, which is financially backed by Shuttleworth, Mark. Each release is
+          guaranteed to be supported for 18 months (5 years in the case of server releases).
+
+
+      Ubuntu Foundation
+          Organization set up by Shuttleworth, Mark and his company, Canonical, Ltd., to administer
+          and provide support for the Ubuntu distribution of Linux.
+
+
+      UID
+          User ID; numbering system used by the operating system to refer to a user.
+
+
+      Unix
+          Seminal operating system created as a research project in 1969 by Kenneth Thompson and
+          Dennis Ritchie at Bell Labs (later AT&T). Because it was initially possible to purchase the
+          source code for a fee, subsequent revisions were enhanced by a variety of organizations and
+          went on to run many mainframe and minicomputer systems throughout the 1980s, 1990s,
+          and up to the present. Nowadays, Unix is fragmented and exists in a variety of different versions.
+          Perhaps most popular is its Open Source rendition, BSD Unix, which has seen many devel-
+          opments since the source code was first released. This means that BSD Unix no longer exists
+          but has instead diversified into a number of separate projects. Proprietary versions are also
+          available, including Solaris, HP-UX, and AIX.
+
+
+
+user
+     The way the operating system refers to anyone who accesses its resources. A user must first
+     have a user account set up, effectively giving that user his or her own private space on the
+     system. In addition to actual human users, an average Linux system has many other user
+     accounts created to let programs and services go about their business. These are usually not
+     seen by human users.
+
+
+V
+variable
+     A changeable value that stores a certain data type (such as a number, date, or string), remem-
+     bering it for future reference by the system or script it is defined by. Variables defined by and
+     for the Linux kernel are vital to it.
+
+
+verbose
+     Command option that will cause it to return more detailed output (or, in some cases, to
+     return actual output if the command is otherwise “quiet”); usually specified by adding the
+     -v command option.
+
+
+VFAT
+     Virtual File Allocation Table; technical name of Microsoft’s FAT file system offered under
+     Windows and also on removable storage devices such as flash memory cards.
+
+
+vi
+     Arcane text editor and pseudo-shell beloved by Unix aficionados that can be used for
+     creation of text files or for creating programs. Traditionally, Unix users either love or hate vi;
+     some prefer Emacs.
+
+
+W
+Wine
+     Short for Wine Is Not an Emulator; software that re-creates the Windows Application
+     Programming Interface (API) layer within Linux and lets users run Windows programs.
+
+
+workspace
+     X terminology referring to a GUI desktop.
+
+
+
+      X
+      X
+          Short for X Window; software that controls the display and input devices, thereby providing
+          a software foundation on top of which desktop managers like GNOME are able to run.
+
+
+      X11
+          Version 11 of the X software, currently in use on most desktop Linux systems.
+
+
+      XFree86 Project
+          Organization that creates X software. At one time, every distribution of Linux used XFree86
+          software, but most now use similar software from the X.org organization.
+
+
+      xinetd
+          The service responsible for starting various network servers on the computer.
+
+
+      XMMS
+          Audio player program.
+
+
+      X.org
+          Organization that produces the X Window software and, in particular, a set of programs
+          called X11. X11 is used on most modern distributions of Linux. It is backed by a number
+          of Unix and Linux industry leaders.
+
+
+      xterm
+          Simple program that allows you to run a shell under X. This program has the advantage of
+          being available on most Linux systems that offer a GUI.
+
+
+
+BASH Command Index
+
+
+T  his appendix provides a whistle-stop tour of commands that can be used at the BASH shell.
+This is a highly selective listing, intended to provide a guide to commands that see day-to-day
+use on average desktop systems. In a similar fashion, although some command options are
+listed, they’re strictly limited to those that receive regular deployment.
+     The descriptions of each command are deliberately simple. Note that the quantity of space
+a command is given is not an indication of its importance or usefulness. To this end, commands in
+the list with an asterisk after their name offer far more than hinted at by its brief description
+hints. In such cases, I strongly advise that you refer to the command’s man page for more
+information.
+     Various conventions are used in the list:
+
+    • You should substitute your own details wherever italicized words appear.
+
+    • Commands that can and might be run by ordinary users are preceded with a dollar sign ($).
+
+    • Commands that require root privileges (the use of sudo) are preceded with a hash symbol (#).
+
+   Commands that present dangers to the system through misuse are clearly marked. Such
+commands should not be used without research into the command’s usage and function.
+
+
+Command                 Description                   Typical Command Options    Examples of Use
+$ alias                 Create or display                                        alias list=ls
+                        command aliases
+$ alsamixer             Alter audio volume levels                                alsamixer
+$ apropos               Search man pages for                                     apropos "word or
+                        specified words/phrases                                  phrase"
+
+
+
+
+
+
+Command             Description                 Typical Command Options     Examples of Use
+$ apt-cache         Search, query, and          search: Search for          apt-cache search
+                    otherwise manipulate        specified package           packagename
+                    the APT database cache      (regexes may be used;
+                    (see apt-get)               see Chapter 15)
+                                                showpkg: Show
+                                                information about
+                                                specified package
+                                                depends: Show package
+                                                dependencies of specified
+                                                package, and show other
+                                                packages that can meet
+                                                that dependency
+# apt-get           Multifunction tool use to   install: search for and     apt-get install
+                    install, remove, and        install specified package   packagename
+                    otherwise administer        from repositories (as
+                    software packages,          specified in /etc/apt/
+                    according to the APT        sources.list)
+                    database
+                                                update: Update or build
+                                                package database by
+                                                contacting package
+                                                repositories
+                                                upgrade: Attempt to
+                                                upgrade all current
+                                                installed packages with
+                                                new versions
+                                                dist-upgrade: Attempt
+                                                to upgrade all currently
+                                                installed packages,
+                                                automatically and
+                                                aggressively resolving
+                                                package conflicts; often
+                                                used to upgrade entire
+                                                distro to new version
+                                                remove: Opposite of
+                                                install; removes packages
+                                                clean: Remove any
+                                                old package installation
+                                                files that are stored on
+                                                hard disk
+                                                -f: Attempt to fix broken
+                                                package dependencies
+                                                (used with install
+                                                or remove)
+                                                --force-yes: Override
+                                                any errors and thereby
+                                                bypass apt-get’s
+                                                protective measures.
+                                                Dangerous option—
+                                                use with care!
+
+
+
+
+Command          Description                      Typical Command Options         Examples of Use
+$ bzip2          Compress specified file          -d: Decompress                  bzip2 myfile
+                 (replaces original file with     specified file
+                 compressed file and gives
+                                                  -k: Don’t delete
+                 it .bz2 file extension)
+                                                  original file
+                                                  -t: Test; do a dry run
+                                                  without writing any data
+$ bzip2recover   Attempt recovery of                                              bzip2recover
+                 specified damaged                                                myfile.tar.bz2
+                 .bz2 file
+$ cal            Display calendar for                                             cal 4 2005
+                 current month (or specified
+                 month/year)
+$ cat            Display a file on screen or                                      cat myfile
+                 combine and display two
+                 files together
+$ cd             Change to specified                                              cd /usr/bin
+                 directory
+$ cdparanoia *   Convert CD audio tracks          -B: Batch mode; convert         cdparanoia –S 8 –B
+                 to hard disk files               all tracks to individual
+                                                  files
+                                                  -S: Set CD read speed
+                                                  (2, 4, 8, 12, and so on;
+                                                  values relate to CD-drive
+                                                  spin speed; used to avoid
+                                                  read errors)
+# cdrecord *     Burn audio or CD-R/RW            -dev=: Specify the drive’s cdrecord dev=0,0,0
+                 data discs (the latter usually   device number (can be      –speed=16 -v
+                 based on an ISO image;           discovered by running      myfile.iso
+                 see mkisofs)                     cdrecord with the scanbus
+                                                  option)
+                                                  --scanbus: Scan to see
+                                                  which CD-R/RW drives
+                                                  are present and return
+                                                  device numbers
+                                                  -speed=: Specify the write
+                                                  speed (2, 4, 6, 8, and so on)
+                                                  -v: Verbose output;
+                                                  obligatory for feedback
+                                                  on cdrecord’s progress
+# cfdisk *       DANGEROUS! Menu-based                                            cfdisk /dev/hda
+                 disk-partitioning program
+# chgrp          Change group ownership           -R: Recursive; apply            chgroup mygroup
+                 of a file/directory              changes to subdirectories       myfile
+
+
+
+Command                Description                    Typical Command Options       Examples of Use
+$ chmod                Change permissions of a        -R: Recursive; apply          chmod a+rw myfile
+                       file/directory (where a=all,   to subdirectories
+                       u=user, g=group; and
+                                                      --reference=: Copy
+                       r=read, w=write,
+                                                      permissions from
+                       x=executable)
+                                                      specified file
+$ chown                Change file ownership to       -R: Recursive; apply to       chown username
+                       specified username             subdirectories                myfile1
+# chroot               Change the root of the file                                  chroot /home/
+                       system to the specified path                                 mydirectory
+# chvt                 Switch to the specified                                      chvt 3
+                       virtual terminal (equivalent
+                       of holding down Ctrl+Alt
+                       and pressing F1–F6)
+ $ clear               Clears terminal screen and                                   clear
+                       places cursor at top
+$ cp                   Copy files                     -r: Recursive; copy           cp myfile1 directory/
+                                                      subdirectories and the
+                                                      files therein
+                                                      -s: Create symbolic link
+                                                      instead of copying
+$ crontab              Edit or display the user’s     -e: Edit the crontab file     crontab -e
+                       crontab file (scheduled        (create/amend)
+                       tasks)
+                                                      -l: List crontab entries
+                                                      -r: Delete the crontab file
+                                                      -u: Specify a user and edit
+                                                      their crontab file
+$ date                 Display the date and time                                    date
+$ df                   Display free disk space        -h: Human readable;           df -h
+                       within file system             display sizes in KB,
+                                                      MB, GB, and TB, as
+                                                      appropriate
+                                                      -l: Restrict to local file
+                                                      systems, as opposed to
+                                                      network mounts
+$ diff                 Display differences            -a: Consider all files        diff myfile1 myfile2
+                       between specified files        text files (don’t halt
+                                                      when asked to compare
+                                                      binary files)
+                                                      -i: ignore lowercase and
+                                                      uppercase differences
+$ diff3                Display differences                                          diff3 myfile1
+                       between three specified                                      myfile2 myfile3
+                       files
+$ dig                  Look up IP address of                                        dig mysite.com
+                       specified domain
+
+
+
+Command              Description                        Typical Command Options       Examples of Use
+$ dmesg              Display kernel message log                                       dmesg
+# dosfsck *          Check and repair MS-DOS– -a: Repair without asking               dosfsck -rv /dev/hda4
+                     based file hard disk      user for confirmation
+                     partition (see also fsck)
+                                               -r: Repair file system
+                                               asking user for
+                                               confirmation when two
+                                               or more repair methods
+                                               are possible
+                                                        -v: Verbose; display more
+                                                        information
+# dpkg               Install, remove, and               -i: Install specified         dpkg –i
+                     otherwise administer               package                       packagename.deb
+                     local installation packages
+                                                        -r: Remove (uninstall)
+                     (on your hard disk);
+                                                        specified package
+                     see also apt-get
+                                                        -I: Show info about
+                                                        specified package
+                                                        --ignore-depends=
+                                                        packagename.deb:
+                                                        Don’t halt on package
+                                                        dependency issues
+                                                        (dangerous!)
+# dpkg-reconfigure   Reconfigure an already                                           dpkg-reconfigure
+                     installed package                                                packagename
+$ du                 Show sizes of files and            -h: Human readable;           du -h /home/myuser
+                     folders in kilobytes               produce output in MB,
+                                                        GB, and TB
+                                                        -s: Summary; display
+                                                        totals only for directories
+                                                        rather than for individual
+                                                        files
+$ eject              Eject a removable                  -t: Close an already          eject /media/dvd-rom
+                     storage disk                       open tray
+$ ex *               Start a simple text-editor                                       ex myfile.txt
+                     program used principally
+                     within shell scripts
+$ exit               Log out of shell                                                 exit
+                     (end session)
+$ fdformat           Low-level format a floppy                                        fdformat /dev/fd0
+                     disk (this won’t create a file
+                     system; see also mkfs)
+# fdisk *            DANGEROUS! Hard-disk               -l: List partition table      fdisk /dev/hda
+                     partitioning program
+$ fg                 Brings job running in                                            fg 1
+                     background to foreground
+$ file               Display information about                                        file myfile
+                     specified file, such as its type
+
+
+
+Command                Description                   Typical Command Options        Examples of Use
+$ find *               Find files by searching       -maxdepth: Specify the   find -name "myfile"
+                       directories (starting in      number of subdirectories
+                       current directory)            levels to delve into,
+                                                     starting from 1 (current
+                                                     directory)
+                                                     -name: Specify name of
+                                                     file to search for
+                                                     -type: Specify file types to
+                                                     be returned; -type d
+                                                     returns directories and
+                                                     -type f returns only files
+$ free                 Display information about     -m: Show figures in MB         free -m
+                       memory usage
+                                                     -t: Total the columns at
+                                                     bottom of table
+# fsck *               Check file system for                                        fsck /dev/hda1
+                       errors (usually run from
+                       rescue disc)
+$ ftp *                FTP program for                                              ftp ftp.mysite.com
+                       uploading/downloading
+                       to remote sites
+$ fuser                Show which processes          -v: Verbose; detailed          fuser -v myfile
+                       are using a particular file   output
+                       or file system
+$ grep *               Search specified file         -i: Ignore uppercase and       grep "phrase I want
+                       for specified text string     lowercase differences          to find" myfile.txt
+                       (or word)
+                                                     -r: Recursive; delve into
+                                                     subdirectories (if
+                                                     applicable)
+                                                     -s: Suppress error
+                                                     messages about
+                                                     inaccessible files and
+                                                     other problems
+# groupadd             Create new group                                             groupadd mygroup
+# groupdel             Delete specified group                                       groupdel mygroup
+$ groups               Display groups the                                           groups myuser
+                       specified user belongs to
+$ gzip                 Compress files and            -d: Decompress                 gzip myfile
+                       replace original file with    specified file
+                       compressed version
+                                                     -v: Verbose; display
+                                                     degree of compression
+# halt                 Initiate shutdown             -p: Power off system           halt -p
+                       procedure, ending all         at end of shutdown
+                       processes and unmounting      procedure
+                       all disks
+
+
+
+
+Command        Description                         Typical Command Options      Examples of Use
+# hdparm *     DANGEROUS! Tweak or                                              hdparm /dev/hda
+               view hard disk settings
+$ head         Print topmost lines of text         -n: Specify number of        head myfile.txt
+               files (default is first 10 lines)   lines (such as -n 5)
+$ help         Display list of common                                           help
+               BASH commands
+$ history      Display history file (a list of                                  history
+               recently used commands)
+$ host         Query DNS server based              -d: Verbose; return more     host 82.211.81.166
+               on specified domain name            information
+               or IP address
+                                                   -r: Force name server
+                                                   to return its cached
+                                                   information rather than
+                                                   query other authoritative
+                                                   servers
+$ hostname     Display localhost-style                                          hostname
+               name of computer
+$ id           Display username and                                             id myuser
+               group info of specified
+               user (or current user if
+               none specified)
+# ifconfig *   Display or configure                down: Disable interface ifconfig eth0
+               settings of a network               (used at end of command 192.168.0.10 netmask
+               interface (assign an IP             chain)                  255.255.0.0 up
+               address, subnet mask,
+                                                   netmask: Specify a
+               and activate/deactivate it)
+                                                   subnet mask
+                                                   up: Enable interface
+                                                   (used at end of
+                                                   command chain)
+$ info *       Display info page for                                            info command
+               specified command
+# init         Change current run level                                         init 1
+$ jobs         Display list of jobs                                             jobs
+               running in background
+$ kill         Kill specified process                                           kill 1433
+$ killall      Kill process(es) that have          -i: Confirm before           killall processnumber
+               specified name(s)                   killing process
+                                                   -v: Verbose; report if and
+                                                   when successful
+$ last         Display details of recent                                        last
+               logins, reboots, and
+               shutdowns
+$ ldd          Display system files                                             ldd /usr/bin/program
+               (libraries) required by
+               specified program
+
+
+
+Command                Description                     Typical Command Options         Examples of Use
+$ less                 Interactively scroll            -q: Quiet; disable beeps        less myfile.txt
+                       through a text file             when end of file is
+                                                       reached or other error
+                                                       encountered
+                                                       -i: Ignore case; make all
+                                                       searches case-insensitive
+                                                       unless uppercase letters
+                                                       are used
+$ ln                   Create links to specified       -s: Create symbolic link        ln -s myfile1 myfile2
+                       files, such as symbolic links   (default is hard link)
+$ lpr                  Print file (send it to the      -V: Verbose; print              lpr myfile.txt
+                       printer spool/queue)            information about
+                                                       progress of print job
+$ lpstat               Display print queue                                             lpstat
+$ ls                   List directory                  -a: List all files, including   ls -h mydirectory
+                                                       hidden files
+                                                       -d: List only directory
+                                                       names rather than their
+                                                       contents
+                                                       -h: Human readable;
+                                                       print figures in KB, MB,
+                                                       GB, and TB
+                                                       -l: Long list; include
+                                                       all details, such as file
+                                                       permissions
+                                                       -m: Show as comma-
+                                                       separated list
+# lsmod                Display currently loaded                                        lsmod
+                       kernel modules
+$ lsof                 Display any files               -u: Limit results to files      lsof -u username
+                       currently in use                used by specified user
+$ man                  Display specified                                               man command
+                       command’s manual
+$ md5sum               Display MD5 checksum                                            md5sum myfile
+                       (normally used to confirm
+                       a file’s integrity after
+                       download)
+# mkfs *               DANGEROUS! Create               -t: Specify type of             mkfs -t vfat /dev/fd0
+                       specified file system on        file system
+                       specified device (such as
+                       a floppy disk)
+
+
+
+Command       Description                    Typical Command Options     Examples of Use
+$ mkisofs *   Create ISO image file from     -o: Options; this must  mkisofs -o
+              specified directory (usually   appear after command to isoimage.iso -R -J -v
+              for burning to disc with       indicate that command   mydirectory
+              cdrecord)                      options follow
+                                             -apple: Use Mac OS
+                                             extensions to make
+                                             disc readable on Apple
+                                             computers
+                                             -f: Follow symbolic links
+                                             and source actual files
+                                             -J: Use Joliet extensions
+                                             (make ISO compatible
+                                             with Windows)
+                                             -R: Use Rock Ridge
+                                             extensions (preferred
+                                             Linux CD-ROM file
+                                             system)
+                                             -v: Verbose; display more
+                                             information (-vv for even
+                                             more info)
+# modinfo     Display information                                        modinfo modulename
+              about kernel module
+# modprobe    Insert specified module        -k: Set module’s             modprobe modulename
+              into the kernel, as well as    autoclean flag so it will be
+              any others it relies on        removed from memory
+                                             after inactivity
+                                             -r: Remove specified
+                                             module as well as any it
+                                             relies on to operate
+$ more        Interactively scroll through                               more myfile.txt
+              text file (similar to less)
+# mount *     Mount specified file system -o: Specify command            mount /dev/hda4 /mnt
+              at specified location       options, such as rw to
+                                          allow read/write access;
+                                          various types of file
+                                          systems have unique
+                                          commands
+$ mv          Move (or rename) specified -b: Back up files               mv myfile
+              files and/or directories   before moving                   mydirectory/
+                                             -v: Display details of
+                                             actions carried out
+$ netstat *   Show current network                                       netstat -a
+              connections
+
+
+
+Command                Description                     Typical Command Options      Examples of Use
+$ nice                 Run specified command           -n: Specify priority,        nice -n 19
+                       with specified priority         ranging from the highest
+                                                       priority of -20, to 19,
+                                                       which is the lowest
+                                                       priority
+$ nohup                Run specified command                                        nohup command
+                       and continue to run it,
+                       even if user logs out
+$ passwd               Change user’s password                                       passwd
+$ ping                 Check network                   -w: Exit after specified     ping mydomain.com
+                       connectivity between            number of seconds
+                       local machine and               (such as -w 5)
+                       specified address
+$ printenv             Display all environment                                      printenv
+                       variables for current user
+$ ps *                 Display currently               a: List all processes        ps aux
+                       running processes               (note that command
+                                                       options don’t require
+                                                       preceding dash)
+                                                       f: Display ownership
+                                                       of processes using tree-
+                                                       style graphics
+                                                       u: Limit results to
+                                                       processes running
+                                                       for and started by current
+                                                       user
+                                                       x: Include processes
+                                                       in results not started by
+                                                       user but running with
+                                                       the user ID
+$ pwd                  Display current directory                                    pwd
+# reboot               Reboot computer                                              reboot
+$ renice               Change a process’s priority                                  renice 19 10704
+                       while it’s running (see nice)
+$ rm                   Delete single or multiple       -r: Recursive; delete        rm -rf mydirectory
+                       files and/or directories        specified directories
+                                                       and any subdirectories
+                                                       -f: Force; don’t prompt
+                                                       for confirmation before
+                                                       deleting (use with care!)
+# rmmod                Delete module from kernel                                    rmmod modulename
+# route *              Add and create (or view)                                     route add default gw
+                       entries in routing table                                     192.168.1.1
+                       (see ifconfig)
+$ runlevel             Display current run level                                    runlevel
+
+
+
+Command         Description                    Typical Command Options       Examples of Use
+$ screen *      Program that runs              -ls: Display list of          screen
+                pseudo shell that is           currently running
+                kept alive regardless of       screen sessions
+                current user login
+                                               -R: Reattach to already
+                                               running screen session
+                                               or start new one if none
+                                               available
+$ sftp *        Secure Shell FTP; like FTP                                   sftp
+                but running over an ssh                                      username@192.168.1.14
+                connection (see ssh)
+$ shred         Overwrite data in a file       -u: Delete file in addition   shred -fv myfile
+                with gibberish, thereby        to overwriting
+                making it irrecoverable
+                                               -v:Verbose; show details
+                                               of procedure
+                                               -f: Force permissions to
+                                               allow writing if necessary
+$ sleep         Pause input for the                                          sleep 10m
+                specified period of time
+                (where s=seconds,
+                m=minutes, h=hours,
+                d=days)
+$ smbclient *   FTP-style program                                            smbclient //192.168.
+                with which you can log                                       1.1/
+                in to a SMB (Windows)-
+                based file share
+$ sort          Sort entries in the                                          sort myfile.txt -o
+                specified text file (default                                 sorted.txt
+                is ASCII sort)
+$ ssh *         Log in to remote computer                                    ssh username@192.168.
+                using secure shell                                           1.15
+$ startx        Start GUI session (if GUI                                    startx
+                isn’t already running)
+$ su            Temporarily log in as          -: Adopt user’s               su
+                specified user; log in as      environment variables,
+                root if no user specified      such as $PATH
+                (provided root account is
+                activated)
+$ sudo          Execute specified                                            sudo command
+                command with root
+                privileges
+$ tac           Display specified text file                                  tac myfile.txt
+                but in reverse (from last to
+                first line)
+$ tail          Display final lines of         -n: Specify number of         tail myfile.txt
+                specified text file            lines to display (such
+                                               as -n4)
+
+
+
+Command                Description                      Typical Command Options     Examples of Use
+$ tar *                Combine specified files          -c: Create new archive      tar -zcf
+                       and/or directories into one                                  myfile.tar.gz
+                                                        -j: Use bzip2 in order
+                       larger file, or extract from                                 mydirectory
+                                                        to compress (or
+                       such a file
+                                                        decompress) files
+                                                        -f: Specifies filename
+                                                        (must be last in chain of
+                                                        command options)
+                                                        -r: Add files to existing
+                                                        archive
+                                                        -x: Extract files from
+                                                        existing archive
+                                                        -z: Use gzip to compress
+                                                        (or decompress) files
+$ tee                  Display piped output and                                     ls -lh| tee
+                       also save it to specified file                               listing.txt
+$ top *                Program that both displays                                   top
+                       and lets the user
+                       manipulate processes
+$ touch                Give specified file current                                  touch myfile
+                       time and date stamp; if it
+                       doesn’t exist, create a zero-
+                       byte file with that name
+$ tracepath            Discover and                                                 tracepath
+                       display network path                                         192.168.1.20
+                       to another host
+$ umask                Set default permissions                                      umask u=rwx,g=r,o=
+                       assigned to newly
+                       created files
+# umount               Unmount a file system                                        umount /media/cdrom
+# useradd              Add new user                     -m: Create home             useradd -m username
+                                                        directory for user
+# userdel              Delete all mention of user       -r: Remove user’s           userdel -r username
+                       in system configuration          home directory
+                       files (effectively deleting
+                       the user, although files
+                       owned by the user might
+                       remain)
+$ unalias              Remove specified alias           -a: Remove all aliases      unalias command
+                                                        (use with care!)
+$ uname                Display technical                -a: Display all basic       uname -a
+                       information about current        information
+                       system
+$ unzip                Unzip a Windows-                 -l: Display archive         unzip myfile.zip
+                       compatible Zip file              content but don’t
+                                                        actually unzip
+
+
+
+Command     Description                   Typical Command Options     Examples of Use
+$ uptime    Display uptime for system,                                uptime
+            as well as CPU load average
+            and logged-in users
+$ vi *      Text editor program                                       vi
+$ wc        Count the number of words                                 wc myfile.txt
+            in a file
+$ whatis    Display one-line summary                                  whatis command
+            of specified command
+$ whereis   Display information on        -b: Return information      whereis -b command
+            where a binary command        only about binary
+            is located, along with its    programs
+            source code and man page
+            (if applicable)
+$ xhost     Configure which               +: When followed by        xhost +
+            users/systems can run         a username and/or
+            programs on the X server      system name, gives the
+                                          user/system permission
+                                          to run programs on the
+                                          X server; when used on its
+                                          own, lets any user/system
+                                          use the X server
+                                          -: Opposite of +
+$ xinit     Start elementary GUI                                      xinit
+            session (when not already
+            running a GUI)
+$ zip       Create Windows-compatible -r: Recursive; includes         zip -r myfile.zip
+            compressed Zip files      all subdirectories and          mydirectory
+                                      files therein
+                                          -u: Updates Zip with
+                                          specified file
+                                          -P: Encrypts Zip with
+                                          specified password
+                                          -v: Verbose; display more
+                                          information
+                                          -#: Set compression level
+                                          (from 0, which is no
+                                          compression, to 9, which
+                                          is highest)
+$ zipgrep   Searches inside Zip files                                 zipgrep "search
+            for specified text string                                 phrase" myfile.zip

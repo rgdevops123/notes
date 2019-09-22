@@ -1,0 +1,147 @@
+Special Symbols
+.. - see dot-dot
+
+$? - see exit status
+
+| - see pipe
+
+$*, $#, $1 - see positional parameters
+
+<, >, 2> - see redirection
+
+#! - see she-bang
+
+[ ] - see test
+
+A
+absolute file specification - a file specification that is described in its entirety starting from the top-most position of the file tree hierarchy , i.e. the root (/) directory.
+
+B
+background process - running a program such that its parent does not wait for its completion. A process can be started as a background process by starting it followed by the ampersand (e.g. program &) or by suspending a running process using [Ctrl-z], then moving the suspended job to the background using the bg command.
+
+bit bucket - see /dev/null.
+
+C
+child process - a process that has been created from a parent process. This is the typical way a Unix command is started and executed, i.e. a parent process initializes and starts execution of a child process (see fork, exec).
+
+command line interface (CLI) - an interface to the Operating System where the user typically enters commands using the keyboard at the command line prompt.
+
+command line prompt - see prompt.
+
+command substitution - typically done using a pair of backquotes surrounding the command to be substituted as follows:
+
+	`cmd`
+This effectively places the output from cmd exactly at the point where the first backquote occurs. Frequently this is used to assign command output to variables, e.g.
+	CUR_DIR=`pwd`
+D
+/dev/null - a special file referred to as the null device or informally as the bit bucket. The most common use of this virtual device is to discard any data written (directed) to it. Additionally, it provides an End of File (EOF) when used as an input stream (read from).
+
+directory - a special type of Unix file that serves as a container for other files.
+
+dot-dot (..) - a relative file reference to the parent directory one level up from the current location in the file system tree.
+
+E
+environment variable - a named variable used within the shell to store a value. Similar to variables in other programming languages. Environment variables can be system or user defined.
+
+exec - a system function that overlays the current process image with a new process image, assigning the new process the PID of the original process.
+
+exit status - an integer value returned from a command, program, or function indicating the success of its completion. A exit status of zero indicates success while a non-zero status indicates non-success. The meaning of success (or non-success) will depend upon the command or program in question. The numeric exit status is returned and can be queried via the $? variable.
+
+export - a shell command that when used with environment variables allows the values of the variables to be visible to child (and grandchild) processes.
+
+F
+file - in a general sense, a collection of (typically) related data. File types on a Unix system typically include ordinary files, directory files and device files.
+
+file attributes - characteristics that describe a file, such as owner, file type, access permissions, date modified, size, etc.
+
+file specification - a reference to the location of a file in the file system. This reference may either be an absolute or a relative reference. Sometimes referred to as a "pathname."
+
+file system - a composition of files, their attributes, tools to allow file manipulation, a logical organization and an implementation which maps the logical organization to physical devices. This implies the importance of the organization of the system, rather than the content of the files on a system.
+
+filter - a command that somehow alters the data which passes through it (usually via a pipe).
+
+foreground - executing a program such that its parent (usually the shell) waits for its completion before resuming control. Typically, only one program can run in the foreground in any one terminal window.
+
+fork - a system function that when invoked by a process (the parent) makes an (almost) exact copy of itself (the new child.) The newly created child process differs mostly from the parent by a differing PID and PPID.
+
+G
+getty - a program which displays the login: prompt when logging into a Unix system.
+
+GNU - an acronym for GNU's Not Unix, GNU is an organization founded by Richard Stallman. Many of the tools and bits of the Linux operating system were developed by GNU or under GNU's public license (see GNU's web page: www.gnu.org).
+
+graphical user interface (GUI) - a program or programs that allow the user to interact with the Operating System via graphical tools and devices such as a mouse.
+
+H
+home directory - the directory location where a user resides upon login, as specified in the /etc/passwd file (in the last field). Also the default location when the cd command is used without arguments.
+
+I
+init - the first non-kernel program loaded and thus the (grand) parent of all processes, appropriately having PID 1. The init process is responsible for starting most major processes in a Unix system.
+
+interrupt - sending a signal to a process to terminate the process with varying degrees of severity. Some signals terminate processes more severely than others.
+
+J
+job - a name for a running program, typically a running program of some duration.
+
+K
+kernel - the core portion of the operating system that maintains control of the hardware. The kernel is memory resident from the boot process until system shutdown.
+
+kill - a shell command used to terminate a process.
+
+L
+list - a grouping of (zero or more) data items (words) related in some way. Relationships can include files in a directory, results from a pattern match, arguments on a single command line, etc.
+
+login - a program exec'd by getty which displays the Password: prompt and verifies the password information entered is correct.
+
+M N
+metacharacter - a special character used to describe or represent one or more other characters. Metacharacters are often used to describe regular expressions. The most familiar metacharacter is most likely the wildcard character (*).
+
+MULTICS - a project which was the predecessor of what is now Unix. The name was an ancronym from MULTiplexed Information and Computing Service.
+
+O P
+parent process - the singular process responsible for the creation of one or more child processes.
+
+PATH variable - the variable which determines in which directories the shell will look to find the command you entered to be executed. It contains one or (usually) more file specifications separated by colon delimiters.
+
+pipe operator - an operator, specifically the | character, which allows the standard output of one command to be attached to the standard input of another. For example:
+
+	who | wc -l
+positional parameters - command line parameters which are referenced by their relative numeric positions on the command line as 1, 2, 3, etc. The variable $* is the entire list of command line arguments, the variable $# is the number of the arguments in the list, and the variable $n is the nth argument.
+process - a program that has been loaded into memory and is in a state of execution. A process is an instance of a running program.
+
+process control block (PCB) - a dynamic structure resident in memory which stores information about each process. Typical information may include process id, parent process id, process state, memory information, program control data, and general accounting information.
+
+process id (PID) - the numeric identifier of a process.
+
+parent process id (PPID) - the numeric identifier of a child's parent process.
+
+program - a set of instructions that has been created to perform a task. A program is a passive, non-executing entity. In Unix, programs consisting of shell commands are called shell programs or shell scripts.
+
+prompt - the location or position in a terminal window where a user enters a command. The prompt will typically be a single simple character, such as the "$" character. However, the prompt may be modified to be a more elaborate string such as the users current working directory by modifying the PS1 environment variable.
+
+Q R
+redirection - the capability to change the input stream to come from, or the output/error stream to go to a file. The basic operators for this are < for input redirection, > for output redirection and 2> for error redirection.
+
+regular expression - a set of symbols (characters) and syntactic elements used to match patterns of text. The term regular expression is often abbreviated to regex or RE.
+
+relative file specification - a file specification that is described by its location relative to to other files in the file system tree. Relative file specificatins can use the dot (.) or the dot-dot (..) references to describe their relative position.
+
+S
+she-bang - the name of the characters #!. When located in a shell program on the first line in the first character position, followed by the file specification of an interpreter program, the she-bang instructs the shell to load that specific interpreter to execute the shell program. For example, to exeucte a program using the bash interpreter, the following should appear on the program's first line in the first character position:
+
+	#!/bin/bash
+shell - a program which typically runs at each logged-in terminal which serves as the interpreter for user commands. The shell interprets a user's command, checks the commands validity and interfaces with the kernel in executing the command. There are many different shell programs.
+
+shell script - a file containing shell commands to perform a specific task. Also called a shell program.
+
+standard error - the default destination from where a command delivers its errors, typically the monitor (as does stdout). Also referred to as stderr. This file descriptor is associated with the channel number 2.
+
+standard input - the default source from where a command receives its input, typically the keyboard. Also referred to as stdin. This file descriptor is associated with the channel number 0.
+
+standard output - the default destination from where a command delivers its output, typically the monitor. Also referred to as stdout. This file descriptor is the channel number 1.
+
+T
+test operator - an operator which evaluates expressions and returns a boolean value. The test operator is typically invoked using pairs of square brackets (i.e. [ expression ]).
+
+U V W
+X Y Z
+zombie - a dead process whose parent has not terminated it (the zombie) properly. The parent is neither waiting for or acknowledging the death of its child. Zombie proecesses should be destroyed by init() when their parent process exits. The ps command typically labels zombie processes as "defunct" processes.

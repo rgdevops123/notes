@@ -1,0 +1,9 @@
+         Dump Cache:
+$ sudo rndc dumpdb -cache
+
+         View Cache:
+$ vim /var/cache/bind/named_dump.db
+
+         Clear Cache:
+$ sudo rndc flush
+$ sudo rndc reload

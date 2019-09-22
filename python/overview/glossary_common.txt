@@ -817,6 +817,14 @@ greeter.greet()
 
 = = = = = = = = = 
 
+   Refactoring
+
+    Make changes to existing code without changing the behavior. This is referred to as refactoring the code.
+
+Martin Fowler in his book Refactoring: Improving the Design of Existing Code defines refactoring as "the process of changing a software system in such a way that does not alter the external behavior of the code yet improves its internal structure."
+
+= = = = = = = = = 
+
    reference count
 
     The number of references to an object. When the reference count of an object drops to zero, it is deallocated. Reference counting is generally not visible to Python code, but it is a key element of the CPython implementation. The sys module defines a getrefcount() function that programmers can call to return the reference count for a particular object.

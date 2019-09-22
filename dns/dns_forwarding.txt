@@ -1,0 +1,76 @@
+   Forwarding DNS Server
+
+A forwarding DNS server offers the same advantage of maintaining a cache to improve DNS resolution times for clients. However, it actually does none of the recursive querying itself. Instead, it forwards all requests to an outside resolving server and then caches the results to use for later queries.
+
+This lets the forwarding server respond from its cache, while not requiring it to do all of the work of recursive queries. This allows the server to only make single requests (the forwarded client request) instead of having to go through the entire recursion routine. This may be an advantage in environments where external bandwidth transfer is costly, where your caching servers might need to be changed often, or when you wish to forward local queries to one server and external queries to another server.
+
+Also, an alternative take on developing a cache for client machines is through the use of a forwarding DNS server. This approach adds an additional link in the chain of DNS resolution by implementing a forwarding server that simply passes all requests to another DNS server with recursive capabilities (such as a caching DNS server).
+
+The advantage of this system is that it can give you the advantage of a locally accessible cache while not having to do the recursive work (which can result in additional network traffic and can take up substantial resources on high traffic servers). This can also lead to some interesting flexibility in splitting your private and public traffic by forwarding to different servers.
+
+A forwarding DNS server has the following properties:
+
+    The ability to handle recursive requests without performing recursion itself. The most fundamental property of a forwarding DNS server is that it passes requests on to another agent for resolution. The forwarding server can have minimal resources and still provide great value by leveraging its cache.
+
+    Provide a local cache at a closer network location. Particularly if you do not feel up to building, maintaining, and securing a full-fledged recursive DNS solution, a forwarding server can use public recursive DNS servers. It can leverage these servers while moving the primary caching location very close to the client machines. This can decrease answer times.
+
+    Increases flexibility in defining local domain space. By passing requests to different servers conditionally, a forwarding server can ensure that internal requests are served by private servers while external requests use public DNS.
+
+
+   Configure a Forwarding DNS Server (Ubuntu 18.04)
+
+
+$ sudo apt-get update
+$ sudo apt-get install bind9 bind9utils bind9-doc
+
+  Allow only IPV4:
+$ sudo vim /etc/default/bind9
++++
+OPTIONS="-u bind -4"
++++
+
+$ sudo vim /etc/bind/named.conf.options
++++
+acl "trusted" {
+        3.0.0.0/8;
+        13.0.0.0/8;
+        localhost;
+        localnets;
+};
+
+options {
+        directory "/var/cache/bind";
+
+        recursion yes;                 # enables resursive queries
+        allow-query { trusted; };      # allows queries from "trusted" clients
+        listen-on { <Private_IP>; };   # ns1 private IP address - listen on private network only
+        allow-transfer { none; };      # disable zone transfers by default
+
+        forwarders {
+                8.8.8.8;
+                8.8.4.4;
+        };
+        forward only;
+
+        dnssec-enable yes;
+        dnssec-validation yes;
+};
++++
+
+$ sudo named-checkconf
+
+$ sudo systemctl restart bind9
+$ sudo systemctl enable bind9
+
+$ sudo tail -f /var/log/syslog
+
+   Configure the Client Machine:
+$ sudo vim  /etc/resolv.conf
++++
+nameserver <IP_OF_DNS_SERVER>
++++
+
+
+$ ping -c 1 google.com
+$ dig linuxfoundation.org
+$ dig -x 140.211.169.4

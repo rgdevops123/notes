@@ -68,3 +68,11 @@ Q: How do you perform a group removal?
 # yum remove @"KDE Desktop"
 
 # yum remove @kde-desktop
+
+
+Q: How do you configure yum through SOCKS?
+
+$ sudo vim /etc/yum.conf
++++
+proxy=socks5h://127.0.0.1:8080
++++

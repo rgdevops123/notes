@@ -1,0 +1,86 @@
+$ sudo apt -y update
+$ sudo apt -y install openssh-server
+
+
+
+Build a Router with Ubuntu Server 18.04:
+===============================
+
+sudo vim /etc/ufw/sysctl.conf
++++
+net/ipv4/ip_forward=1
++++
+
+sudo sysctl -p /etc/ufw/sysctl.conf
+
+sudo sysctl -a | grep net.ipv4.ip_forward
+
+
+SQUID: Ubuntu 18.04
+======
+$ sudo apt update
+$ sudo apt -y install squid
+
+$ sudo vim /etc/squid/squid.conf
++++
+http_port 3128
+...
+http_access allow all
+ #http_access deny all
++++
+
+$ sudo systemctl restart squid
+
+   On Client:
+   =======
+$ export http_proxy=http://10.0.0.3:3128/
+$ export https_proxy=$http_proxy
+
+$ curl http://www.google.com
+$ curl https://www.google.com
+
+
+
+
+
+On Client:   Create an SSH Socket Secure (SOCKS) Proxy.
+=======
+$ ssh -D 8080 user1@<SERVER_IP> -N
+
+      FIREFOX:
+      ========
+      SOCKS5: 127.0.0.1 8080
+      Proxy DNS while using SOCKS.
+
+
+      APT:
+      =====
+$ sudo vim /etc/apt/apt.conf.d/99proxy
++++
+Acquire {
+  HTTP::proxy "socks5h://127.0.0.1:8080";
+  HTTPS::proxy "socks5h://127.0.0.1:8080";
+}
++++
+
+
+   YUM:
+   =====
+$ sudo vim /etc/yum.conf
++++
+proxy=socks5h://127.0.0.1:8080
++++
+
+
+How to download a file through an SSH server?
+   Option 1:
+$ ssh -D 8080 user1@<SERVER_IP> -N
+$ export SOCKS_SERVER=127.0.0.1:8080
+$ wget http://server-C/whatever
+   Example:
+$ wget http://mirrors.usc.edu/pub/linux/distributions/centos/7.6.1810/isos/x86_64/0_README.txt
+
+   Option 2:
+$ ssh <ADDRESS_OF_SERVER> 'wget -O - http://server-C/whatever' >> whatever
+   Example:
+$ ssh user1@<SERVER_IP>  'wget -O - http://mirrors.usc.edu/pub/linux/distributions/centos/7.6.1810/isos/x86_64/0_README.txt' >> README.txt

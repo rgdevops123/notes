@@ -8,7 +8,6 @@ prove a lasting reference as well as a helpful guide for those new to Linux.
     Cross-referenced terms are highlighted in italics.
 
 
-
 Symbols
 .
      Symbol that, in the context of file management, refers to the current directory.
@@ -158,10 +157,10 @@ bzip2
 
 
       checksum
-          Mathematical process that can be applied to a file or other data to create a unique number
-          relative to the contents of that file. If the file is modified, the checksum will change, usually
-          indicating that the file in question has failed to download correctly or has been modified in
-          some way. The most common type of checksum program used under Linux is md5sum.
+        Mathematical process that can be applied to a file or other data to create a unique number
+        relative to the contents of that file. If the file is modified, the checksum will change, usually
+        indicating that the file in question has failed to download correctly or has been modified in
+        some way. The most common type of checksum program used under Linux is md5sum.
 
 
       client
@@ -178,8 +177,8 @@ bzip2
 
 
       command
-          Input typed at the shell that performs a specific task, usually related to administration of the
-          system and/or the manipulation of files.
+        Input typed at the shell that performs a specific task, usually related to administration of the
+        system and/or the manipulation of files.
 
 
       command-line prompt
@@ -240,7 +239,7 @@ curses
 
 
       CVS
-          Concurrent Versioning System; application that allows the latest version of software packages to
+         Concurrent Versioning System; application that allows the latest version of software packages to
           be distributed over the Internet to developers and other interested parties.
 
 

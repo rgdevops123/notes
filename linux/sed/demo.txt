@@ -1,0 +1,55 @@
+TIMESTAMP: 20170523; MESSAGE: Dr. Bianca's primary is bianca@paramount.com / 3.23.33.89. Secondary is bianca@paramount.com / 3.23.33.89. EOM
+
+[root@hv1-kvm-c7 bak]# cat string | sed s/3.23.33.89/REDACTED/g
+TIMESTAMP: 20170523; MESSAGE: Dr. Bianca's primary is bianca@paramount.com / REDACTED. Secondary is bianca@paramount.com / REDACTED. EOM
+
+[root@hv1-kvm-c7 bak]# cat string | sed -E "s/\w+@\w+\.\w+/REDACTED/g"
+TIMESTAMP: 20170523; MESSAGE: Dr. Bianca's primary is REDACTED / 3.23.33.89. Secondary is REDACTED / 3.23.33.89. EOM
+
+[root@hv1-kvm-c7 sed]# cat string | sed -E "s/\w{1,3}\.\w{1,3}\.\w{1,3}\.\w{1,3}/REDACTED/g"
+TIMESTAMP: 20170523; MESSAGE: Dr. Bianca's primary is bianca@paramount.com / REDACTED. Secondary is bianca@paramount.com / REDACTED. EOM
+
+
+Q: How do you rename files from us.data to un.data?
+
+for i in *.data;
+do a="$(echo $i | sed s/us/un/)";
+mv "$i" "$a";
+done
+
+
+Q: How do you insert text at the front of filenames?
+
+   for i in `ls`; do a=calmem1-"$i"; mv "$i" "$a"; done
+
+
+Q: How do you remove whitespace from filenames?
+
+   for i in *\ *; do mv "$i" "${i// /_}"; done
+
+
+Q: How do you replace _-_ in filenames?
+
+   for i in *\ *; do mv "$i" "${i//_-_/_}"; done
+
+
+
+
+   Example:
+# ls
+1  2  3  4  5  6  7  8  9  a  b  c  d  e  f  g
+
+# for i in *; do mv "$i" "test $i"; done
+
+# ls
+test 1  test 2  test 3  test 4  test 5  test 6  test 7  test 8  test 9  test a  test b  test c  test d  test e  test f  test g
+
+# for i in *; do mv "$i" "${i// /_}";done
+
+# ls
+test_1  test_2  test_3  test_4  test_5  test_6  test_7  test_8  test_9  test_a  test_b  test_c  test_d  test_e  test_f  test_g
+
+# for i in *; do mv "$i" "${i//test_/}";done
+
+# ls
+1  2  3  4  5  6  7  8  9  a  b  c  d  e  f  g

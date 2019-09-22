@@ -1,0 +1,18 @@
+[root@hv1-kvm-c7 bak]# cat string | awk -F ';' '{ print $0 }' 
+TIMESTAMP: 20170523; MESSAGE: Dr. Bianca's primary is bianca@paramount.com / 3.23.33.89. Secondary is bianca@paramount.com / 3.23.33.89. EOM
+
+[root@hv1-kvm-c7 bak]# cat string | awk -F ';' '{ print $1 }' 
+TIMESTAMP: 20170523
+
+[root@hv1-kvm-c7 bak]# cat string | awk -F ';' '{ print $2 }' 
+ MESSAGE: Dr. Bianca's primary is bianca@paramount.com / 3.23.33.89. Secondary is bianca@paramount.com / 3.23.33.89. EOM
+
+[root@hv1-kvm-c7 bak]# cat string | awk -F 'EOM' '{ print $1 }' 
+TIMESTAMP: 20170523; MESSAGE: Dr. Bianca's primary is bianca@paramount.com / 3.23.33.89. Secondary is bianca@paramount.com / 3.23.33.89. 
+
+[root@hv1-kvm-c7 bak]# cat string | awk -F 'paramount' '{ print $1 }' 
+TIMESTAMP: 20170523; MESSAGE: Dr. Bianca's primary is bianca@
+
+[root@hv1-kvm-c7 bak]# cat string | awk -F 'paramount' '{ print $2 }' 
+.com / 3.23.33.89. Secondary is bianca@
+

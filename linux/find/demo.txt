@@ -1,0 +1,160 @@
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+   +++ XARGS: remove all core files found
+# find /tmp -name core -type f -print | xargs /bin/rm -f
+# find /tmp -name core -type f -print0 | xargs -0 /bin/rm -f
+
+# find . -type f -exec file '{}' \;   ### Run file command on all regular files found.
+
+   +++ List setuid files and directories into /root/suid.txt and large files into /root/big.txt.
+# find / \( -perm -4000 -fprintf /root/suid.txt '%#m %u %p\n' \) , \( -size +100M -fprintf /root/big.txt '%s %p\n' \)
+   %m     File's  permission.
+   %u     File's user name.
+   %p     File's name.
+   %s     File's size in bytes.
+
+   +++ Search for files 1) Exactly 8k.   2) Greater than 6k    3) Less that 9k.
+# find . -size 8k
+# find . -size +6k
+# find . -size -9k
+
+
+   +++ Search for files with a maximum depth of 2.
+# find . -maxdepth 2
+
+   +++ Search  for  files  in your home directory which have been modified in the last twenty-four hours.
+# find $HOME -mtime 0   ### Rounds up from 0 to 1 24hr period.
+
+
+   +++ Search for files which are executable but not readable.
+# find /sbin /usr/sbin -executable \! -readable -print
+
+
+   +++ Search  for  files which have read and write permission for their owner, and group, but which other users can read but not write to.
+# find . -perm 664
+# find . -perm -664   ### This will match a file which has mode 0777
+
+
+   +++ Search for files which are writable by either their owner or their group.
+# find . -perm /220       ### Octal Representation.
+# find . -perm /u+w,g+w   ### Symbolic Form.
+# find . -perm /u=w,g=w   ### Symbolic Form.
+
+   +++ Search for files which are writable by both their owner and their group.
+# find . -perm -220
+# find . -perm -g+w,u+w
+
+
+   +++ Search for files that are readable for everybody, have at least one write bit set but are not executable for anybody. 
+# find . -perm -444 -perm /222 ! -perm /111
+# find . -perm -a+r -perm /a+w ! -perm /a+x
+
+
+   +++ Find Regular Files, Directories, Named Pipes, Sockets, Character Files, Block Files, Symbolic Links.
+   
+   +++ Create Regular Files, Directories, Named Pipes, Sockets, Character Files, Block Files, Symbolic Links.
+
+
+=================================================
+REFERENCE:  /data/find_files
+=================================================
+   +++ Create a socket file.
+>>> import socket as s
+>>> sock = s.socket(s.AF_UNIX)
+>>> sock.bind('/data/backups/ZZZLINUX/lab/find/files/local_socket')
+
+
+
+   +++ Create a named pipe (FIFO) file.
+# mkfifo /data/backups/ZZZLINUX/lab/find/files/local_pipe
+# ls > local_pipe
+# cat < local_pipe
+local_directory
+local_file
+local_pipe
+local_socket
+
+
+
+   +++ Create a Character Device File.
+mknod <name>  <type of device ~ c: character; b: block device>   <major>   <minor>
+# mknod local_character_device c 89 1
+
+
+
+   +++ Create a Block Device File.
+mknod <name>  <type of device ~ c: character; b: block device>   <major>   <minor>
+# mknod local_block_device b 89 1
+
+
+
+   +++ Create a Logical Link File.
+# vim /tmp/test
+# ln -s /tmp/test local_symbolic_link
+
+
+
+-name  pattern
+-iname pattern - Case insensitive.
+
+-regex   REGEX
+-iregex  REGEX - Case insensitive.
+
+-amin n  - File was last accessed n minutes ago.
+
+
+-atime n - File  was  last  accessed  n*24 hours ago.
+
+
+-cmin n  - File's status was last changed n minutes ago.
+
+
+-ctime n - File's status was last changed n*24 hours ago.
+
+
+-mmin n  - File's data was last modified n minutes ago.
+
+
+-mtime n - File's data was last modified n*24 hours ago.
+
+-uid n   - File's numeric user ID is n.
+-gid n   - File's numeric group ID is n.
+
+-empty    - File is empty and is either a regular file or a directory.
+-nogroup  - No group corresponds to file's numeric group ID.
+-nouser   - No user corresponds to file's numeric user ID.
+
+-readable   - Matches files which are readable.
+-writable   - Matches files which are writable.
+-executable - Matches files which are executable and directories which are searchable
+
+-perm mode  - File's permission bits are EXACTLY mode.
+-perm -mode - File's permission bits are AT LEAST mode.
+
+
+-size n[cwbkMG]  - File uses n units of space. 'b'=512-byte blocks, 'c'=bytes, 'w'=two-byte words, 'k'=Kilobytes, 'M'=Megabytes, 'G'=Gigabytes
+
+-type [cbdpfls]  - File is of type: b=block(buffered), c char(unbuffered), d=directory, p=named pipe(FIFO), f=reg file, l=symbolic link, s=socket
+-xtype l         - Better check for l=symbolic link
+
+
+   +++ ACTIONS
+-delete                 - Delete files
+-exec command {} \;
+-print                  - Print  the  full file name on the standard output, followed by a newline.
+-print0                 - Print the full file name on the standard output, followed by a null character.
+-printf format          - See MAN.

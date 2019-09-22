@@ -1,0 +1,21 @@
+# yum -y install nmap
+# yum -y install tcpdump
+
+   +++Scan port usage on server
+   +++
+# nmap -A -T4 10.0.0.11
+
+   -A: Enable OS detection, version detection, script scanning, and traceroute
+   -T: Timing - paranoid (0), sneaky (1), polite (2), normal (3), aggressive (4), and insane (5)
+
+   +++Scan all addresses in network
+   +++
+# nmap -sn 10.0.0.0/24
+
+
+
+   +++Scan for DHCP Servers
+   +++
+# nmap --script broadcast-dhcp-discover -e eth0          ###Scripts are in /usr/share/nmap/scripts
+          OR
+# tcpdump -i eth0 -nev udp src port 67 and not ether host a8:39:44:96:fa:b8

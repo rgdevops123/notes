@@ -1,0 +1,17 @@
+$ sudo vim /etc/squid/squid.conf
++++
+acl bad_url dstdomain "/etc/squid/bad-sites.acl"
+http_access deny bad_url
+http_access allow all f
++++
+
+
+$ sudo vim /etc/squid/bad-sites.acl
++++
+.sitex.com
+.sitey.com
+.sitez.com
++++
+
+
+$ sudo systemctl restart squid

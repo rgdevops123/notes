@@ -1,0 +1,132 @@
+
+
+
+   APT
+    
+Advanced Packaging Tool
+
+
+   BASH
+    
+Bourne Again SHell
+
+
+   BSD Unix
+    
+Berkeley Software Distribution Unix
+
+
+   CUPS
+  
+Common Unix Printing System
+
+
+   FAT32
+    
+File Allocation Table 32-bits
+
+
+   FLOSS
+    
+Free, Libre, or Open Source Software
+
+
+   FOSS
+    
+Free or Open Source Software
+
+
+   gcc
+          
+GNU Compiler Collection
+
+
+   GIMP
+          
+GNU Image Manipulation Program
+
+
+   GNOME
+          
+GNU Network Object Model Environment
+
+
+   GNU
+
+GNU’s Not Unix.  Creator Richard Stallman.
+
+
+   GPL
+
+GNU Public License
+
+
+   grep
+    
+Global Regular Expression Print
+
+
+   HTML
+
+
+   HTTP
+
+
+   HTTPS
+
+
+   IANA
+
+Internet Assigned Numbers Authority
+
+
+   ICANN
+
+ Internet Corporation for Assigned Names and Numbers
+
+
+   IETF
+
+Internet Engineering Task Force
+
+
+   MIME
+
+Multipurpose Internet Mail Extensions
+
+
+   RFC
+
+Request for Comments
+
+
+   SOCKS
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

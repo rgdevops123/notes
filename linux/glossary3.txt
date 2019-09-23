@@ -783,7 +783,7 @@ shell
   type of shell in use on Linux is BASH.
 
 
-Shuttleworth, Mark
+Mark Shuttleworth
   Entrepreneurial South African businessman who, as a long-term Debian hacker, devised
   and financially supports Ubuntu via his company, Canonical Ltd.
 

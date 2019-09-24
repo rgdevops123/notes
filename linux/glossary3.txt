@@ -816,7 +816,7 @@ Solaris
         types of secure data exchange.
 
 
-      Stallman, Richard M.
+      Richard M. Stallman
         Legendary hacker who founded GNU Project, The and created the concept of copyleft, as well
         as the software license that incorporates it: the GNU Public License (GPL). See also Torvalds,
         Linus.

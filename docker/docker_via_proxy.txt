@@ -1,36 +1,15 @@
 Docker Proxy:
 
-
-   Configure the Docker client:
-
-$ sudo vim ~root/.docker/config.json
+$ sudo vim /etc/sysconfig/docker
 +++
-{
- "proxies":
- {
-   "default":
-   {
-     "httpProxy": "http://<PROXY_IP>:<PROXY_PORT>",
-     "httpsProxy": "http://<PROXY_IP>:<PROXY_PORT>",
-     "noProxy": "*.test.example.com,.example2.com"
-   }
- }
-}
+HTTP_PROXY="http://<PROXY_SERVER_IP_OR_FQDN>:<PROXY_PORT>"
+HTTPS_PROXY="http://<PROXY_SERVER_IP_OR_FQDN>:<PROXY_PORT>"
 +++
 
+$ sudo systemctl restart docker
 
 
+   System Wide:
 
-   Use Environment Variables:
-
-Variable	Dockerfile example	                docker run Example
-HTTP_PROXY	ENV HTTP_PROXY "http://IP:PORT"	        --env HTTP_PROXY="http://IP:PORT"
-HTTPS_PROXY	ENV HTTPS_PROXY "https://IP:PORT"	--env HTTPS_PROXY="https://IP:PORT"
-FTP_PROXY	ENV FTP_PROXY "ftp://IP:PORT"	        --env FTP_PROXY="ftp://IP:PORT"
-NO_PROXY	ENV NO_PROXY "..."	                --env NO_PROXY="..." 
-
-
-NOTE:
-ENV NO_PROXY "*.test.example.com,.example2.com"
---env NO_PROXY="*.test.example.com,.example2.com"
-
+$ export http_proxy=http://<PROXY_SERVER_IP_OR_FQDN>:<PROXY_PORT>/
+$ export https_proxy=$http_proxy

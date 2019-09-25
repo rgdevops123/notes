@@ -118,9 +118,14 @@ Secure SHell
 Secure Sockets Layer
 
 
+   VFAT
+     
+Virtual File Allocation Table; technical name of Microsoft’s FAT file system
 
 
-
+   Wine
+     
+Short for Wine Is Not an Emulator
 
 
 

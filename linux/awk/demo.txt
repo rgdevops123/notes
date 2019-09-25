@@ -1,3 +1,8 @@
+Q: Print all packages installed that have "vim" in their names.
+
+$ dpkg -l | awk ' /'vim'/ {print $2} '
+
+
 [root@hv1-kvm-c7 bak]# cat string | awk -F ';' '{ print $0 }' 
 TIMESTAMP: 20170523; MESSAGE: Dr. Bianca's primary is bianca@paramount.com / 3.23.33.89. Secondary is bianca@paramount.com / 3.23.33.89. EOM
 

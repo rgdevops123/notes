@@ -96,3 +96,26 @@ MariaDB [devopsweb]> select * from user;
 MariaDB [devopsweb]> UPDATE user SET company = 'D. Murray Inc.' WHERE ID = 1;
 Query OK, 1 row affected (0.002 sec)
 Rows matched: 1  Changed: 1  Warnings: 0
+
+
+
+
+    The below updates the password with a bcrypt generated password.
+MariaDB [devopsweb]>  UPDATE user SET password = '$2b$12$J4OZ8zqZ7mEEehx3fPIeH.g09nfXEkWA2ujel8FGWWavQ90meP7qe' WHERE ID = 2;
+Query OK, 1 row affected (0.081 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+
+
+
+   Insert Data:
+MariaDB [devopsweb]>  INSERT INTO user (ID,USERNAME,EMAIL) VALUES (2, 'rg', 'rg@hotmail.com');
+Query OK, 1 row affected (0.109 sec)
+
+
+
+
+
+   Delete Data:
+MariaDB [devopsweb]>  DELETE FROM user WHERE ID = 2;
+Query OK, 1 row affected (0.076 sec)

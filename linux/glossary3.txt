@@ -612,6 +612,28 @@ MySQL
 
 
 N
+Name Service Switch (NSS) configuration file
+
+       /etc/nsswitch.conf
+       is used by the GNU C Library and certain other applications to
+       determine the sources from which to obtain name-service information
+       in a range of categories, and in what order.  Each category of
+       information is identified by a database name.
+
+      Example:
+        
+           passwd:         files sss
+           group:          files sss
+           shadow:         files sss
+
+           hosts:      files dns myhostname
+           networks:       nis [NOTFOUND=return] files
+           ethers:         nis [NOTFOUND=return] files
+           protocols:      nis [NOTFOUND=return] files
+           rpc:            nis [NOTFOUND=return] files
+           services:       nis [NOTFOUND=return] files
+
+
 newbie
     Term used to describe anyone who is new to Linux and therefore still learning the basics.
     It’s not a derogatory term! See also guru.
@@ -803,6 +825,13 @@ Solaris
         The original program listing created by a programmer. Most programs that you download
         are precompiled—already turned into binary executables ready for general use—unless you
         specifically choose to download and compile the source code of a program yourself.
+
+      SSSD
+       System Security Services Daemon
+       SSSD is a system daemon. Its primary function is to provide access to local or remote 
+       identity and authentication resources through a common framework that can provide caching 
+       and offline support to the system. It provides several interfaces, including NSS and PAM 
+       modules or a D-Bus interface.
 
 
       SSH

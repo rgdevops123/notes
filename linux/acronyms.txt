@@ -108,6 +108,11 @@ Server Message Block
    SOCKS
 
 
+   SSSD
+       
+System Security Services Daemon
+
+
    SSH
 
 Secure SHell

@@ -1,5 +1,18 @@
 Docker Proxy:
 
+# vim /usr/lib/systemd/system/docker.service.d/http-proxy.conf
++++
+[Service]
+Environment="HTTP_PROXY=http://10.0.0.3:3128/"
+Environment="HTTPS_PROXY=http://10.0.0.3:3128/"
++++
+
+# systemctl daemon-reload
+# systemctl restart docker
+
+
+
+
 $ sudo vim /etc/sysconfig/docker
 +++
 HTTP_PROXY="http://<PROXY_SERVER_IP_OR_FQDN>:<PROXY_PORT>"

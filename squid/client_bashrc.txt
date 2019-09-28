@@ -1,0 +1,13 @@
+$ sudo vim /etc/bashrc
++++
+export http_proxy='10.0.0.3:3128'
+export HTTP_PROXY=$http_proxy
+export https_proxy=$http_proxy
+export HTTPS_PROXY=$http_proxy
+printf -v lan '%s,' 10.0.0.110
+printf -v pods '%s,' 10.244.0.{1..253}
+printf -v pool '%s,' 192.168.0.{1..253}
+printf -v service '%s,' 10.96.0.{1..253}
+export no_proxy="${lan%,},${pods%,},${service%,},${pool%,},127.0.0.1";
+export NO_PROXY=$no_proxy
++++

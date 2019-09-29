@@ -1,23 +1,17 @@
    Install Kubernetes Example:
 
 
+
 # modprobe br_netfilter
 # echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables
 
 # swapoff -a
 
-# vim /etc/fstab
-+++
-#/dev/mapper/centos-swap swap                    swap    defaults        0 0
-+++
-
-# yum -y install yum-utils device-mapper-persistent-data lvm2
+# yum install -y yum-utils device-mapper-persistent-data lvm2
 
 # yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-# yum -y install docker-ce
+# yum install -y docker-ce
 
-
-# mkdir /usr/lib/systemd/system/docker.service.d/
 
 # vim /usr/lib/systemd/system/docker.service.d/http-proxy.conf
 +++
@@ -42,7 +36,7 @@ gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg
 EOF
 
 
-# yum -y install kubelet kubeadm kubectl
+# yum install -y kubelet kubeadm kubectl
 
 # sudo reboot
 
@@ -71,7 +65,7 @@ KUBELET_KUBEADM_ARGS="--cgroup-driver=cgroupfs --network-plugin=cni --pod-infra-
 
 
    On The MASTER Server:
-# kubeadm init --ignore-preflight-errors=NumCPU,Swap --apiserver-advertise-address=10.0.0.110 --pod-network-cidr=10.244.0.0/24 --service-cidr=10.96.0.0/24
+# kubeadm init --apiserver-advertise-address=10.0.0.110 --pod-network-cidr=10.244.0.0/16 --service-cidr=10.96.0.0/24
 
          *** *** ***
 
@@ -124,3 +118,49 @@ kube-system   kube-scheduler-km1            1/1     Running   0          23m
    On The Nodes:
 $ kubeadm join 10.0.0.110:6443 --token lm25nm.2pk9iwd8cqrmr0tl \
     --discovery-token-ca-cert-hash sha256:1b9d2366ecd2608c6ba9b7cb7eb9cd020196a46adbf7004af31052d3e43af47d 
+
+         Confirm on Master:
+[centos@km1 ~]$ kubectl get nodes
+NAME   STATUS   ROLES    AGE     VERSION
+km1    Ready    master   93m     v1.16.0
+kn1    Ready    <none>   7m6s    v1.16.0
+kn2    Ready    <none>   6m17s   v1.16.0
+
+
+
+
+   Testing Create First Pod:
+$ kubectl create deployment nginx --image=nginx
+
+$ kubectl describe deployment nginx
+
+$ kubectl create service nodeport nginx --tcp=80:80
+
+$ kubectl get pods
+$ kubectl describe pods
+$ kubectl get svc
+
+$ curl 10.0.0.111:32509
+$ curl 10.0.0.112:32509
+
+
+   GOTO:
+http://10.0.0.111:32509/
+http://10.0.0.112:32509/
+
+
+Scaling:
+$ kubectl autoscale deployment nginx --min=3 --max=9
+
+
+[centos@km1 .kube]$ kubectl get pods
+NAME                     READY   STATUS    RESTARTS   AGE
+nginx-86c57db685-b9j9s   1/1     Running   0          5m54s
+nginx-86c57db685-jrmh8   1/1     Running   0          2m27s
+nginx-86c57db685-kzrs2   1/1     Running   0          2m27s
+
+[centos@km1 .kube]$ kubectl get pods -o wide
+NAME                     READY   STATUS    RESTARTS   AGE     IP           NODE   NOMINATED NODE   READINESS GATES
+nginx-86c57db685-b9j9s   1/1     Running   0          6m2s    10.244.2.2   kn2    <none>           <none>
+nginx-86c57db685-jrmh8   1/1     Running   0          2m35s   10.244.1.2   kn1    <none>           <none>
+nginx-86c57db685-kzrs2   1/1     Running   0          2m35s   10.244.1.3   kn1    <none>           <none>

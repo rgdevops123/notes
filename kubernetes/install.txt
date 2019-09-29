@@ -1,0 +1,126 @@
+   Install Kubernetes Example:
+
+
+# modprobe br_netfilter
+# echo '1' > /proc/sys/net/bridge/bridge-nf-call-iptables
+
+# swapoff -a
+
+# vim /etc/fstab
++++
+#/dev/mapper/centos-swap swap                    swap    defaults        0 0
++++
+
+# yum -y install yum-utils device-mapper-persistent-data lvm2
+
+# yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+# yum -y install docker-ce
+
+
+# mkdir /usr/lib/systemd/system/docker.service.d/
+
+# vim /usr/lib/systemd/system/docker.service.d/http-proxy.conf
++++
+[Service]
+Environment="HTTP_PROXY=http://10.0.0.3:3128/"
+Environment="HTTPS_PROXY=http://10.0.0.3:3128/"
++++
+
+# systemctl daemon-reload
+# systemctl restart docker
+
+
+# cat <<EOF > /etc/yum.repos.d/kubernetes.repo
+[kubernetes]
+name=Kubernetes
+baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+enabled=1
+gpgcheck=1
+repo_gpgcheck=1
+gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg
+        https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+EOF
+
+
+# yum -y install kubelet kubeadm kubectl
+
+# sudo reboot
+
+# systemctl start docker && systemctl enable docker
+# systemctl start kubelet && systemctl enable kubelet
+
+
+# docker info | grep -i cgroup
+
+
+# vim /usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf
+      *** Review ***
+
+# vim /var/lib/kubelet/kubeadm-flags.env
++++
+KUBELET_KUBEADM_ARGS="--cgroup-driver=cgroupfs --network-plugin=cni --pod-infra-container-image=k8s.gcr.io/pause:3.1"
++++
+
+
+# systemctl daemon-reload
+# systemctl restart kubelet
+
+
+
+
+
+
+   On The MASTER Server:
+# kubeadm init --ignore-preflight-errors=NumCPU,Swap --apiserver-advertise-address=10.0.0.110 --pod-network-cidr=10.244.0.0/24 --service-cidr=10.96.0.0/24
+
+         *** *** ***
+
+Your Kubernetes control-plane has initialized successfully!
+
+To start using your cluster, you need to run the following as a regular user:
+
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+You should now deploy a pod network to the cluster.
+Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+Then you can join any number of worker nodes by running the following on each as root:
+
+kubeadm join 10.0.0.110:6443 --token lm25nm.2pk9iwd8cqrmr0tl \
+    --discovery-token-ca-cert-hash sha256:1b9d2366ecd2608c6ba9b7cb7eb9cd020196a46adbf7004af31052d3e43af47d 
+
+         *** *** ***
+
+
+centos $ mkdir -p $HOME/.kube
+centos $ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+centos $ sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+centos $ kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+
+centos $ kubectl get nodes
+NAME   STATUS   ROLES    AGE   VERSION
+km1    Ready    master   23m   v1.16.0
+
+
+centos $ kubectl get pods --all-namespaces
+NAMESPACE     NAME                          READY   STATUS    RESTARTS   AGE
+kube-system   coredns-5644d7b6d9-6hn5q      1/1     Running   0          23m
+kube-system   coredns-5644d7b6d9-wx6jk      1/1     Running   0          23m
+kube-system   etcd-km1                      1/1     Running   0          23m
+kube-system   kube-apiserver-km1            1/1     Running   0          23m
+kube-system   kube-controller-manager-km1   1/1     Running   0          22m
+kube-system   kube-flannel-ds-amd64-5fz8d   1/1     Running   0          110s
+kube-system   kube-proxy-5cp77              1/1     Running   0          23m
+kube-system   kube-scheduler-km1            1/1     Running   0          23m
+
+
+
+
+
+   On The Nodes:
+$ kubeadm join 10.0.0.110:6443 --token lm25nm.2pk9iwd8cqrmr0tl \
+    --discovery-token-ca-cert-hash sha256:1b9d2366ecd2608c6ba9b7cb7eb9cd020196a46adbf7004af31052d3e43af47d 

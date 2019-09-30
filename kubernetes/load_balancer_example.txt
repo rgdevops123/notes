@@ -1,0 +1,95 @@
+Exposing an External IP Address to Access an Application in a Cluster:
+
+   NOTE: Using a custom Kubernetes Cluster (minikube, kubeadm or the like) will not work with the below guide. In this case, there is no LoadBalancer integrated (unlike AWS or Google Cloud). With kubeadm, you can only use NodePort or an Ingress Controller. With the Ingress Controller you can setup a domain name which maps to your pod.
+
+$ kubectl apply -f https://k8s.io/examples/service/load-balancer-example.yaml
+
+
+$ kubectl get deployments hello-world 
+NAME          READY   UP-TO-DATE   AVAILABLE   AGE
+hello-world   5/5     5            5           5m44s
+
+
+
+$ kubectl describe deployments hello-world
+
+
+$ kubectl get pods
+NAME                          READY   STATUS    RESTARTS   AGE
+hello-world-f9b447754-6fpph   1/1     Running   0          5m35s
+hello-world-f9b447754-8pnrk   1/1     Running   0          5m35s
+hello-world-f9b447754-9czvr   1/1     Running   0          5m35s
+hello-world-f9b447754-r84pt   1/1     Running   0          5m35s
+hello-world-f9b447754-x2n9g   1/1     Running   0          5m35s
+
+
+$ kubectl get replicasets
+NAME                    DESIRED   CURRENT   READY   AGE
+hello-world-f9b447754   5         5         5       6m39s
+
+
+$ kubectl describe replicasets
+
+
+$ kubectl expose deployment hello-world --type=LoadBalancer --name=my-service
+service/my-service exposed
+
+
+
+$ kubectl get services my-service
+NAME         TYPE           CLUSTER-IP    EXTERNAL-IP   PORT(S)          AGE
+my-service   LoadBalancer   10.96.0.162   <pending>     8080:31215/TCP   43s
+
+
+
+$ kubectl patch service my-service \
+-p '{"spec": {"type": "LoadBalancer", "externalIPs":["10.0.0.33"]}}'
+
+
+
+$ kubectl get services my-service
+NAME         TYPE           CLUSTER-IP    EXTERNAL-IP   PORT(S)          AGE
+my-service   LoadBalancer   10.96.0.162   10.0.0.33     8080:31215/TCP   15m
+
+
+
+$ kubectl describe services my-service
+Name:                     my-service
+Namespace:                default
+Labels:                   app.kubernetes.io/name=load-balancer-example
+Annotations:              <none>
+Selector:                 app.kubernetes.io/name=load-balancer-example
+Type:                     LoadBalancer
+IP:                       10.96.0.162
+External IPs:             10.0.0.33
+Port:                     <unset>  8080/TCP
+TargetPort:               8080/TCP
+NodePort:                 <unset>  31215/TCP
+Endpoints:                10.244.1.7:8080,10.244.1.8:8080,10.244.2.6:8080 + 2 more...
+Session Affinity:         None
+External Traffic Policy:  Cluster
+Events:
+  Type    Reason      Age   From                Message
+  ----    ------      ----  ----                -------
+  Normal  ExternalIP  49s   service-controller  Count: 0 -> 1
+[centos@km1 kubernetes]$ ^C
+[centos@km1 kubernetes]$ kubectl describe services my-service
+Name:                     my-service
+Namespace:                default
+Labels:                   app.kubernetes.io/name=load-balancer-example
+Annotations:              <none>
+Selector:                 app.kubernetes.io/name=load-balancer-example
+Type:                     LoadBalancer
+IP:                       10.96.0.162
+External IPs:             10.0.0.33
+Port:                     <unset>  8080/TCP
+TargetPort:               8080/TCP
+NodePort:                 <unset>  31215/TCP
+Endpoints:                10.244.1.7:8080,10.244.1.8:8080,10.244.2.6:8080 + 2 more...
+Session Affinity:         None
+External Traffic Policy:  Cluster
+Events:
+  Type    Reason      Age    From                Message
+  ----    ------      ----   ----                -------
+  Normal  ExternalIP  4m28s  service-controller  Count: 0 -> 1
+

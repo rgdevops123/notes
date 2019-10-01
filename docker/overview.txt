@@ -130,6 +130,15 @@ $ docker inspect rgdevops123/devopswebnl
 ###       exposed ports, mounted volumes, etc.
 
 
+   View container details like startup script.
+$ sudo docker inspect <CONTAINER_ID>
+
+
+   View image details like CMD, VOLUMES, WORKDIR.
+$ sudo docker inspect <IMAGE_ID>
+
+
+
    Pull a new Docker image:
 $ sudo docker pull rgdevops123/devopswebnl
 

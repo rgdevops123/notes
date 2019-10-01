@@ -2,13 +2,15 @@ Name some Python Builtin functions.
 
 Builtins:
 
- - Help   11
+ - Help   13
 
        dir, help, type, chr, ord,
 
        locals, globals, vars, 
 
        print, repr, str
+
+       id, hash
 
  - Data Structures   5
 
@@ -46,13 +48,19 @@ Builtins:
 
        delattr
 
- - Extras   6
+ - Extras   10
 
        ascii, bool, compile,
 
        divmod,
 
        eval, exec, 
+
+       input,
+
+       open, 
+
+       quit, exit
 
 
 

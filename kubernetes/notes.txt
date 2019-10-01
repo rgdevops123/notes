@@ -1,0 +1,5 @@
+
+
+
+   CoreDNS Configuration File.
+/etc/coredns/Corefile

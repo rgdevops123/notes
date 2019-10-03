@@ -2,6 +2,7 @@
 
 
 def smaller(x, y):
+    """[onTrue] if [Condition] else [onFalse]"""
     result = x if x < y else y
     return result
 

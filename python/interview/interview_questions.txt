@@ -103,7 +103,17 @@ Keyword Arguments    
 '__hash__', '__repr__' , '__str__'
 
 
-Q. What are object dunders?
+16) What are object dunders?
 
 ' __name__,' '__dict__', '__doc__',
 '__hash__', '__repr__' , '__str__'
+
+
+17) Are functions data or non-data descriptors?
+
+ Functions are non-data descriptors.
+
+
+18) Why do functions have a __get__() method?
+
+Functions have a __get__() method so that they can be converted to a method when accessed as attributes.

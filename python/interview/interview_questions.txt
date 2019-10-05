@@ -81,6 +81,29 @@ Tuples
 Numbers
 
 
-12) What is namespace in Python?
+12) What is the difference between iteration and recursion?
+
+Iteration is repeating code by looping.
+Recursion is repeating code by calling itself again and again.
 
 
+13) What are *args?
+
+Positional Arguments 
+
+
+14) What are *kwargs?
+
+Keyword Arguments    
+
+
+15) What are function dunders?
+
+' __name__,' '__dict__', '__doc__',
+'__hash__', '__repr__' , '__str__'
+
+
+Q. What are object dunders?
+
+' __name__,' '__dict__', '__doc__',
+'__hash__', '__repr__' , '__str__'

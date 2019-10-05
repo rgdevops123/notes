@@ -17,6 +17,8 @@ $ pip install bs4
 
 $ python3
 
+>>> import bs4
+
 >>> with open('GarbeledHTML.html', 'r') as f:
 ...     file = f.read()
 

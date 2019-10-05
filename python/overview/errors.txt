@@ -1,4 +1,5 @@
 AssertionError
+AttributeError
 EOFError
 FileNotFoundError
 ImportError

@@ -117,3 +117,27 @@ Keyword Arguments    
 18) Why do functions have a __get__() method?
 
 Functions have a __get__() method so that they can be converted to a method when accessed as attributes.
+
+
+19) What are First Class Functions?
+
+You can assign them to variables, return from other methods and pass as arguments.
+
+
+20) What are Descriptors?
+
+An object with any of these methods: __get__(), __set__(), and __delete__(). If any of those methods are defined for an object, it is said to be a descriptor.
+
+
+21) What is a Closure?
+
+Function objects returned by another function.  We use them to eliminate code redundancy.
+
+
+22) What is a Decorator?
+
+A function that takes another function as an argument, typically, modifies it and then returns the modified function.
+
+23) What are examples of Decorators?
+
+classmethod(), staticmethod() and property().

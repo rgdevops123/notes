@@ -141,3 +141,8 @@ A function that takes another function as an argument, typically, modifies it an
 23) What are examples of Decorators?
 
 classmethod(), staticmethod() and property().
+
+
+24) What does __init__.py do?
+
+It tells Python that the directory is a Package.

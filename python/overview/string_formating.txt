@@ -73,3 +73,48 @@ The % operator can also be used for string formatting. It interprets the left ar
 >>> print 'The value of PI is approximately %5.3f.' % math.pi
 The value of PI is approximately 3.142.
 
+
+
+
+        F- Strings: 
+>>> f"{'John Smith'}"
+'John Smith'
+
+
+>>> f'{"John Smith"}'
+'John Smith'
+
+
+>>> f"""John Smith"""
+'John Smith'
+
+
+>>> f'''John Smith'''
+'John Smith'
+
+
+>>> f"The \"engineer\" is {name}, aged {age}."
+'The "engineer" is John Smith, aged 33.'
+
+
+>>> engineer = {'name': 'John Smith', 'age': 33}
+>>> f"The engineer is {engineer['name']}, aged {engineer['age']}."
+The engineer is John Smith, aged 33.
+
+
+>>> f"{{33}}"
+'{33}'
+
+
+>>> f"{{{33}}}"
+'{33}'
+
+
+>>> f"{{{{33}}}}"
+'{{33}}'
+
+
+>>> name = "John Smith"
+>>> f"{name}"
+'John Smith'
+

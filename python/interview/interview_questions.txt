@@ -146,3 +146,5 @@ classmethod(), staticmethod() and property().
 24) What does __init__.py do?
 
 It tells Python that the directory is a Package.
+
+Files named __init__.py are used to mark directories on disk as Python package directories.

@@ -1,0 +1,9 @@
+Disable root and user login with passwords:
+
+$ sudo vim /etc/ssh/sshd_config
++++
+PermitRootLogin no
+PasswordAuthentication no
++++
+
+$ sudo systemctl restart sshd

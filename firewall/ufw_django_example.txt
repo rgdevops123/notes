@@ -1,0 +1,23 @@
+   UFW: Django Application Example
+
+$ sudo ufw default allow outgoing
+
+$ sudo ufw default deny incoming
+
+$ sudo ufw allow ssh
+
+$ sudo ufw allow 8000
+
+$ sudo ufw allow http/tcp
+
+$ sudo ufw enable 
+
+$ sudo ufw status
+
+$ sudo ufw enable 
+
+   After testing, only allow access through
+   a Production Webserver. 
+   (I.E.: Apache, Gunicorn, etc...)
+
+$ sudo ufw delete allow 8000

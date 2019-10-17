@@ -1,0 +1,1093 @@
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+   <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+      <title>Getting Started with IPv4 for Amazon VPC - Amazon Virtual Private Cloud</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <link rel="home" href="#top" />
+      <link rel="up" href="vpc-getting-started.html" title="Getting Started with Amazon VPC" />
+      <link rel="prev" href="vpc-getting-started.html" title="Getting Started with Amazon VPC" />
+      <link rel="next" href="get-started-ipv6.html" title="Getting Started with IPv6 for Amazon VPC" />
+      <meta name="description" content="Create a VPC that supports IPv4 addressing." />
+      <meta name="deployment_region" content="IAD" />
+      <meta name="product" content="Amazon Virtual Private Cloud" />
+      <meta name="guide" content="User Guide" />
+      <meta name="guide-locale" content="en_us" />
+      <meta name="tocs" content="toc-contents.json" />
+      <meta name="marketingLocale" content="en_US" />
+      <link rel="icon" type="image/ico" href="/images/favicon.ico" />
+      <link rel="shortcut icon" type="image/ico" href="/images/favicon.ico" />
+      <link rel="stylesheet" type="text/css" href="/font/css/font-awesome.min.css" />
+      <link id="code-style" rel="stylesheet" type="text/css" href="/css/code/light.css" />
+      <link rel="stylesheet" type="text/css" href="/css/awsdocs.css?v=20181221" /><script type="text/javascript" src="/js/jquery.min.js"></script><script type="text/javascript" src="/js/awsdocs.min.js?v=20181221"></script><link rel="stylesheet" type="text/css" href="/assets/marketing/css/marketing-target.css" /><script type="text/javascript" src="/assets/marketing/js/marketing-target.js" defer="defer"></script></head>
+   <body id="top">
+      <div xmlns:db="http://docbook.org/ns/docbook" id="aws-nav" class="aws-nav-header">
+         <div class="aws-nav-header-left">
+                     <h1 class="topictitle" id="getting-started-ipv4">Getting Started with IPv4 for Amazon VPC</h1>
+	   
+            <div id="right-expanded">
+               <div id="right-content-wrapper">
+                  <div id="pagetoc">
+                     <p>On this page:</p>
+                     <ul class="pagetoc">
+                        <li class="pagetoc" name="Step 1: Create the VPC"><a class="pagetoc" href="#getting-started-create-vpc">Step 1: Create the VPC</a></li>
+                        <li class="pagetoc" name="Step 2: Create a Security Group"><a class="pagetoc" href="#getting-started-create-security-group">Step 2: Create a Security Group</a></li>
+                        <li class="pagetoc" name="Step 3: Launch an Instance into Your VPC"><a class="pagetoc" href="#getting-started-launch-instance">Step 3: Launch an Instance into Your VPC</a></li>
+                        <li class="pagetoc" name="Step 4: Assign an Elastic IP Address to Your&#xA;        Instance"><a class="pagetoc" href="#getting-started-assign-eip">Step 4: Assign an Elastic IP Address to Your
+                              Instance</a></li>
+                        <li class="pagetoc" name="Step 5: Clean Up"><a class="pagetoc" href="#getting-started-delete-vpc">Step 5: Clean Up</a></li>
+                     </ul>
+                  </div>
+               </div>
+            </div>
+                     <p>In this exercise, you'll create a VPC with IPv4 CIDR block, a subnet with an IPv4
+                        CIDR
+                        block, and launch a public-facing instance into your subnet. Your instance will be
+                        able to
+                        communicate with the Internet, and you'll be able to access your instance from your
+                        local
+                        computer using SSH (if it's a Linux instance) or Remote Desktop (if it's a Windows
+                        instance).
+                        In your real world environment, you can use this scenario to create a public-facing
+                        web
+                        server; for example, to host a blog. 
+                     </p>
+                     <div class="aws-note">
+                        <p class="aws-note">Note</p>
+                        <p>This exercise is intended to help you set up your own nondefault VPC quickly. If you
+                           already have a default VPC and you want to get started launching instances into it
+                           (and not
+                           creating or configuring a new VPC), see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/default-vpc.html#launching-into">Launching an EC2 Instance into Your
+                              Default VPC</a>. If you want to get started setting up a nondefault VPC that supports
+                           IPv6, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/get-started-ipv6.html">Getting Started with IPv6 for
+                              Amazon VPC</a>.
+                        </p>
+                     </div>
+                     <p>To complete this exercise, you'll do the following:</p>
+                     <div class="itemizedlist">
+                        
+                        
+                        
+                        
+                        
+                        <ul class="itemizedlist" type="disc">
+                           <li class="listitem">
+                              
+                              <p>Create a nondefault VPC with a single public subnet. Subnets enable you to group
+                                 instances based on your security and operational needs. A public subnet is a subnet
+                                 that
+                                 has access to the Internet through an Internet gateway.
+                              </p>
+                              
+                           </li>
+                           <li class="listitem">
+                              
+                              <p>Create a security group for your instance that allows traffic only through specific
+                                 ports.
+                              </p>
+                              
+                           </li>
+                           <li class="listitem">
+                              
+                              <p>Launch an Amazon EC2 instance into your subnet.</p>
+                              
+                           </li>
+                           <li class="listitem">
+                              
+                              <p>Associate an Elastic IP address with your instance. This allows your instance to
+                                 access the Internet.
+                              </p>
+                              
+                           </li>
+                        </ul>
+                     </div>
+                     <p>Before you can use Amazon VPC for the first time, you must sign up for Amazon Web
+                        Services (AWS). When
+                        you sign up, your AWS account is automatically signed up for all services in AWS,
+                        including
+                        Amazon VPC. If you haven't created an AWS account already, go to <a href="https://aws.amazon.com/" target="_blank">https://aws.amazon.com/</a>, 
+                        and then choose <b>Create a Free Account</b>.
+                     </p>
+                     <div class="aws-note">
+                        <p class="aws-note">Note</p>
+                        <p>This exercise assumes that your account supports the EC2-VPC platform only. If your
+                           account also supports the older EC2-Classic platform, you can still follow the steps
+                           in this
+                           exercise; however, you will not have a default VPC in your account to compare against
+                           your
+                           nondefault VPC. For more information, see <a href="what-is-amazon-vpc.html#what-is-supported-platform">Supported Platforms</a>.
+                        </p>
+                     </div>
+                     <div class="highlights" id="inline-topiclist">
+                        <p><strong>Tasks</strong></p>
+                        <ul>
+                           <li><a href="#getting-started-create-vpc">Step 1: Create the VPC</a></li>
+                           <li><a href="#getting-started-create-security-group">Step 2: Create a Security Group</a></li>
+                           <li><a href="#getting-started-launch-instance">Step 3: Launch an Instance into Your VPC</a></li>
+                           <li><a href="#getting-started-assign-eip">Step 4: Assign an Elastic IP Address to Your
+                                 Instance</a></li>
+                           <li><a href="#getting-started-delete-vpc">Step 5: Clean Up</a></li>
+                        </ul>
+                     </div>
+                     
+                     <h2 id="getting-started-create-vpc">Step 1: Create the VPC</h2>
+                     
+                     
+                     <p>In this step, you'll use the Amazon VPC wizard in the Amazon VPC console to create
+                        a VPC. The
+                        wizard performs the following steps for you:
+                     </p>
+                     
+                     <div class="itemizedlist">
+                        
+                        
+                        
+                        
+                        
+                        <ul class="itemizedlist" type="disc">
+                           <li class="listitem">
+                              
+                              <p>Creates a VPC with a /16 IPv4 CIDR block (a network with 65,536 private IP
+                                 addresses). For more information about CIDR notation and the sizing of a VPC, see
+                                 
+                                 <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html#YourVPC">Your VPC</a>.
+                              </p>
+                              
+                           </li>
+                           <li class="listitem">
+                              
+                              <p>Attaches an Internet gateway to the VPC. For more information about Internet
+                                 gateways, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Internet_Gateway.html">Internet
+                                    Gateways</a>.
+                              </p>
+                              
+                           </li>
+                           <li class="listitem">
+                              
+                              <p>Creates a size /24 IPv4 subnet (a range of 256 private IP addresses) in the VPC. </p>
+                              
+                           </li>
+                           <li class="listitem">
+                              
+                              <p>Creates a custom route table, and associates it with your subnet, so that traffic
+                                 can flow between the subnet and the Internet gateway. For more information about route
+                                 tables, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Route_Tables.html">Route
+                                    Tables</a>.
+                              </p>
+                              
+                           </li>
+                        </ul>
+                     </div>
+                     
+                     <p>The following diagram represents the architecture of your VPC after you've completed
+                        this step.
+                     </p>
+                     
+                     
+                     <div class="mediaobject">
+                        
+                        <img src="images/getting-started-1-diagram.png" alt="&#xA;            Getting started: VPC and subnet&#xA;          " />
+                        
+                        
+                        
+                     </div>
+                     
+                     
+                     <div class="aws-note">
+                        <p class="aws-note">Note</p>
+                        <p>This exercise covers the first scenario in the VPC wizard. For more information about
+                           the other scenarios, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Scenarios.html">Scenarios for
+                              Amazon VPC</a>.
+                        </p>
+                     </div>
+                     
+                     <p class="title"><b>To create a VPC using the Amazon VPC Wizard</b></p>
+                     <ol>
+                        <li>
+                           <p>Open the Amazon VPC console at
+                              <a href="https://console.aws.amazon.com/vpc/" target="_blank">https://console.aws.amazon.com/vpc/</a>.
+                           </p>
+                        </li>
+                        <li>
+                           
+                           <p>In the navigation bar, on the top-right, take note of the region in which you'll be
+                              creating the VPC. Ensure that you continue working in the same region for the rest
+                              of
+                              this exercise, as you cannot launch an instance into your VPC from a different region.
+                              For more information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html">Regions and Availability Zones</a> in the <em>Amazon EC2 User Guide for Linux Instances</em>.
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>In the navigation pane, choose <b>VPC dashboard</b>. From the dashboard, 
+                              choose <b>Launch VPC Wizard</b>.
+                           </p>
+                           
+                           <div class="mediaobject">
+                              
+                              <img src="images/VPC-dashboard.png" alt="&#xA;                The Amazon VPC dashboard&#xA;              " />
+                              
+                              
+                              
+                           </div>
+                           
+                           
+                           <div class="aws-note">
+                              <p class="aws-note">Note</p>
+                              <p>Do not choose <b>Your VPCs</b> in the navigation pane; you cannot
+                                 access the VPC wizard using the <b>Create VPC</b> button on that page.
+                              </p>
+                           </div>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>Choose the first option, <b>VPC with a Single Public Subnet</b>, and
+                              then choose <b>Select</b>.
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>On the configuration page, enter a name for your VPC in the <b>VPC
+                                 name</b> field; for example, <code class="code">my-vpc</code>, and enter a name for your
+                              subnet in the <b>Subnet name</b> field. This helps you to identify the VPC
+                              and subnet in the Amazon VPC console after you've created them. For this exercise,
+                              you can
+                              leave the rest of the configuration settings on the page, and choose <b>Create
+                                 VPC</b>. 
+                           </p>
+                           
+                           <p>(Optional) If you prefer, you can modify the configuration settings as follows, and
+                              then choose <b>Create VPC</b>.
+                           </p>
+                           <div class="itemizedlist">
+                              
+                              
+                              
+                              
+                              
+                              
+                              <ul class="itemizedlist" type="disc">
+                                 <li class="listitem">
+                                    
+                                    <p>The <b>IPv4 CIDR block</b> displays the IPv4 address range that
+                                       you'll use for your VPC (<code class="code">10.0.0.0/16</code>), and the <b>Public
+                                          subnet's IPv4 CIDR</b> field displays the IPv4 address range you'll use
+                                       for the subnet (<code class="code">10.0.0.0/24</code>). If you don't want to use the default
+                                       CIDR ranges, you can specify your own. For more information, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/VPC_Subnets.html#VPC_Sizing">VPC and Subnet
+                                          Sizing</a>.
+                                    </p>
+                                    
+                                 </li>
+                                 <li class="listitem">
+                                    
+                                    <p>The <b>Availability Zone</b> list enables you to select the
+                                       Availability Zone in which to create the subnet. You can leave <b>No
+                                          Preference</b> to let AWS choose an Availability Zone for you. For more
+                                       information, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-regions-availability-zones.html">Regions and Availability Zones</a>.
+                                    </p>
+                                    
+                                 </li>
+                                 <li class="listitem">
+                                    
+                                    <p>In the <b>Service endpoints</b> section, you can select a subnet
+                                       in which to create a VPC endpoint to Amazon S3 in the same region. For more information,
+                                       see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-endpoints.html">VPC Endpoints</a>.
+                                    </p>
+                                    
+                                 </li>
+                                 <li class="listitem">
+                                    
+                                    <p>The <b>Enable DNS hostnames</b> option, when set to
+                                       <b>Yes</b>, ensures that instances that are launched into your VPC
+                                       receive a DNS hostname. For more information, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-dns.html">Using DNS with Your VPC</a>.
+                                    </p>
+                                    
+                                 </li>
+                                 <li class="listitem">
+                                    
+                                    <p>The <b>Hardware tenancy</b> option enables you to select whether
+                                       instances launched into your VPC are run on shared or dedicated hardware.
+                                       Selecting a dedicated tenancy incurs additional costs. For more information about
+                                       hardware tenancy, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/dedicated-instance.html">Dedicated
+                                          Instances</a> in the <em>Amazon EC2 User Guide for Linux Instances</em>.
+                                    </p>
+                                    
+                                 </li>
+                              </ul>
+                           </div>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>A status window shows the work in progress. When the work completes, choose
+                              <b>OK</b> to close the status window.
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>The <b>Your VPCs</b> page displays your default VPC and the VPC that
+                              you just created. The VPC that you created is a nondefault VPC, therefore the
+                              <b>Default VPC</b> column displays <b>No</b>.
+                           </p>
+                           
+                           
+                           <div class="mediaobject">
+                              
+                              <img src="images/your-vpcs.png" alt="&#xA;                Your VPCs page&#xA;              " />
+                              
+                              
+                              
+                           </div>
+                           
+                           
+                        </li>
+                     </ol>
+                     
+                     
+                     
+                     <h3 id="verify-vpc-components">Viewing Information About Your VPC</h3>
+                     
+                     
+                     <p>After you've created the VPC, you can view information about the subnet, the Internet
+                        gateway, and the route tables. The VPC that you created has two route tables — a
+                        main route table that all VPCs have by default, and a custom route table that was
+                        created
+                        by the wizard. The custom route table is associated with your subnet, which means
+                        that the
+                        routes in that table determine how the traffic for the subnet flows. If you add a
+                        new
+                        subnet to your VPC, it uses the main route table by default.
+                     </p>
+                     
+                     <p class="title"><b>To view information about your VPC</b></p>
+                     <ol>
+                        <li>
+                           <p>Open the Amazon VPC console at
+                              <a href="https://console.aws.amazon.com/vpc/" target="_blank">https://console.aws.amazon.com/vpc/</a>.
+                           </p>
+                        </li>
+                        <li>
+                           
+                           <p>In the navigation pane, choose <b>Your VPCs</b>. Take note of the
+                              name and the ID of the VPC that you created (look in the <b>Name</b> and
+                              <b>VPC ID</b> columns). You will use this information to identify the
+                              components that are associated with your VPC. 
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>In the navigation pane, choose <b>Subnets</b>. The console displays
+                              the subnet that was created when you created your VPC. You can identify the subnet
+                              by
+                              its name in <b>Name</b> column, or you can use the VPC information that
+                              you obtained in the previous step and look in the <b>VPC</b>
+                              column.
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>In the navigation pane, choose <b>Internet Gateways</b>. You can
+                              find the Internet gateway that's attached to your VPC by looking at the
+                              <b>VPC</b> column, which displays the ID and the name (if applicable)
+                              of the VPC.
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>In the navigation pane, choose <b>Route Tables</b>. There are two
+                              route tables associated with the VPC. Select the custom route table (the
+                              <b>Main</b> column displays <b>No</b>), and then choose
+                              the <b>Routes</b> tab to display the route information in the details pane:
+                           </p>
+                           <div class="itemizedlist">
+                              
+                              
+                              
+                              <ul class="itemizedlist" type="disc">
+                                 <li class="listitem">
+                                    
+                                    <p>The first row in the table is the local route, which enables instances
+                                       within the VPC to communicate. This route is present in every route table by
+                                       default, and you can't remove it.
+                                    </p>
+                                    
+                                 </li>
+                                 <li class="listitem">
+                                    
+                                    <p>The second row shows the route that the Amazon VPC wizard added to enable traffic
+                                       destined for an IPv4 address outside the VPC (<code class="code">0.0.0.0/0</code>) to flow from
+                                       the subnet to the Internet gateway. 
+                                    </p>
+                                    
+                                 </li>
+                              </ul>
+                           </div>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>Select the main route table. The main route table has a local route, but no other
+                              routes. 
+                           </p>
+                           
+                        </li>
+                     </ol>
+                     
+                     
+                     
+                     <h2 id="getting-started-create-security-group">Step 2: Create a Security Group</h2>
+                     
+                     
+                     <p>A security group acts as a virtual firewall to control the traffic for its associated
+                        instances. To use a security group, you add the inbound rules to control incoming
+                        traffic to
+                        the instance, and outbound rules to control the outgoing traffic from your instance.
+                        To
+                        associate a security group with an instance, you specify the security group when you
+                        launch
+                        the instance. If you add and remove rules from the security group, we apply those
+                        changes to
+                        the instances associated with the security group automatically. 
+                     </p>
+                     
+                     <p>Your VPC comes with a <em>default security group</em>. Any instance not
+                        associated with another security group during launch is associated with the default
+                        security
+                        group. In this exercise, you'll create a new security group, <code class="code">WebServerSG</code>, and
+                        specify this security group when you launch an instance into your VPC.
+                     </p>
+                     
+                     
+                     
+                     <h3 id="getting-started-inbound-outbound-rules">Rules for the WebServerSG Security Group</h3>
+                     
+                     
+                     <p>The following table describes the inbound and outbound rules for the
+                        <code class="code">WebServerSG</code> security group. You'll add the inbound rules yourself. The
+                        outbound rule is a default rule that allows all outbound communication to anywhere
+                        — you do not need to add this rule yourself.
+                     </p>
+                     
+                     <div class="table">
+                        <div class="table-contents">
+                           <table id="w121aab7b9c18b7b5">
+                              
+                              <tr bgcolor="#eeeeee">
+                                 
+                                 
+                                 
+                                 <td colspan="4" align="left" style="text-align: left;"><b>Inbound</b></td>
+                                 
+                              </tr>
+                              
+                              <tr>
+                                 
+                                 <td>
+                                    <b>Source IP</b>
+                                    
+                                 </td>
+                                 
+                                 <td>
+                                    <b>Protocol</b>
+                                    
+                                 </td>
+                                 
+                                 <td>
+                                    <b>Port Range</b>
+                                    
+                                 </td>
+                                 
+                                 <td>
+                                    <b>Comments</b>
+                                    
+                                 </td>
+                                 
+                              </tr>
+                              
+                              <tr>
+                                 
+                                 <td>
+                                    
+                                    <p>0.0.0.0/0</p>
+                                    
+                                 </td>
+                                 
+                                 <td>
+                                    
+                                    <p>TCP</p>
+                                    
+                                 </td>
+                                 
+                                 <td>
+                                    
+                                    <p>80</p>
+                                    
+                                 </td>
+                                 
+                                 <td>
+                                    
+                                    <p>Allows inbound HTTP access from any IPv4 address.</p>
+                                    
+                                 </td>
+                                 
+                              </tr>
+                              
+                              <tr>
+                                 
+                                 <td>
+                                    
+                                    <p>0.0.0.0/0</p>
+                                    
+                                 </td>
+                                 
+                                 <td>
+                                    
+                                    <p>TCP</p>
+                                    
+                                 </td>
+                                 
+                                 <td>
+                                    
+                                    <p>443</p>
+                                    
+                                 </td>
+                                 
+                                 <td>
+                                    
+                                    <p>Allows inbound HTTPS access from any IPv4 address.</p>
+                                    
+                                 </td>
+                                 
+                              </tr>
+                              
+                              <tr>
+                                 
+                                 <td>
+                                    
+                                    <p>Public IPv4 address range of your home network </p>
+                                    
+                                 </td>
+                                 
+                                 <td>
+                                    
+                                    <p>TCP</p>
+                                    
+                                 </td>
+                                 
+                                 <td>
+                                    
+                                    <p>22</p>
+                                    
+                                 </td>
+                                 
+                                 <td>
+                                    
+                                    <p>Allows inbound SSH access from your home network to a Linux/UNIX
+                                       instance.
+                                    </p>
+                                    
+                                 </td>
+                                 
+                              </tr>
+                              
+                              <tr>
+                                 
+                                 <td>
+                                    
+                                    <p>Public IPv4 address range of your home network </p>
+                                    
+                                 </td>
+                                 
+                                 <td>
+                                    
+                                    <p>TCP</p>
+                                    
+                                 </td>
+                                 
+                                 <td>
+                                    
+                                    <p>3389</p>
+                                    
+                                 </td>
+                                 
+                                 <td>
+                                    
+                                    <p>Allows inbound RDP access from your home network to a Windows
+                                       instance.
+                                    </p>
+                                    
+                                 </td>
+                                 
+                              </tr>
+                              
+                              <tr>
+                                 
+                                 <td colspan="4"><b>Outbound</b></td>
+                                 
+                              </tr>
+                              
+                              <tr>
+                                 
+                                 <td>
+                                    <b>Destination IP</b>
+                                    
+                                 </td>
+                                 
+                                 <td>
+                                    <b>Protocol</b>
+                                    
+                                 </td>
+                                 
+                                 <td>
+                                    <b>Port Range</b>
+                                    
+                                 </td>
+                                 
+                                 <td>
+                                    <b>Comments</b>
+                                    
+                                 </td>
+                                 
+                              </tr>
+                              
+                              <tr>
+                                 
+                                 <td>0.0.0.0/0</td>
+                                 
+                                 <td>All</td>
+                                 
+                                 <td>All</td>
+                                 
+                                 <td>The default outbound rule that allows all outbound IPv4
+                                    communication.
+                                 </td>
+                                 
+                              </tr>
+                              
+                           </table>
+                        </div>
+                     </div>
+                     
+                     
+                     
+                     
+                     <h3 id="getting-started-create-group">Creating Your WebServerSG Security Group</h3>
+                     
+                     
+                     <p>You can create your security group using the Amazon VPC console.</p>
+                     
+                     <p class="title"><b>To create the WebServerSG security group and add rules</b></p>
+                     <ol>
+                        <li>
+                           <p>Open the Amazon VPC console at
+                              <a href="https://console.aws.amazon.com/vpc/" target="_blank">https://console.aws.amazon.com/vpc/</a>.
+                           </p>
+                        </li>
+                        <li>
+                           
+                           <p>In the navigation pane, choose <b>Security Groups</b>.
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>Choose <b>Create Security Group</b>.
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>In the <b>Group name</b> field, enter <code class="code">WebServerSG</code> as
+                              the name of the security group, and provide a description. You can optionally use
+                              the
+                              <b>Name tag</b> field to create a tag for the security group with a
+                              key of <code class="code">Name</code> and a value that you specify.
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>Select the ID of your VPC from the <b>VPC</b> menu, and then choose
+                              <b>Yes, Create</b>.
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>Select the <code class="code">WebServerSG</code> security group that you just created (you can
+                              view its name in the <b>Group Name</b> column).
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>On the <b>Inbound Rules</b> tab, choose <b>Edit</b>
+                              and add rules for inbound traffic as follows:
+                           </p>
+                           
+                           <ol>
+                              <li>
+                                 
+                                 <p>Select <b>HTTP</b> from the <b>Type</b> list, and
+                                    enter <code class="code">0.0.0.0/0</code> in the <b>Source</b> field.
+                                 </p>
+                                 
+                              </li>
+                              <li>
+                                 
+                                 <p>Choose <b>Add another rule</b>, then select
+                                    <b>HTTPS</b> from the <b>Type</b> list, and enter
+                                    <code class="code">0.0.0.0/0</code> in the <b>Source</b> field.
+                                 </p>
+                                 
+                              </li>
+                              <li>
+                                 
+                                 <p>Choose <b>Add another rule</b>. If you're launching a Linux
+                                    instance, select <b>SSH</b> from the <b>Type</b> list,
+                                    or if you're launching a Windows instance, select <b>RDP</b> from
+                                    the <b>Type</b> list. Enter your network's public IP address range
+                                    in the <b>Source</b> field. If you don't know this address range,
+                                    you can use <code class="code">0.0.0.0/0</code> for this exercise.
+                                 </p>
+                                 
+                                 <div class="aws-note">
+                                    <p class="aws-note">Important</p>
+                                    <p>If you use <code class="code">0.0.0.0/0</code>, you enable all IP addresses to access
+                                       your instance using SSH or RDP. This is acceptable for the short exercise, but
+                                       it's unsafe for production environments. In production, you'll authorize only a
+                                       specific IP address or range of addresses to access your instance.
+                                    </p>
+                                 </div>                
+                                 
+                              </li>
+                              <li>
+                                 
+                                 <p>Choose <b>Save</b>.
+                                 </p>
+                                 
+                              </li>
+                           </ol>
+                           
+                        </li>
+                     </ol>
+                     
+                     
+                     
+                     <h2 id="getting-started-launch-instance">Step 3: Launch an Instance into Your VPC</h2>
+                     
+                     
+                     <p>When you launch an EC2 instance into a VPC, you must specify the subnet in which to
+                        launch the instance. In this case, you'll launch an instance into the public subnet
+                        of the
+                        VPC you created. You'll use the Amazon EC2 launch wizard in the Amazon EC2 console
+                        to launch your
+                        instance. 
+                     </p>
+                     
+                     <p>The following diagram represents the architecture of your VPC after you've completed
+                        this step.
+                     </p>
+                     
+                     
+                     <div class="mediaobject">
+                        
+                        <img src="images/getting-started-2-diagram.png" alt="&#xA;            Getting started: Launch instance&#xA;          " />
+                        
+                        
+                        
+                     </div>
+                     
+                     
+                     <p class="title"><b>To launch an EC2 instance into a VPC</b></p>
+                     <ol>
+                        <li>
+                           <p>Open the Amazon EC2 console at
+                              <a href="https://console.aws.amazon.com/ec2/" target="_blank">https://console.aws.amazon.com/ec2/</a>.
+                           </p>
+                        </li>
+                        <li>
+                           
+                           <p>In the navigation bar, on the top-right, ensure that you select the same region in
+                              which you created your VPC and security group. 
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>From the dashboard, choose <b>Launch Instance</b>.
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>On the first page of the wizard, choose the AMI that you want to use. For this
+                              exercise, we recommend that you choose an Amazon Linux AMI or a Windows AMI.
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>On the <b>Choose an Instance Type</b> page, you can select the
+                              hardware configuration and size of the instance to launch. By default, the wizard
+                              selects the first available instance type based on the AMI you selected. You can leave
+                              the default selection, and then choose <b>Next: Configure Instance
+                                 Details</b>.
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>On the <b>Configure Instance Details</b> page, select the VPC that you
+                              created from the <b>Network</b> list, and the subnet from the
+                              <b>Subnet</b> list. Leave the rest of the default settings, and go through
+                              the next pages of the wizard until you get to the <b>Add Tags</b>
+                              page.
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>On the <b>Add Tags</b> page, you can tag your instance with a
+                              <code class="code">Name</code> tag; for example <code class="code">Name=MyWebServer</code>. This helps you to
+                              identify your instance in the Amazon EC2 console after you've launched it. Choose
+                              <b>Next: Configure Security Group</b> when you are done. 
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>On the <b>Configure Security Group</b> page, the wizard automatically
+                              defines the launch-wizard-<em>x</em> security group to allow you to connect
+                              to your instance. Instead, choose the <b>Select an existing security
+                                 group</b> option, select the <b>WebServerSG</b> group that you
+                              created previously, and then choose <b>Review and Launch</b>.
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>On the <b>Review Instance Launch</b> page, check the details of your
+                              instance, and then choose <b>Launch</b>.
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>In the <b>Select an existing key pair or create a new key pair</b>
+                              dialog box, you can choose an existing key pair, or create a new one. If you create
+                              a
+                              new key pair, ensure that you download the file and store it in a secure location.
+                              You'll need the contents of the private key to connect to your instance after it's
+                              launched. 
+                           </p>
+                           
+                           <p>To launch your instance, select the acknowledgment check box, and then choose
+                              <b>Launch Instances</b>.
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>On the confirmation page, choose <b>View Instances</b> to view your
+                              instance on the <b>Instances</b> page. Select your instance, and view its
+                              details in the <b>Description</b> tab. The <b>Private
+                                 IPs</b> field displays the private IP address that's assigned to your instance
+                              from the range of IP addresses in your subnet.
+                           </p>
+                           
+                        </li>
+                     </ol>
+                     
+                     <p>For more information about the options available in the Amazon EC2 launch wizard,
+                        see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/launching-instance.html">Launching an Instance</a> in the
+                        <em>Amazon EC2 User Guide for Linux Instances</em>.
+                     </p>
+                     
+                     <h2 id="getting-started-assign-eip">Step 4: Assign an Elastic IP Address to Your
+                        Instance
+                     </h2>
+                     
+                     
+                     <p>In the previous step, you launched your instance into a public subnet — a subnet
+                        that has a route to an Internet gateway. However, the instance in your subnet also
+                        needs a
+                        public IPv4 address to be able to communicate with the Internet. By default, an instance
+                        in
+                        a nondefault VPC is not assigned a public IPv4 address. In this step, you'll allocate
+                        an
+                        Elastic IP address to your account, and then associate it with your instance. For
+                        more
+                        information about Elastic IP addresses, see <a href="https://docs.aws.amazon.com/vpc/latest/userguide/vpc-ip-addressing.html#vpc-eips">Elastic IP Addresses</a>.
+                     </p>
+                     
+                     <p>The following diagram represents the architecture of your VPC after you've completed
+                        this step.
+                     </p>
+                     
+                     
+                     <div class="mediaobject">
+                        
+                        <img src="images/getting-started-3-diagram.png" alt="&#xA;            Getting started: Assign an Elastic IP address to your instance&#xA;          " />
+                        
+                        
+                        
+                     </div>
+                     
+                     
+                     <p class="title"><b>To allocate and assign an Elastic IP address</b></p>
+                     <ol>
+                        <li>
+                           <p>Open the Amazon VPC console at
+                              <a href="https://console.aws.amazon.com/vpc/" target="_blank">https://console.aws.amazon.com/vpc/</a>.
+                           </p>
+                        </li>
+                        <li>
+                           
+                           <p>In the navigation pane, choose <b>Elastic IPs</b>.
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>Choose <b>Allocate new address</b>, and then
+                              <b>Allocate</b>.
+                           </p>
+                           
+                           <div class="aws-note">
+                              <p class="aws-note">Note</p>
+                              <p>If your account supports EC2-Classic, first choose
+                                 <b>VPC</b>.
+                              </p>
+                           </div>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>Select the Elastic IP address from the list, choose <b>Actions</b>,
+                              and then choose <b>Associate Address</b>.
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>For <b>Resource type</b>, ensure that <b>Instance</b> is
+                              selected. Choose your instance from the <b>Instance</b> list.
+                              Choose <b>Associate</b> when you're done.
+                           </p>
+                           
+                        </li>
+                     </ol>
+                     
+                     <p>Your instance is now accessible from the Internet. You can connect to your instance
+                        through its Elastic IP address using SSH or Remote Desktop from your home network.
+                        For more
+                        information about how to connect to a Linux instance, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/AccessingInstances.html">Connecting to Your Linux Instance</a> in
+                        the <em>Amazon EC2 User Guide for Linux Instances</em>. For more information about how to connect to a
+                        Windows instance, see <a href="https://docs.aws.amazon.com/AWSEC2/latest/WindowsGuide/connecting_to_windows_instance.html">Connect to Your Windows Instance Using RDP</a> in the
+                        <em>Amazon EC2 User Guide for Windows Instances</em>. 
+                     </p>
+                     
+                     <p>This completes the exercise; you can choose to continue using your instance in your
+                        VPC,
+                        or if you do not need the instance, you can terminate it and release its Elastic IP
+                        address
+                        to avoid incurring charges for them. You can also delete your VPC — note that you
+                        are
+                        not charged for the VPC and VPC components created in this exercise (such as the subnets
+                        and
+                        route tables).
+                     </p>
+                     
+                     <h2 id="getting-started-delete-vpc">Step 5: Clean Up</h2>
+                     
+                     <p>Before you can delete a VPC, you must terminate any instances that are running in
+                        the VPC.
+                        You can then delete the VPC using the VPC console. The VPC console also automatically
+                        disassociates and deletes any resources that are associated with the VPC, such as
+                        subnets,
+                        security groups, network ACLs, DHCP options sets, route tables, and internet gateways.
+                     </p>
+                     
+                     <p class="title"><b>To terminate your instance, release your Elastic IP address, and delete your
+                           VPC</b></p>
+                     <ol>
+                        <li>
+                           <p>Open the Amazon EC2 console at
+                              <a href="https://console.aws.amazon.com/ec2/" target="_blank">https://console.aws.amazon.com/ec2/</a>.
+                           </p>
+                        </li>
+                        <li>
+                           
+                           <p>In the navigation pane, choose <b>Instances</b>.
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>Select your instance, choose <b>Actions</b>, then <b>Instance
+                                 State</b>, and then select <b>Terminate</b>.
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>In the dialog box, expand the <b>Release attached Elastic IPs</b>
+                              section, and select the check box next to the Elastic IP address. Choose <b>Yes,
+                                 Terminate</b>. 
+                           </p>
+                           
+                        </li>
+                        <li>
+                           <p>Open the Amazon VPC console at
+                              <a href="https://console.aws.amazon.com/vpc/" target="_blank">https://console.aws.amazon.com/vpc/</a>.
+                           </p>
+                        </li>
+                        <li>
+                           
+                           <p>In the navigation pane, choose <b>Your VPCs</b>.
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>Select the VPC, choose <b>Actions</b>, and then choose
+                              <b>Delete VPC</b>.
+                           </p>
+                           
+                        </li>
+                        <li>
+                           
+                           <p>When prompted for confirmation, choose <b>Delete VPC</b>.
+                           </p>
+                           
+                        </li>
+                     </ol>
+                     
+                     <div id="marketing-target"><span class="close-button"></span><div class="marketing-title" id="marketing-title"></div>
+                        <div class="marketing-description"><span id="marketing-description"></span><span id="marketing-cta"></span></div>
+                     </div>
+                  </div>
+                  <noscript>
+                     <div>
+                        <div>
+                           <div>
+                              <div id="js_error_message">
+                                 <p><img src="https://d1ge0kk1l5kms0.cloudfront.net/images/G/01/webservices/console/warning.png" alt="Warning" /> <strong>Javascript is disabled or is unavailable in your
+                                       browser.</strong></p>
+                                 <p>To use the AWS Documentation, Javascript must be
+                                    enabled. Please refer to your browser's Help pages for instructions.
+                                 </p>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </noscript>

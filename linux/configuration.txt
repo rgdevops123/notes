@@ -95,9 +95,16 @@ Filesystem    Size    Used   Avail Use%    Mounted on
 
 
 
+Q: How do yo list hardware configuration?
+
+- dmidecode, lshw, 
+  lspci, lsscsi, lsusb
+
+
+
 Q: How do you list Kernel Modules?
 
-- lsmod / modprobe 2XTAB ENT
+- lsmod 
 
 
 

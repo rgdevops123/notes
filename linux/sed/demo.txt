@@ -1,13 +1,34 @@
 TIMESTAMP: 20170523; MESSAGE: Dr. Bianca's primary is bianca@paramount.com / 3.23.33.89. Secondary is bianca@paramount.com / 3.23.33.89. EOM
 
-[root@hv1-kvm-c7 bak]# cat string | sed s/3.23.33.89/REDACTED/g
+
+Q: How do you replace all '3.23.33.89' with REDACTED?
+
+$ cat string | sed s/3.23.33.89/REDACTED/g
+
 TIMESTAMP: 20170523; MESSAGE: Dr. Bianca's primary is bianca@paramount.com / REDACTED. Secondary is bianca@paramount.com / REDACTED. EOM
 
-[root@hv1-kvm-c7 bak]# cat string | sed -E "s/\w+@\w+\.\w+/REDACTED/g"
+
+
+Q: How do you replace all emails with REDACTED?
+
+$ cat string | sed -E "s/\w+@\w+\.\w+/REDACTED/g"
+
 TIMESTAMP: 20170523; MESSAGE: Dr. Bianca's primary is REDACTED / 3.23.33.89. Secondary is REDACTED / 3.23.33.89. EOM
 
-[root@hv1-kvm-c7 sed]# cat string | sed -E "s/\w{1,3}\.\w{1,3}\.\w{1,3}\.\w{1,3}/REDACTED/g"
+
+
+Q: How do you replace all IPs with REDACTED?
+
+$ cat string | sed -E "s/\w{1,3}\.\w{1,3}\.\w{1,3}\.\w{1,3}/REDACTED/g"
+
 TIMESTAMP: 20170523; MESSAGE: Dr. Bianca's primary is bianca@paramount.com / REDACTED. Secondary is bianca@paramount.com / REDACTED. EOM
+
+
+
+Q: How do you replace all emails or IPs with REDACTED?
+
+$ cat string | sed -E 's/\w{1,3}\.\w{1,3}\.\w{1,3}\.\w{1,3}|\w+@\w+\.\w+/REDACTED/g'
+
 
 
 Q: How do you rename files from us.data to un.data?
@@ -18,14 +39,17 @@ mv "$i" "$a";
 done
 
 
+
 Q: How do you insert text at the front of filenames?
 
    for i in `ls`; do a=calmem1-"$i"; mv "$i" "$a"; done
 
 
+
 Q: How do you remove whitespace from filenames?
 
    for i in *\ *; do mv "$i" "${i// /_}"; done
+
 
 
 Q: How do you replace _-_ in filenames?

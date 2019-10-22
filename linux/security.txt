@@ -27,6 +27,13 @@ AllowUsers
 # systemctl restart ssh
 
 
+Q: How do you disable root login on the console?
+
+# vim /etc/securetty
++++
+#console
++++
+
 
 Q: What is pwconv?
 

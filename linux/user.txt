@@ -119,6 +119,12 @@ for the user's login directory. The default is to append the LOGIN
 
 
 
+Q: How do you define user defaults?
+
+/etc/profile
+/etc/security/
+/etc/skel/
+/etc/profile.d/*
 
 
 

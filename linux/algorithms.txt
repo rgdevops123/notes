@@ -1,0 +1,13 @@
+Q: In Big-O notation, what is the order of execution speed from fastest to slowest is?
+
+O(1)
+
+O(log n)
+
+O(n)
+
+O(n log n)
+
+O(n^2)
+
+O(n!)

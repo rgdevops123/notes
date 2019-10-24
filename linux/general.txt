@@ -46,6 +46,11 @@ Q: How do you run a command that is immune to hangups?
 $ nohup command &
 
 
+Q: What is the difference between character device and block device?
+
+  Block devices are generally buffered and are read/written to in fixed sizes, for instance hard drives, cd-roms. Characters devices read/writes are one character at a time, such as from a keyboard or a tty, and are not buffered.
+
+
 Q: What is lost+found used for?
 
    A: fsck puts files from damaged filesystems there.

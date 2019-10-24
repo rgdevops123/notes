@@ -41,6 +41,11 @@ Process and Thread Management,
 Security
 
 
+Q: How do you run a command that is immune to hangups?
+
+$ nohup command &
+
+
 Q: What is lost+found used for?
 
    A: fsck puts files from damaged filesystems there.

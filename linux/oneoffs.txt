@@ -1,7 +1,22 @@
+Q: Given "echo x=33", how do you display x or 33?
+
+$ echo "x=33" | cut -f1 -d=
+x
+
+$ echo "x=33" | cut -f2 -d=
+33
 
 
-ESC . == Get last 
+Q: How do you get the last field of the last command executed?
 
-!!         == execute last command
+ESC .    OR       ESC _ 
+
+
+Q: How do you execute last command that was run?
+
+!!
+
+
+Q: How do you search through your history?
 
 Ctrl R ==  start typing command

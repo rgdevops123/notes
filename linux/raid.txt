@@ -4,7 +4,7 @@ Q: What is the difference between raid 01 and raid 10?
 groups are striped and the groups are mirrored.
 
    RAID 1+0 (RAID 10) is a "stripe of mirrors".   The disks within the
-group are mirrored and the groups themselves ar7e striped.
+group are mirrored and the groups themselves are striped.
 
 
    Q: How do you create a RAID?

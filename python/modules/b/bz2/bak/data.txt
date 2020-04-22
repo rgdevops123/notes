@@ -791,7 +791,7 @@ Use rsync.
 # rsync -zvh backup.tar /tmp/backups/
 # rsync -avzh /root/rpmpkgs /tmp/backups/
 # rsync -avz rpmpkgs/ root@192.168.0.101:/home/
-# rsync -avzh root@192.168.0.100:/home/rgriffith/rpmpkgs /tmp/myrpms
+# rsync -avzh root@192.168.0.100:/home/rgreen/rpmpkgs /tmp/myrpms
 # rsync -avzhe ssh root@192.168.0.100:/root/install.log /tmp/
 # rsync -avzhe ssh backup.tar root@192.168.0.100:/backups/
 # rsync -avzhe ssh --progress /home/rpmpkgs root@192.168.0.100:/root/rpmpkgs
@@ -1039,19 +1039,19 @@ Q: What is SED?
 stream editor
 
 
-Q: How can you replace all instances of rgriffith with Robert Griffith in a file using SED?
+Q: How can you replace all instances of rgreen with Robert Green in a file using SED?
 
-# cat file | sed 's/rgriffith/Robert Griffith/g'
+# cat file | sed 's/rgreen/Robert Green/g'
 
 
 Q: How can you do the above modifying the file in place?
 
-# sed -i 's/rgriffith/Robert Griffith/g' file
+# sed -i 's/rgreen/Robert Green/g' file
 
 
 Q: How can you do the above modifying the file in place with a backup file?
 
-# sed -i.bak 's/rgriffith/Robert Griffith/g' file
+# sed -i.bak 's/rgreen/Robert Green/g' file
 
 
 Q: What is awk and what is the abbreviation of?
@@ -1066,8 +1066,8 @@ Brian Kernighan
 
 Q: How can you, using awk, display the username and fullname of a specific user in /etc/passwd?
 
-# cat /etc/passwd | grep rgriffith | awk -F":" '{print $1, "\t", $5}'
-rgriffith 	 Robert Griffith
+# cat /etc/passwd | grep rgreen | awk -F":" '{print $1, "\t", $5}'
+rgreen 	 Robert Green
 
 
 Q: What is the boot process?
@@ -1176,7 +1176,7 @@ Watches your logs and watches them for regular expressions that you configure. S
 
 # vim /etc/swatch.conf
 +++
-watchfor /success|accepted|rgriffith/
+watchfor /success|accepted|rgreen/
          echo
          write robrg
          mail addresses=robrg\@localhost, subject=Successful Activity
@@ -1185,7 +1185,7 @@ watchfor /success|accepted|rgriffith/
 # /usr/bin/swatch --daemon --config-file=/etc/swatch.conf
 --tail-file=/var/log/messages --pid-file=/var/run/swatch.pid
 
-### NOTE: The above will watch /var/log/messages for messages containing “success or accepted or rgriffith”.  If found, it will email robrg the message.
+### NOTE: The above will watch /var/log/messages for messages containing “success or accepted or rgreen”.  If found, it will email robrg the message.
 
 
 

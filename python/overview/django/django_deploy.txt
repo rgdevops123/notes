@@ -47,7 +47,7 @@ $ vim Dockerfile
 FROM python:3.6.8
 
 # File Author / Maintainer
-MAINTAINER Robert Griffith
+MAINTAINER Robert Green
 
 # Add project files to the /usr/src/app folder.
 ADD . /usr/src/app

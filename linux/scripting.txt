@@ -4,20 +4,20 @@ Q: What is SED?
 stream editor
 
 
-Q: How can you replace all instances of rgriffith with Robert Griffith
+Q: How can you replace all instances of rgreen with Robert Green
 in a file using SED?
 
-# cat file | sed 's/rgriffith/Robert Griffith/g'
+# cat file | sed 's/rgreen/Robert Green/g'
 
 
 Q: How can you do the above modifying the file in place?
 
-# sed -i 's/rgriffith/Robert Griffith/g' file
+# sed -i 's/rgreen/Robert Green/g' file
 
 
 Q: How can you do the above modifying the file in place with a backup file?
 
-# sed -i.bak 's/rgriffith/Robert Griffith/g' file
+# sed -i.bak 's/rgreen/Robert Green/g' file
 
 
 Q: What is awk and what is the abbreviation of?
@@ -33,8 +33,8 @@ Brian Kernighan
 Q: How can you, using awk, display the username and fullname of a
 specific user in /etc/passwd?
 
-# cat /etc/passwd | grep rgriffith | awk -F":" '{print $1, "\t", $5}'
-rgriffith Robert Griffith
+# cat /etc/passwd | grep rgreen | awk -F":" '{print $1, "\t", $5}'
+rgreen Robert Green
 
 
 Q: How do you find Orphan process?
